@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Index</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F141B; --surface:#161D27; --line:#29333F;
+    --text:#EDEAE2; --text-dim:#8B93A0;
+    --a:#6C93C7; --b:#E2A03F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh;
+    background:var(--bg); color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .wrap{max-width:640px; width:100%;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; color:var(--text-dim);
+    letter-spacing:.1em; text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  h1{font-size:clamp(24px,4vw,32px); margin:0 0 8px; letter-spacing:-0.01em;}
+  p.lede{color:var(--text-dim); margin:0 0 32px; font-size:15px;}
+  .card{
+    display:flex; align-items:center; gap:16px;
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:10px; padding:20px 22px; margin-bottom:14px;
+    text-decoration:none; color:var(--text);
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .card:hover{transform:translateX(4px); border-color:var(--a);}
+  .card .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--a); border:1px solid rgba(108,147,199,.4);
+    padding:2px 8px; border-radius:4px; flex-shrink:0;
+  }
+  .card .body h2{font-size:16px; margin:0 0 3px;}
+  .card .body p{margin:0; font-size:13px; color:var(--text-dim);}
+  footer{margin-top:32px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#5D6572;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Document Index</div>
+    <h1>Pages</h1>
+    <p class="lede">Direct links to the documents hosted on this site.</p>
 
+    <a class="card" href="assets/data_engineer_roadmap.html">
+      <span class="tag">DE</span>
+      <div class="body">
+        <h2>Data Engineer Roadmap</h2>
+        <p>Learning path — phases, Snowflake deep dive, interview prep.</p>
+      </div>
+    </a>
+
+    <a class="card" href="assets/advanced-accounting-summary.html">
+      <span class="tag">ACC</span>
+      <div class="body">
+        <h2>Advanced Accounting Summary</h2>
+        <p>Summary document.</p>
+      </div>
+    </a>
+
+    <footer>index.html</footer>
+  </div>
+</body>
+</html>
