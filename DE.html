@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Engineer Roadmap — Pipeline Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F141B;
+    --surface: #161D27;
+    --surface-raised: #1C2530;
+    --line: #29333F;
+    --line-soft: #202A35;
+    --text: #EDEAE2;
+    --text-dim: #8B93A0;
+    --text-dimmer: #5D6572;
+    --covered: #5FB49C;
+    --covered-bg: rgba(95,180,156,0.12);
+    --added: #E2A03F;
+    --added-bg: rgba(226,160,63,0.12);
+    --priority: #E0574A;
+    --priority-bg: rgba(224,87,74,0.13);
+    --info: #6C93C7;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top left, rgba(108,147,199,0.06), transparent 45%),
+      radial-gradient(ellipse at bottom right, rgba(226,160,63,0.05), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background: var(--added); color:#0F141B; }
+
+  a{color:var(--info);}
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    max-width:1180px;
+    margin:0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* ---------- header / run banner ---------- */
+  .runbar{
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(28,37,48,0.6), transparent);
+  }
+  .runbar-inner{
+    max-width:1180px;
+    margin:0 auto;
+    padding:28px 24px 22px;
+  }
+  .runbar-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-dimmer);
+    letter-spacing:.02em;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--covered);box-shadow:0 0 8px var(--covered);}
+  .runbar-top .sep{color:var(--line);}
+
+  h1.title{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(28px,4.2vw,44px);
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+    color:var(--text);
+  }
+  h1.title .accent{color:var(--added);}
+  .subtitle{
+    font-size:15.5px;
+    color:var(--text-dim);
+    max-width:760px;
+    margin:0 0 22px;
+  }
+  .subtitle b{color:var(--text);font-weight:600;}
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .pill{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    padding:5px 11px;
+    border-radius:20px;
+    border:1px solid transparent;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    user-select:none;
+    transition:transform .12s ease, opacity .15s ease;
+    background:var(--surface-raised);
+    color:var(--text-dim);
+    border-color:var(--line);
+  }
+  .pill:hover{transform:translateY(-1px);}
+  .pill.active.covered{ background:var(--covered-bg); color:var(--covered); border-color:rgba(95,180,156,0.4);}
+  .pill.active.added{ background:var(--added-bg); color:var(--added); border-color:rgba(226,160,63,0.4);}
+  .pill.active.priority{ background:var(--priority-bg); color:var(--priority); border-color:rgba(224,87,74,0.4);}
+  .pill .swatch{width:7px;height:7px;border-radius:50%;}
+  .pill.covered .swatch{background:var(--covered);}
+  .pill.added .swatch{background:var(--added);}
+  .pill.priority .swatch{background:var(--priority);}
+  .legend-note{font-size:12px;color:var(--text-dimmer);font-family:var(--mono);margin-top:8px;}
+
+  .stats-row{
+    display:flex;
+    gap:26px;
+    flex-wrap:wrap;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px dashed var(--line);
+  }
+  .stat{font-family:var(--mono);}
+  .stat .num{font-size:20px;font-weight:700;color:var(--text);}
+  .stat .lbl{font-size:11px;color:var(--text-dimmer);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* ---------- two column layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap:40px;
+    margin-top:36px;
+    align-items:start;
+  }
+  @media (max-width:880px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- DAG rail nav ---------- */
+  .rail{
+    position:sticky;
+    top:20px;
+    padding-right:6px;
+  }
+  @media (max-width:880px){
+    .rail{
+      position:static;
+      display:flex;
+      overflow-x:auto;
+      gap:0;
+      padding-bottom:6px;
+      margin-bottom:8px;
+      -webkit-overflow-scrolling:touch;
+    }
+  }
+  .rail-title{font-family:var(--mono);font-size:11px;color:var(--text-dimmer);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;}
+  @media (max-width:880px){ .rail-title{display:none;} }
+
+  .rail-node{
+    position:relative;
+    padding-left:26px;
+    padding-bottom:22px;
+    display:block;
+    text-decoration:none;
+  }
+  @media (max-width:880px){
+    .rail-node{ padding-left:0; padding-bottom:0; padding-right:22px; flex:0 0 auto; }
+  }
+  .rail-node:not(:last-child)::before{
+    content:"";
+    position:absolute;
+    left:5px; top:16px; bottom:-6px;
+    width:1px;
+    background:var(--line);
+  }
+  @media (max-width:880px){ .rail-node::before{ display:none; } }
+  .rail-node::after{
+    content:"";
+    position:absolute;
+    left:0; top:3px;
+    width:11px;height:11px;
+    border-radius:50%;
+    background:var(--surface-raised);
+    border:1px solid var(--line);
+  }
+  @media (max-width:880px){ .rail-node::after{ position:static; display:inline-block; margin-right:7px; vertical-align:middle; } }
+  .rail-node.current::after{ background:var(--added); border-color:var(--added); box-shadow:0 0 0 3px var(--added-bg);}
+  .rail-node .rn-num{font-family:var(--mono);font-size:11px;color:var(--text-dimmer);}
+  .rail-node .rn-label{display:block;font-size:13.5px;color:var(--text-dim);margin-top:2px;}
+  @media (max-width:880px){ .rail-node .rn-label{ display:inline; margin-top:0; white-space:nowrap;} .rail-node .rn-num{display:none;} }
+  .rail-node:hover .rn-label, .rail-node.current .rn-label{color:var(--text);}
+
+  /* ---------- main content ---------- */
+  main{min-width:0;}
+
+  .phase{
+    margin-bottom:56px;
+    scroll-margin-top:24px;
+  }
+  .phase-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .phase-num{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    color:var(--bg);
+    background:var(--info);
+    padding:3px 9px;
+    border-radius:5px;
+  }
+  .phase-title{font-size:22px;font-weight:600;margin:0;letter-spacing:-0.01em;}
+  .phase-desc{color:var(--text-dim);font-size:14.5px;margin:8px 0 20px;max-width:720px;}
+
+  .task-list{
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--surface);
+  }
+  .task{
+    display:grid;
+    grid-template-columns:104px 1fr;
+    gap:18px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line-soft);
+    transition:opacity .18s ease, max-height .18s ease;
+  }
+  .task:last-child{border-bottom:none;}
+  @media (max-width:600px){
+    .task{grid-template-columns:1fr;gap:8px;}
+  }
+  .task.is-hidden{display:none;}
+
+  .task-status{padding-top:2px;}
+  .badge{
+    font-family:var(--mono);
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.04em;
+    padding:3px 8px;
+    border-radius:4px;
+    display:inline-block;
+    white-space:nowrap;
+  }
+  .badge.covered{background:var(--covered-bg);color:var(--covered);}
+  .badge.added{background:var(--added-bg);color:var(--added);}
+
+  .task-body h4{
+    margin:0 0 4px;
+    font-size:15px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .star{color:var(--priority);font-size:13px;}
+  .task-body p{margin:0;font-size:13.5px;color:var(--text-dim);}
+  .task-body p i{color:var(--text-dimmer);font-style:italic;}
+
+  /* deep dive box */
+  .deepdive{
+    margin-top:22px;
+    border:1px solid rgba(226,160,63,0.35);
+    border-radius:10px;
+    background:linear-gradient(180deg, rgba(226,160,63,0.06), transparent 60%), var(--surface);
+    padding:22px 22px 8px;
+  }
+  .deepdive-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:4px;
+  }
+  .deepdive-head .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--added);
+    border:1px solid rgba(226,160,63,0.4);
+    padding:2px 8px;
+    border-radius:4px;
+  }
+  .deepdive-head h3{margin:0;font-size:18px;}
+  .deepdive-intro{color:var(--text-dim);font-size:14px;margin:10px 0 18px;max-width:760px;}
+  .dd-grid{display:grid;gap:12px;}
+  .dd-item{
+    display:grid;
+    grid-template-columns:190px 1fr;
+    gap:16px;
+    padding:12px 0;
+    border-top:1px dashed var(--line);
+  }
+  @media (max-width:700px){ .dd-item{grid-template-columns:1fr;gap:4px;} }
+  .dd-item .dd-area{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--added);display:flex;align-items:center;gap:6px;}
+  .dd-item .dd-what{font-size:13.5px;color:var(--text);margin-bottom:4px;}
+  .dd-item .dd-why{font-size:12.5px;color:var(--text-dimmer);}
+  .dd-footnote{
+    margin:18px 0 4px;
+    padding:14px 16px;
+    background:var(--surface-raised);
+    border-radius:8px;
+    font-size:13px;
+    color:var(--text-dim);
+    border-left:2px solid var(--added);
+  }
+
+  /* interview log section */
+  .qsection{margin-bottom:56px; scroll-margin-top:24px;}
+  .qlog{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:16px;
+  }
+  .qcard{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+  }
+  .qcard h4{
+    font-family:var(--mono);
+    font-size:13px;
+    margin:0 0 12px;
+    color:var(--info);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .qcard h4::before{content:"›_";color:var(--text-dimmer);}
+  .qcard ul{margin:0;padding:0;list-style:none;}
+  .qcard li{
+    font-size:13.5px;
+    color:var(--text-dim);
+    padding:6px 0 6px 16px;
+    position:relative;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .qcard li:last-child{border-bottom:none;}
+  .qcard li::before{
+    content:"?";
+    position:absolute;
+    left:0; top:6px;
+    font-family:var(--mono);
+    color:var(--text-dimmer);
+    font-size:11px;
+  }
+
+  /* career track */
+  .track-list{display:grid; gap:10px;}
+  .track-item{
+    display:grid;
+    grid-template-columns:104px 200px 1fr;
+    gap:16px;
+    padding:13px 18px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    align-items:start;
+  }
+  @media (max-width:750px){ .track-item{grid-template-columns:1fr; gap:6px;} }
+  .track-item .tt-name{font-weight:600;font-size:14px;}
+  .track-item .tt-note{font-size:13px;color:var(--text-dim);}
+
+  /* priority / summary */
+  .summary{
+    margin-top:56px;
+    border:1px solid var(--priority);
+    border-radius:12px;
+    padding:26px 26px 22px;
+    background:linear-gradient(180deg, rgba(224,87,74,0.08), transparent 70%);
+  }
+  .summary h2{margin:0 0 6px;font-size:19px;}
+  .summary .lede{color:var(--text-dim);font-size:14px;margin-bottom:18px;max-width:700px;}
+  .ranked{list-style:none;margin:0;padding:0;counter-reset:rank;}
+  .ranked li{
+    counter-increment:rank;
+    display:flex;
+    gap:14px;
+    padding:11px 0;
+    border-bottom:1px solid rgba(224,87,74,0.15);
+    font-size:14px;
+  }
+  .ranked li:last-child{border-bottom:none;}
+  .ranked li::before{
+    content:counter(rank);
+    font-family:var(--mono);
+    font-weight:700;
+    color:var(--priority);
+    min-width:22px;
+  }
+
+  /* resources */
+  .resources{
+    margin-top:40px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+  }
+  .resources b{color:var(--text);}
+
+  footer{
+    margin-top:60px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-dimmer);
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+
+  section h2.section-title{
+    font-family:var(--mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--text-dimmer);
+    margin:0 0 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="runbar">
+  <div class="runbar-inner">
+    <div class="runbar-top">
+      <span class="dot"></span>
+      <span>pipeline: <b style="color:var(--text)">de_roadmap</b></span>
+      <span class="sep">/</span>
+      <span>source: senior_workbook.xlsx</span>
+      <span class="sep">/</span>
+      <span>target: cloud-agnostic DE</span>
+      <span class="sep">/</span>
+      <span>status: <span style="color:var(--covered)">RESEQUENCED</span></span>
+    </div>
+    <h1 class="title">The Complete Data Engineer <span class="accent">Roadmap</span></h1>
+    <p class="subtitle">Built from your senior's <b>"Data Engineering Basics"</b> workbook, reorganized into a learning path. The original is deep on modeling, Spark, file formats, system design and cloud security — but it reads like interview revision notes, tilted toward a GCP migration role. This re-sequences it into the order you'd actually learn it, and fills the gaps a cloud-agnostic DE needs.</p>
+
+    <div class="legend">
+      <span class="pill covered active" data-filter="covered"><span class="swatch"></span>✅ covered — in the workbook</span>
+      <span class="pill added active" data-filter="added"><span class="swatch"></span>➕ added — filling a gap</span>
+      <span class="pill priority active" data-filter="priority"><span class="swatch"></span>⭐ high priority</span>
+    </div>
+    <div class="legend-note">click a status to isolate it · click again to bring it back</div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="num">8</div><div class="lbl">phases · 0–7</div></div>
+      <div class="stat"><div class="num">4–6mo</div><div class="lbl">phases 0–3, focused</div></div>
+      <div class="stat"><div class="num">12</div><div class="lbl">⭐ non-negotiables</div></div>
+      <div class="stat"><div class="num">1</div><div class="lbl">parallel career track</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="layout">
+    <nav class="rail" id="rail">
+      <div class="rail-title">Pipeline stages</div>
+      <a class="rail-node" data-target="phase-0"><span class="rn-num">00</span><span class="rn-label">Prerequisites</span></a>
+      <a class="rail-node" data-target="phase-1"><span class="rn-num">01</span><span class="rn-label">Data &amp; DB fundamentals</span></a>
+      <a class="rail-node" data-target="phase-2"><span class="rn-num">02</span><span class="rn-label">Modeling &amp; warehousing</span></a>
+      <a class="rail-node" data-target="phase-3"><span class="rn-num">03</span><span class="rn-label">Processing &amp; pipelines</span></a>
+      <a class="rail-node" data-target="phase-4"><span class="rn-num">04</span><span class="rn-label">Cloud &amp; infrastructure</span></a>
+      <a class="rail-node" data-target="phase-5"><span class="rn-num">05</span><span class="rn-label">Quality &amp; governance</span></a>
+      <a class="rail-node" data-target="phase-6"><span class="rn-num">06</span><span class="rn-label">System design</span></a>
+      <a class="rail-node" data-target="phase-7"><span class="rn-num">07</span><span class="rn-label">Modern &amp; emerging</span></a>
+      <a class="rail-node" data-target="track"><span class="rn-num">∥</span><span class="rn-label">Career track</span></a>
+      <a class="rail-node" data-target="interview"><span class="rn-num">$</span><span class="rn-label">Interview log</span></a>
+      <a class="rail-node" data-target="summary"><span class="rn-num">!</span><span class="rn-label">Critical path</span></a>
+    </nav>
+
+    <main>
+
+      <!-- PHASE 0 -->
+      <section class="phase" id="phase-0">
+        <div class="phase-head"><span class="phase-num">STAGE 00</span><h2 class="phase-title">Prerequisites</h2></div>
+        <p class="phase-desc">The foundation under the foundation. Your senior's notes assume you already have these — don't skip them.</p>
+        <div class="task-list">
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Python <span class="star">★</span></h4><p>The default DE language. Core syntax, data structures, file I/O, pandas, working with APIs, virtual envs. Most pipelines, Airflow DAGs, and glue code are Python.</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>SQL fundamentals <span class="star">★</span></h4><p>The workbook covers optimization but not the basics. Master joins, GROUP BY, subqueries, CTEs, window functions, set operations — the #1 daily skill of a DE.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Linux &amp; command line</h4><p>Navigation, file permissions, pipes, grep/awk/sed, cron, basic shell scripting. You'll live in a terminal.</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Git &amp; version control <span class="star">★</span></h4><p>Branching, merging, pull requests, resolving conflicts. Every team expects it.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Computer science basics</h4><p>Time/space complexity (Big-O), core data structures, basic algorithms. Enough to reason about performance.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>How the internet / networking works</h4><p><i>Cloud Migration sheet —</i> hosts, access networks, routers, TCP/IP stack, HTTP/HTTPS/WebSocket, TCP/UDP/SMTP/FTP. Solid; keep it.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 1 -->
+      <section class="phase" id="phase-1">
+        <div class="phase-head"><span class="phase-num">STAGE 01</span><h2 class="phase-title">Data &amp; Database Fundamentals</h2></div>
+        <p class="phase-desc">The conceptual bedrock — your senior is strong here.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>OLTP vs OLAP</h4><p><i>Fundamentals —</i> characteristics, operations, response time, design, normalization differences.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>ACID vs BASE vs CAP theorem</h4><p><i>DE System Design / Cloud Migration —</i> well explained.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Normalization vs Denormalization</h4><p><i>Fundamentals —</i> 1NF/2NF/3NF, ACID, star/snowflake trade-offs.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Relational databases</h4><p>Workbook references them but doesn't teach the basics: keys, constraints, indexes, transactions, query execution. Learn PostgreSQL or MySQL hands-on.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>NoSQL database types</h4><p><i>DE System Design —</i> Columnar (Cassandra/HBase), Document (MongoDB), Key-Value (Redis/DynamoDB), Graph (Neo4j), with when-to-use.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>File &amp; table formats</h4><p><i>File Format sheet —</i> exceptionally thorough: CSV/JSON/Avro/Parquet/ORC/Delta/Iceberg/Hudi + the "unusual ones" (Arrow, HDF5, Zarr). One of the best parts of the workbook.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 2 -->
+      <section class="phase" id="phase-2">
+        <div class="phase-head"><span class="phase-num">STAGE 02</span><h2 class="phase-title">Data Modeling &amp; Warehousing</h2></div>
+        <p class="phase-desc">A genuine strength of your senior's notes — keep all of it.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Star vs Snowflake schema</h4><p><i>Fundamentals —</i> design type, model direction, space, query time, normalization.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Dimensional modeling (Kimball/Inmon)</h4><p><i>Fundamentals —</i> mentioned with star/snowflake.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Slowly Changing Dimensions (SCDs)</h4><p><i>Fundamentals —</i> including mini-dimensions for rapidly changing attributes.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Advanced modeling patterns</h4><p><i>Fundamentals —</i> M:N bridge tables, multi-currency, hierarchies/closure tables, OBT vs Star trade-offs. Genuinely advanced material.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Data Warehouse vs Data Lake vs Lakehouse</h4><p>Warehousing solutions are listed, but the architectural distinction isn't drawn out. Important framing for modern stacks.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Warehouse platforms</h4><p><i>DE System Design —</i> Redshift, Synapse, BigQuery, Snowflake (listed by name only).</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Snowflake platform, deep dive <span class="star">★</span></h4><p>Listed as a name but never taught. One of the most in-demand DE platform skills. See the expanded stage below.</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>dbt (data build tool) <span class="star">★</span></h4><p>A major gap. The industry-standard transformation/testing/documentation layer — the "T" in modern ELT. Learn models, refs, tests, snapshots, macros. Pairs naturally with Snowflake.</p></div></div>
+        </div>
+
+        <div class="deepdive" id="snowflake-deepdive">
+          <div class="deepdive-head"><span class="tag">sub-DAG</span><h3>Deep dive: Snowflake (the platform)</h3></div>
+          <p class="deepdive-intro">A cloud data platform — not just a schema, not just "another warehouse." It runs on top of AWS/GCP/Azure, so it complements the cross-cloud breadth in Stage 04 rather than competing with it. Learn it roughly in this order:</p>
+          <div class="dd-grid">
+            <div class="dd-item"><div class="dd-area">01 · Architecture <span class="star">★</span></div><div><div class="dd-what">Three layers: cloud storage, separated compute (virtual warehouses), and cloud services — compute and storage scale independently.</div><div class="dd-why">The #1 conceptual interview question; explains Snowflake's pricing and performance model.</div></div></div>
+            <div class="dd-item"><div class="dd-area">02 · Virtual warehouses <span class="star">★</span></div><div><div class="dd-what">Sizing (XS→6XL), auto-suspend/auto-resume, multi-cluster warehouses for concurrency, scaling up vs out.</div><div class="dd-why">Directly controls cost and query speed — the lever a DE tunes daily.</div></div></div>
+            <div class="dd-item"><div class="dd-area">03 · Micro-partitions &amp; clustering</div><div><div class="dd-what">How Snowflake auto-partitions data, pruning, clustering keys, and when to set them.</div><div class="dd-why">The Snowflake equivalent of partitioning/indexing — key to query optimization.</div></div></div>
+            <div class="dd-item"><div class="dd-area">04 · Loading &amp; ingestion <span class="star">★</span></div><div><div class="dd-what">COPY INTO, stages (internal/external), Snowpipe (continuous/serverless), Snowpipe Streaming.</div><div class="dd-why">The bread-and-butter ingestion path into Snowflake.</div></div></div>
+            <div class="dd-item"><div class="dd-area">05 · Streams &amp; Tasks <span class="star">★</span></div><div><div class="dd-what">Streams (CDC/change tracking) + Tasks (scheduled SQL) to build native pipelines and incremental models.</div><div class="dd-why">Snowflake's built-in way to do CDC and orchestration without external tools.</div></div></div>
+            <div class="dd-item"><div class="dd-area">06 · Time Travel &amp; cloning</div><div><div class="dd-what">Querying past data (AT/BEFORE), undropping objects, instant zero-copy clones of tables/schemas/databases.</div><div class="dd-why">Almost-unique features — common interview talking points and real dev/test wins.</div></div></div>
+            <div class="dd-item"><div class="dd-area">07 · Snowpark</div><div><div class="dd-what">Running Python/Java/Scala (DataFrames + UDFs) pushed down to Snowflake compute, instead of pulling data out.</div><div class="dd-why">The modern alternative to Spark for in-warehouse processing.</div></div></div>
+            <div class="dd-item"><div class="dd-area">08 · Semi-structured data</div><div><div class="dd-what">The VARIANT type, FLATTEN, querying JSON/Avro/Parquet directly in SQL.</div><div class="dd-why">DEs constantly land semi-structured data; Snowflake handles it natively.</div></div></div>
+            <div class="dd-item"><div class="dd-area">09 · Security &amp; access</div><div><div class="dd-what">Role-based access control (RBAC), role hierarchies, masking policies, row-access policies.</div><div class="dd-why">Ties straight into the governance/security content in Stage 05.</div></div></div>
+            <div class="dd-item"><div class="dd-area">10 · Sharing &amp; Marketplace</div><div><div class="dd-what">Secure data sharing, reader accounts, and the Snowflake Marketplace.</div><div class="dd-why">The "data-as-a-product" angle — connects to data mesh in Stage 07.</div></div></div>
+            <div class="dd-item"><div class="dd-area">11 · Cost management <span class="star">★</span></div><div><div class="dd-what">Credit-based billing, resource monitors, warehouse right-sizing, query profiling.</div><div class="dd-why">FinOps is now a core DE responsibility; cost questions come up in every Snowflake interview.</div></div></div>
+          </div>
+          <div class="dd-footnote">The Spark Notes optimization mindset (pruning, partitioning, avoiding shuffles, cost) transfers directly — Snowflake just exposes those levers differently. And dbt is most commonly run on Snowflake, so learn the two together.</div>
+        </div>
+      </section>
+
+      <!-- PHASE 3 -->
+      <section class="phase" id="phase-3">
+        <div class="phase-head"><span class="phase-num">STAGE 03</span><h2 class="phase-title">Data Processing &amp; Pipelines</h2></div>
+        <p class="phase-desc">Core engineering. Spark is covered in real depth; orchestration and ingestion need rounding out.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Pipeline types</h4><p><i>Fundamentals —</i> Batch, Streaming, CDC, ELT, Reverse ETL with latency/use-case/complexity.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Lambda vs Kappa architecture</h4><p><i>Fundamentals —</i> clear comparison.</p></div></div>
+          <div class="task" data-status="covered priority"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Batch processing — Apache Spark <span class="star">★</span></h4><p><i>Spark Notes —</i> query plans (Catalyst optimizer), RDD/DataFrame/Dataset, and deep performance: data skew/salting, broadcast joins, serialization (Kryo), spill, GC tuning, file-format selection. Excellent.</p></div></div>
+          <div class="task" data-status="covered added"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Stream processing</h4><p><i>DE System Design —</i> Kafka, Flink mentioned. ➕ Deepen: Spark Structured Streaming, Kafka Streams, watermarks, windowing, exactly-once semantics.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>ETL/ELT tooling</h4><p><i>DE System Design —</i> NiFi, Airflow.</p></div></div>
+          <div class="task" data-status="covered priority"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Workflow orchestration — Airflow <span class="star">★</span></h4><p><i>Fundamentals diagram —</i> Airflow &amp; DAGs. ➕ Add awareness of Dagster, Prefect, and Cloud Composer/MWAA as managed options.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Ingestion tools</h4><p>Missing the practical ingestion layer: Fivetran, Airbyte (modern), Sqoop (legacy). Know managed vs. custom ingestion trade-offs.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Message queues</h4><p><i>DE System Design —</i> Kafka, RabbitMQ.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Change Data Capture (CDC)</h4><p><i>DE System Design —</i> Debezium.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 4 -->
+      <section class="phase" id="phase-4">
+        <div class="phase-head"><span class="phase-num">STAGE 04</span><h2 class="phase-title">Cloud &amp; Infrastructure</h2></div>
+        <p class="phase-desc">The workbook is GCP-deep — great for that role. For a portable DE, add cross-cloud breadth and the DevOps layer.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Cloud governance &amp; security</h4><p><i>Fundamentals / DE System Design —</i> financial/ops/security/data/performance/asset management; full DETECT-CLASSIFY-PROTECT-MONITOR model; IAM, DLP, encryption, shared responsibility. Very strong.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Cloud migration framework</h4><p><i>Cloud Migration —</i> assess → plan → deploy → optimize; lift-and-shift vs improve-and-move vs rip-and-replace; WBS, stakeholders.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Object storage</h4><p><i>DE System Design —</i> S3, GCS, ADLS Gen2.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Cross-cloud service mapping</h4><p>Workbook is GCP-centric. AWS: S3, Redshift, EMR, Glue, Kinesis, Lambda, Athena, Step Functions. GCP: BigQuery, Dataflow, Dataproc, Pub/Sub, Composer. Azure: Synapse, ADLS, Data Factory, Databricks.</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Containers — Docker &amp; Kubernetes <span class="star">★</span></h4><p>A significant gap. Pipelines and Spark jobs increasingly run containerized; Docker is table-stakes, K8s is common.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Infrastructure as Code — Terraform</h4><p>Mentioned in passing under governance, but learn it properly. Provisioning infra reproducibly is a core modern-DE expectation.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>CI/CD for data</h4><p>Referenced ("shift security left," CI/CD) but not taught. Learn pipeline testing, deployment automation, GitHub Actions/GitLab CI for data projects.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 5 -->
+      <section class="phase" id="phase-5">
+        <div class="phase-head"><span class="phase-num">STAGE 05</span><h2 class="phase-title">Data Quality, Governance &amp; Reliability</h2></div>
+        <p class="phase-desc">The workbook lists the concepts; add the modern tooling that operationalizes them.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Data cleaning &amp; validation</h4><p><i>DE System Design —</i> technique-level mention.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Data quality frameworks</h4><p>Add the tools: Great Expectations, Soda, dbt tests. "Testing &amp; alerts" appears in the workbook diagram but no framework is named.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Data observability</h4><p>Emerging discipline: freshness/volume/schema/lineage monitoring (e.g., Monte Carlo). Distinct from infra monitoring.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Master Data Management (MDM)</h4><p><i>DE System Design.</i></p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Data lineage &amp; cataloging</h4><p><i>DE System Design —</i> Apache Atlas, Collibra, Dataplex, data catalog.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Fault tolerance &amp; HA</h4><p><i>DE System Design —</i> replication (master-slave/multi-master/peer-to-peer), backup/recovery strategies.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Monitoring &amp; logging</h4><p><i>DE System Design —</i> Prometheus, Grafana, ELK stack.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Security &amp; compliance</h4><p><i>DE System Design / Fundamentals —</i> encryption, masking/anonymization, access control, DLP, data residency.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 6 -->
+      <section class="phase" id="phase-6">
+        <div class="phase-head"><span class="phase-num">STAGE 06</span><h2 class="phase-title">System Design &amp; Distributed Systems</h2></div>
+        <p class="phase-desc">Strong foundation in the workbook; add deeper distributed-systems theory for senior interviews.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Scalability — horizontal vs vertical</h4><p><i>DE System Design —</i> advantages, challenges, use cases for each.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Database scaling strategies</h4><p><i>Cloud Migration —</i> indexing, materialized views, denormalization, caching (Redis/Memcached), replication, sharding.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Design principles</h4><p><i>Cloud Migration —</i> SOLID, KISS, CAP, BASE.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Data pipeline stages</h4><p><i>Cloud Migration —</i> Collect → Ingest → Compute → Store → Consume.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>System integration</h4><p><i>DE System Design —</i> REST, gRPC, SOA, microservices.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Distributed systems theory</h4><p>Go deeper than CAP: consensus (Raft/Paxos basics), partitioning/sharding strategies, consistency models, idempotency, exactly-once vs at-least-once delivery.</p></div></div>
+        </div>
+      </section>
+
+      <!-- PHASE 7 -->
+      <section class="phase" id="phase-7">
+        <div class="phase-head"><span class="phase-num">STAGE 07</span><h2 class="phase-title">Modern &amp; Emerging</h2></div>
+        <p class="phase-desc">This is where you go from competent to standout — mostly additions that post-date or extend the workbook.</p>
+        <div class="task-list">
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ covered</span></div><div class="task-body"><h4>Lakehouse &amp; open table formats</h4><p><i>File Format —</i> Delta, Iceberg, Hudi covered as formats. ➕ Frame them architecturally as the lakehouse foundation.</p></div></div>
+          <div class="task" data-status="covered"><div class="task-status"><span class="badge covered">✅ partial</span></div><div class="task-body"><h4>Query / compute engines</h4><p>Trino/Presto referenced in File Format. ➕ Add DuckDB (in-process analytics) and awareness of ClickHouse / Druid / Pinot for real-time OLAP.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>Data mesh &amp; data contracts</h4><p>Modern organizational/architectural paradigm — domain ownership, data-as-a-product, schema contracts. Increasingly asked about.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>DataOps</h4><p>Applying DevOps discipline (CI/CD, testing, monitoring) specifically to data pipelines, as a named practice.</p></div></div>
+          <div class="task" data-status="added"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>MLOps &amp; feature stores</h4><p>Adjacent but valuable. "Feature store" appears once in the workbook; understand the DE ↔ ML handoff.</p></div></div>
+          <div class="task" data-status="added priority"><div class="task-status"><span class="badge added">➕ added</span></div><div class="task-body"><h4>GenAI / LLM data engineering <span class="star">★</span></h4><p>The current frontier (2025–26): vector databases (pgvector, Pinecone, Weaviate), embeddings pipelines, RAG data prep, unstructured-data ingestion. Strongly differentiating right now.</p></div></div>
+        </div>
+      </section>
+
+      <!-- CAREER TRACK -->
+      <section class="phase" id="track">
+        <div class="phase-head"><span class="phase-num">∥ PARALLEL</span><h2 class="phase-title">Career, Communication &amp; Interview Prep</h2></div>
+        <p class="phase-desc">Your senior clearly invested heavily here — most of the workbook's sheets are behavioral. Not "extra": communication and stakeholder skill is what separates senior from mid-level. Run this alongside the technical track.</p>
+        <div class="track-list">
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">STAR method</span><span class="tt-note">Preparation Playlist + multiple sheets — structured behavioral answers.</span></div>
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">Clarify–Framework–Assumptions–Solve (CFAS)</span><span class="tt-note">New Delivery in Week — strong framework for case/ambiguous questions, including a no-prior-work adaptation.</span></div>
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">Handling disagreement</span><span class="tt-note">Disagreement or stronger decision — philosophy + a real $850K-savings STAR story.</span></div>
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">Customer empathy &amp; needs identification</span><span class="tt-note">Customer Empathy / Customer Related Ques — GHBT-RR-SSS framework, product adoption.</span></div>
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">Inclusivity &amp; difficult coworkers</span><span class="tt-note">Empathy-led conflict resolution.</span></div>
+          <div class="track-item"><span class="badge covered">✅ covered</span><span class="tt-name">Company research &amp; motivational Qs</span><span class="tt-note">WHY GOOGLE / Motivational Q — values alignment, questions to ask interviewers.</span></div>
+          <div class="track-item"><span class="badge added">➕ added</span><span class="tt-name">Resume &amp; portfolio projects</span><span class="tt-note">Build 2–3 end-to-end pipelines (ingestion → transformation → warehouse → dashboard) and write them up. Proof-of-work beats memorized answers.</span></div>
+        </div>
+
+        <div class="resources">
+          <b>Learning resources —</b> your senior's playlist already points to Manish Kumar (Spark/DE in Hindi), Jeff H Sipepi (STAR method), Google Cloud Tech, codebasics, Abhishek Veeramalla (DevOps), and ByteByteGo (system design). Keep using it.<br><br>
+          <b>Worth adding —</b> the official dbt, Apache Airflow, and Terraform docs/tutorials; and <i>Designing Data-Intensive Applications</i> (Martin Kleppmann) for distributed-systems depth in Stages 06–07.
+        </div>
+      </section>
+
+      <!-- INTERVIEW LOG -->
+      <section class="qsection" id="interview">
+        <h2 class="section-title">// Interview question log</h2>
+        <div class="qlog">
+          <div class="qcard">
+            <h4>snowflake</h4>
+            <ul>
+              <li>Snowflake architecture</li>
+              <li>Virtual warehouse — every W/H question over this</li>
+              <li>Time Travel and Fail-safe</li>
+              <li>COPY INTO command</li>
+              <li>Micro-partitions &amp; clustering — how and when to use</li>
+              <li>Why not MySQL instead? Why Snowflake (OLAP vs OLTP)</li>
+              <li>BigQuery vs Snowflake — the difference</li>
+              <li>ANSI SQL format</li>
+              <li>OLTP vs OLAP, the difference</li>
+              <li>CDC changes and architecture</li>
+              <li>RBAC and project-based access</li>
+            </ul>
+          </div>
+          <div class="qcard">
+            <h4>sql</h4>
+            <ul>
+              <li>Joins</li>
+              <li>Window functions</li>
+              <li>EXISTS vs NOT EXISTS format</li>
+              <li>MERGE — incremental data load</li>
+              <li>Star vs Snowflake schema</li>
+              <li>Slowly Changing Dimensions</li>
+              <li>A few optimization techniques</li>
+              <li>Issues during API ingestion</li>
+              <li>Methods of pulling data from an API — pagination (cursor-based, key-based), rate limits, REST API</li>
+            </ul>
+          </div>
+          <div class="qcard">
+            <h4>spark</h4>
+            <ul>
+              <li>Narrow vs wide transformations</li>
+              <li>Shuffling inside clusters</li>
+              <li>Types of joins</li>
+              <li>Data skewness — sorting, AQE, skew handling</li>
+              <li>Predicate pushdown, projection pushdown</li>
+              <li>Spark architecture</li>
+              <li>Repartition vs coalesce</li>
+              <li>Logical plans and explain</li>
+            </ul>
+          </div>
+          <div class="qcard">
+            <h4>airflow &amp; general</h4>
+            <ul>
+              <li>What makes code production-ready</li>
+              <li>What's the use of a DAG in Airflow</li>
+              <li>Idempotency <span style="color:var(--priority)">— important</span></li>
+              <li>Cache-related questions</li>
+              <li>Data quality — how to verify, approaches, resolving issues</li>
+              <li>Materialized views</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUMMARY -->
+      <section class="summary" id="summary">
+        <h2>! Critical path — what was actually missing</h2>
+        <p class="lede">The workbook is conceptually deep but light on the hands-on engineering layer. Closing these gaps, in priority order, does the most for you:</p>
+        <ol class="ranked">
+          <li>Snowflake platform + dbt — the modern warehouse + transformation pairing, learn together</li>
+          <li>Docker / Kubernetes — containerization</li>
+          <li>Terraform &amp; CI/CD — infrastructure and automation, treated properly, not in passing</li>
+          <li>Python &amp; SQL fundamentals — assumed but never laid out</li>
+          <li>Cross-cloud breadth — de-GCP-ify your knowledge</li>
+          <li>Data quality tooling — Great Expectations / observability</li>
+          <li>GenAI / vector-data engineering — the current differentiator</li>
+        </ol>
+        <p class="lede" style="margin:16px 0 0;">Everything else — your senior has you well covered.</p>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer>de_roadmap.pipeline — run complete — 8 stages, 1 parallel track</footer>
+
+<script>
+  // filter toggling
+  const pills = document.querySelectorAll('.pill[data-filter]');
+  const tasks = document.querySelectorAll('.task');
+
+  function activeFilters(){
+    return Array.from(pills).filter(p => p.classList.contains('active')).map(p => p.dataset.filter);
+  }
+
+  function applyFilter(){
+    const active = activeFilters();
+    // if none active, show nothing selected -> but better UX: if none active, show all
+    const showAll = active.length === 0;
+    tasks.forEach(t => {
+      const statuses = (t.dataset.status || '').split(' ');
+      const match = showAll || statuses.some(s => active.includes(s));
+      t.classList.toggle('is-hidden', !match);
+    });
+  }
+
+  pills.forEach(p => {
+    p.addEventListener('click', () => {
+      p.classList.toggle('active');
+      applyFilter();
+    });
+  });
+
+  // rail scroll-spy
+  const railNodes = document.querySelectorAll('.rail-node');
+  const targets = Array.from(railNodes).map(n => document.getElementById(n.dataset.target));
+
+  railNodes.forEach(n => {
+    n.addEventListener('click', (e) => {
+      e.preventDefault();
+      const el = document.getElementById(n.dataset.target);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  function updateCurrent(){
+    let currentIdx = 0;
+    const scrollPos = window.scrollY + 100;
+    targets.forEach((el, i) => {
+      if(el && el.offsetTop <= scrollPos) currentIdx = i;
+    });
+    railNodes.forEach((n, i) => n.classList.toggle('current', i === currentIdx));
+  }
+  window.addEventListener('scroll', updateCurrent);
+  updateCurrent();
+</script>
+
+</body>
+</html>
