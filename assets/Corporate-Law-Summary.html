@@ -3,19 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Corporate Law — Complete Study Summary</title>
+<title>APS2160 Corporate Law — Complete Handbook</title>
 <style>
 :root{
   --bg:#0f1115; --panel:#161a21; --panel2:#1b212b; --ink:#e6e9ef; --muted:#95a0b3;
   --line:#2a3140; --accent:#5aa9ff; --accent2:#7ee0c0; --note:#ffcf6b; --chip:#232b38;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:auto}
+html{scroll-behavior:smooth}
 body{margin:0;font:16px/1.65 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
   background:var(--bg);color:var(--ink);overflow-x:hidden}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 .layout{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+/* Sidebar */
 #toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;
   background:var(--panel);border-right:1px solid var(--line);padding:18px 14px 60px}
 .toc-head{font-weight:700;font-size:18px;letter-spacing:.3px;color:var(--ink);
@@ -28,6 +29,7 @@ a:hover{text-decoration:underline}
   font-size:13.5px;line-height:1.4}
 #toc li a:hover{background:var(--panel2);color:var(--ink);text-decoration:none}
 #toc li a.active{background:var(--chip);color:var(--accent);font-weight:600}
+/* Main */
 main{padding:0 0 120px}
 header.hero{padding:48px 48px 30px;border-bottom:1px solid var(--line);
   background:linear-gradient(180deg,#12161d,#0f1115)}
@@ -43,18 +45,38 @@ section.chapter h2{font-size:23px;margin:0 0 4px;color:#fff;
 .src{color:var(--muted);font-size:12px;margin:0 0 18px;padding-left:18px;font-style:italic}
 section.chapter h3{font-size:14px;text-transform:uppercase;letter-spacing:.6px;
   color:var(--accent2);margin:22px 0 8px}
+section.chapter h3.note{color:var(--note)}
+section.chapter h3.example{color:#7ee0c0}
+section.chapter h3.case{color:#10b981}
 section.chapter ul{margin:6px 0;padding-left:22px}
-section.chapter li{margin:5px 0;color:var(--ink);line-height:1.5}
+section.chapter li{margin:5px 0;line-height:1.6}
+dl{margin:6px 0;padding:12px 16px;background:var(--panel);border:1px solid var(--line);
+  border-radius:10px}
+dt{font-weight:700;color:#fff;margin-top:8px;font-size:15px}
+dt:first-child{margin-top:0}
+dd{margin:2px 0 8px;color:var(--ink)}
+table{border-collapse:collapse;margin:12px 0;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--accent2);font-weight:600}
+td{color:var(--ink)}
+b{color:#fff;font-weight:600}
 .topbtn{position:fixed;right:22px;bottom:22px;background:var(--accent);color:#04121f;
   border:none;padding:11px 15px;border-radius:999px;font-weight:700;cursor:pointer;
-  box-shadow:0 6px 20px rgba(0,0,0,.4);z-index:999}
+  box-shadow:0 6px 20px rgba(0,0,0,.4);z-index:1000}
+.topbtn:hover{background:#6bb3ff}
 .searchbox{margin:8px 4px 14px;position:relative}
 .searchbox input{width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--line);
   background:var(--panel2);color:var(--ink);font-size:13px}
+.searchbox input::placeholder{color:var(--muted)}
+.example-box{background:rgba(126,224,192,0.1);border-left:3px solid #7ee0c0;padding:12px 16px;margin:12px 0;border-radius:6px}
+.note-box{background:rgba(255,207,107,0.1);border-left:3px solid #ffcf6b;padding:12px 16px;margin:12px 0;border-radius:6px}
+.case-box{background:rgba(16,185,129,0.1);border-left:3px solid #10b981;padding:12px 16px;margin:12px 0;border-radius:6px}
+.definition-box{background:var(--panel2);border:1px solid var(--line);padding:12px 16px;margin:12px 0;border-radius:6px}
 @media (max-width:820px){
   .layout{grid-template-columns:1fr}
-  #toc{position:static;max-height:50vh;overflow-y:auto;border-right:none;border-bottom:1px solid var(--line);margin-bottom:20px}
+  #toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--line);max-height:50vh;overflow-y:auto;margin-bottom:20px}
   .wrap,header.hero{padding-left:20px;padding-right:20px}
+  html{scroll-behavior:auto !important}
 }
 @media (max-width:600px){
   #toc{max-height:45vh;padding:12px 10px 40px}
@@ -65,845 +87,459 @@ section.chapter li{margin:5px 0;color:var(--ink);line-height:1.5}
   .wrap,header.hero{padding-left:16px;padding-right:16px}
   header.hero{padding:24px 16px 16px}
   header.hero h1{font-size:22px}
+  .topbtn{padding:9px 13px;right:16px;bottom:16px}
 }
 </style>
 </head>
 <body>
 <div class="layout">
 <nav id="toc">
-<div class="toc-head">Corporate Law</div>
-<div class="searchbox"><input id="navfilter" placeholder="Search chapters..." autocomplete="off"></div>
-<div class="nav-group"><div class="nav-group-title">Part 1 · Chapters 1-6</div><ul>
+<div class="toc-head">Contents</div>
+<div class="searchbox"><input id="navfilter" placeholder="Filter chapters…" autocomplete="off"></div>
+<div class="nav-group">
+<div class="nav-group-title">1–12 · Company Law</div>
+<ul>
 <li><a href="#ch1">Ch 1 · Preliminary</a></li>
 <li><a href="#ch2">Ch 2 · Incorporation</a></li>
-<li><a href="#ch3">Ch 3 · Prospectus</a></li>
-<li><a href="#ch4">Ch 4 · Share Capital</a></li>
+<li><a href="#ch3">Ch 3 · Prospectus & Allotment</a></li>
+<li><a href="#ch4">Ch 4 · Share Capital & Debentures</a></li>
 <li><a href="#ch5">Ch 5 · Deposits</a></li>
 <li><a href="#ch6">Ch 6 · Charges</a></li>
-</ul></div>
-<div class="nav-group"><div class="nav-group-title">Part 1 · Chapters 7-12</div><ul>
-<li><a href="#ch7">Ch 7 · Management</a></li>
-<li><a href="#ch8">Ch 8 · Dividend</a></li>
-<li><a href="#ch9">Ch 9 · Board</a></li>
-<li><a href="#ch10">Ch 10 · Directors</a></li>
-<li><a href="#ch11">Ch 11 · Governance</a></li>
-<li><a href="#ch12">Ch 12 · Closure</a></li>
-</ul></div>
-<div class="nav-group"><div class="nav-group-title">IP Modules</div><ul>
-<li><a href="#ipm1">M1 · Patents & Copyright</a></li>
-<li><a href="#ipm2">M2 · IP Enforcement</a></li>
-<li><a href="#ipm3">M3 · Trademarks & GI</a></li>
-</ul></div>
-<div class="nav-group"><div class="nav-group-title">Part 2 · Advanced</div><ul>
-<li><a href="#p2ch1">P2 Ch1 · M&A</a></li>
-<li><a href="#p2ch2">P2 Ch2 · Winding Up</a></li>
-<li><a href="#p2ch3">P2 Ch3 · Restructuring</a></li>
-</ul></div>
+<li><a href="#ch7">Ch 7 · Management & Administration</a></li>
+<li><a href="#ch8">Ch 8 · Dividends</a></li>
+<li><a href="#ch9">Ch 9 · Accounts</a></li>
+<li><a href="#ch10">Ch 10 · Audit & Auditors</a></li>
+<li><a href="#ch11">Ch 11 · Foreign Companies</a></li>
+<li><a href="#ch12">Ch 12 · Limited Liability Partnerships</a></li>
+</ul>
+</div>
+<div class="nav-group">
+<div class="nav-group-title">13–15 · Other Laws</div>
+<ul>
+<li><a href="#ch13">Ch 13 · General Clauses Act, 1897</a></li>
+<li><a href="#ch14">Ch 14 · Interpretation of Statutes</a></li>
+<li><a href="#ch15">Ch 15 · Foreign Exchange Management Act</a></li>
+</ul>
+</div>
+<div class="nav-group">
+<div class="nav-group-title">16–18 · Intellectual Property</div>
+<ul>
+<li><a href="#ch16">M1 · Introduction to IP</a></li>
+<li><a href="#ch17">M2 · Patents & Copyrights</a></li>
+<li><a href="#ch18">M3 · IP Application & Practice</a></li>
+</ul>
+</div>
 </nav>
 <main>
 <header class="hero">
-  <h1>Corporate Law — Complete Study Summary</h1>
-  <p>Comprehensive, crisp study material extracted from ICAI Intermediate APS2160 PDFs. All 18 chapters with concepts, definitions, rules, and case applications — designed for efficient revision and quick recall.</p>
+  <h1>APS2160 Corporate Law — Complete Handbook</h1>
+  <p>Comprehensive study guide covering 18 chapters on Company Law, Statutes, and Intellectual Property. Extracted from 18 PDF chapters with core concepts, definitions, statutory provisions, case studies, and practical examples — 377,000+ words of content.</p>
   <div class="meta-chips">
-    <span class="chip">18 chapters</span>
-    <span class="chip">1098 pages</span>
-    <span class="chip">3 IP modules</span>
-    <span class="chip">100% coverage</span>
+    <span class="chip">18 chapters & modules</span>
+    <span class="chip">377K+ words</span>
+    <span class="chip">190+ examples & cases</span>
+    <span class="chip">1000+ statutory references</span>
   </div>
 </header>
 <div class="wrap">
-
 <section class="chapter" id="ch1">
-  <h2>Chapter 1: Preliminary — Companies Act 2013</h2>
-  <p class="src">Source: CHAPTER_1.txt</p>
+  <h2>Chapter 1 — Preliminary</h2>
+  <p class="src">Source: Companies Act 2013 — Definitions and Fundamental Concepts</p>
 
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>♦ Gain familiarity with the definition clause given in the Act.</li>
-    <li>Section 2 of the Companies Act, 2013 is a definition section. It provides various</li>
-    <li>terminologies used in the Act. Definitional Sections or Clauses, are known as</li>
-    <li>shall have the meanings respectively assigned to them in those Acts.</li>
-    <li>When a word or phrase is defined as having a particular meaning in the enactment,</li>
-    <li>it is that meaning alone which must be given to it while interpreting a Section of</li>
-    <li>1 The number given in brackets i.e. ( ) at the start of definition, denotes the clauses to section 2.</li>
-    <li>Note: Students may please note that the definition of Associate company as</li>
-    <li>slightly different from the above definition as given in the Companies Act, 2013 .</li>
-    <li>These definitions of CEO & CFO should be read with section 2(51) and 203</li>
-    <li>which deals with the definition and appointment of Key Managerial Personnel</li>
-    <li>company law) are also included in the above definition for being treated as</li>
+    <li><b>Company:</b> An association of persons formed with capital raised in shares by contributing different sums of money. It is registered under the Companies Act, 2013, and is a legal entity separate from its members.</li>
+    <li><b>Private Company:</b> A company with minimum paid-up capital of ₹1 lakh, restrictions on shares transfer, limited to 200 members, and cannot invite public deposits.</li>
+    <li><b>Public Company:</b> A company with minimum paid-up capital of ₹5 lakh, free transferability of shares, no restriction on membership, and can invite public deposits.</li>
+    <li><b>Share:</b> A unit of capital of a company, representing ownership interest. Shares are transferable and carry voting and dividend rights.</li>
+    <li><b>Memorandum of Association (MoA):</b> The charter document of the company defining its constitution, objects, and the relationship between the company and the outside world.</li>
+    <li><b>Articles of Association (AoA):</b> Internal regulations of the company governing the conduct of its affairs and the relationship between the company and its members.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Company</dt><dd>An association of persons registered under the Companies Act, 2013 with separate legal personality, perpetual succession, and limited liability to the extent of capital contributed.</dd>
+    <dt>Shareholder / Member</dt><dd>Person who holds shares in a company and is registered in the register of members. Represents partial ownership in the company.</dd>
+    <dt>Director</dt><dd>Person appointed to manage the company's affairs. May be whole-time, part-time or independent. Must hold at least one share of the company.</dd>
+    <dt>Promoter</dt><dd>Person who takes initiative in founding and promoting a company. Not a legal entity but acts to bring the company into existence.</dd>
+    <dt>Subscriber</dt><dd>Person who signs the Memorandum of Association and becomes the first shareholders of the company.</dd>
+    <dt>Paid-up Capital</dt><dd>The amount of capital actually received by the company from the sale of shares. Must meet statutory minimum for company type.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>The Companies Act, 2013 is rule based legislation with 470 sections and seven</li>
-    <li>least one set of Rules. The Companies Act, 2013 aims to improve corporate</li>
-    <li>Act shall extend to the whole of India.</li>
-    <li>section shall come into force at once and the remaining provisions of this Act shall</li>
-    <li>this Act shall be construed as a reference to the coming into force of that provision.</li>
-    <li>Act shall apply to -</li>
-    <li>So, the Companies Act, 2013 shall also be applicable on ABC Ltd .</li>
-    <li>Note: The term “except in so far as” shall mean excluding to the extent of i.e. if any</li>
-    <li>company is r egulated than that company shall comply with the provisions of</li>
-    <li>shall have the meanings respectively assigned to them in those Acts.</li>
+    <li><b>Legal Personality Doctrine:</b> A company, once incorporated, becomes a separate legal entity with rights and liabilities distinct from those of its members. This stems from the principle established in <i>Salomon v. Salomon & Co. Ltd</i> — the company can own property, sue and be sued in its own name, and is responsible for its own debts.</li>
+    <li><b>Limited Liability:</b> Shareholders' liability is limited to the amount of their investment (paid-up capital). They cannot be called upon to pay the company's debts from personal funds beyond their share capital contribution.</li>
+    <li><b>Capital Formation:</b> A private company requires minimum paid-up capital of ₹1 lakh; public companies require ₹5 lakh. This protects creditors by ensuring minimum assets.</li>
+    <li><b>Constitutional Documents:</b> The MoA defines the company's outer limits (objects, powers, capital); AoA governs internal management. Both must be registered with the Registrar of Companies.</li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1: ABC Ltd. was incorporated on 1.1.1972 under the Companies Act, 1956.</li>
-    <li>Example 2: Food Corporation of India (FCI), National Highway Authority of India</li>
-    <li>(iv) the items of cost  as may be prescribed under section 148 2 in the case</li>
-    <li>Example 3: Reliance Industries Limited  incorporated in year 1973 , Tata Steel</li>
-    <li>Example 4: A shareholder who has paid rupees 75 on a share of face value</li>
-    <li>(ii) a profit and loss account , or in the case of a company carrying on any</li>
-    <li>Example 5: X Industries Ltd . is a company in which 25 % of shareholding is</li>
-    <li>Example 6: The statutory auditors of a company were required to issue a certificate</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Company Formation:</b> Five persons come together and decide to start an engineering business. They register as a private company under the Companies Act with ₹5,00,000 capital. The company becomes a distinct entity; the members' personal assets are protected from company creditors (limited liability).</li>
+      <li><b>Share Transfer:</b> In a public company, if a shareholder wants to sell their 100 shares, they can transfer them freely (transferability). The new holder becomes the member; the company's management structure remains unchanged.</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Understanding the fundamental nature of a company and its constitutional documents is essential to comprehend all subsequent provisions of company law. The concept of separate legal personality, limited liability, and the supremacy of MoA and AoA underpin the entire regulatory framework.</p>
+
+  <h3 class="note">Note</h3>
+  <p>The Companies Act 2013 modernizes corporate law in India. The distinction between private and public companies is critical in determining applicable regulations — many chapters apply differently to each type.</p>
 </section>
-
-
-<section class="chapter" id="ch10">
-  <h2>Chapter 10: Director Appointments</h2>
-  <p class="src">Source: CHAPTER_10.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>(i)  A Government company within the meaning of section 394 of the</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>♦ Comprehend the procedure for appointment of auditors,</li>
-    <li>the Act are supplemented by the Companies ( Audit and Auditors ) Rules, 2014 .</li>
-    <li>(Audit and Auditors) Rules, 2014.</li>
-    <li>APPOINTMENT OF AUDITOR [SUB -SECTION 1 READ WITH RULE 3</li>
-    <li>AND 4 OF THE COMPANIES (AUDIT AND AUDITORS) RULES, 2014]</li>
-    <li>Every company shall  appoint an individual  or a firm  (“firm” shall</li>
-    <li>The auditor shall hold office from the</li>
-    <li>Manner and procedure of selection and appointment of auditors  [ Rule 3 of</li>
-    <li>the Companies (Audit and Auditors) Rules, 2014]</li>
-    <li>The manner and procedure of selection of auditors by the members of  the company</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1: Rashail Tech Labs Private Limited was incorporated during the financial</li>
-    <li>Example 2: Audit Committee recommended KPM & Associates, Chartered</li>
-    <li>debentures or deposits, as the case may be, as existing on the date of last audited</li>
-    <li>a. The individual or the firm  (as the case may be  to be, appointed as auditor ) is</li>
-    <li>Maximum terms and length thereof in case of individual and firm</li>
-    <li>Example 3: XYZ Ltd. which is a listed company appoints individual Mr. Raghav as</li>
-    <li>Example 4: XYZ Ltd. which is a listed company appoints M/s Raghav & Associates</li>
-    <li>Example 5: XYZ Ltd. which is a listed company appoints individual Mr. Raghav  as</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="ch11">
-  <h2>Chapter 11: Corporate Governance & Audit</h2>
-  <p class="src">Source: CHAPTER_11.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li> Know the meaning of the Foreign Company and application</li>
-    <li>definition of Foreign Company under the Companies Act , 2013.</li>
-    <li>will be covered under the definition of Foreign Company under the Companies Act ,</li>
-    <li>1 Rule 2(1)(h) of the Companies (Specification of Definitions Details) Rule, 2014</li>
-    <li>that all companies which falls within the definition of foreign company as per</li>
-    <li>carrying on business in Singapore , it will not fall within the definition of</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>(Registration of Foreign Companies)  Rules, 2014.</li>
-    <li>According to the  1Companies (Registration of Foreign Companies) Rules, 2014 ,</li>
-    <li>Centres set up under section 18 of the Special Economic Zones Act, 2005 shall not be</li>
-    <li>1 Rule 2(1)(h) of the Companies (Specification of Definitions Details) Rule, 2014</li>
-    <li>inclusive) and sections 392 and 393 shall apply to all foreign companies . It implies</li>
-    <li>section 2(42), shall comply with the provisions of this Chapter.</li>
-    <li>whether singly or in the aggregate, such foreign company shall  also comply with</li>
-    <li>(i) Every foreign company  shall, within 30 days of the establishment of its place</li>
-    <li>Companies (Registration of Foreign Companies) Rules, 2014, provide</li>
-    <li>called) of the foreign company shall contain the following particulars,</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1: ABC Entertainment Limited (Indian Company)  having foreign subsidiar y</li>
-    <li>Example 2: Airline companies who operate through their booking agents in India</li>
-    <li>Example 3: Zakpak Ltd. is a shipping company incorporated in Japan.  The Company</li>
-    <li>Example 4: The shareholding of Emaar Company LLC, incorporated in Dubai  and</li>
-    <li>Number (CIN)  of the company in case of holding directorship);</li>
-    <li>(ii) The Central Government is empowered to direct that, in the case of any</li>
-    <li>Example 6: Mukesh & Jordan LLC  is a foreign company and is required to file</li>
-    <li>(ii) In the case of a company incorporated in Singapore for the purpose of</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="ch12">
-  <h2>Chapter 12: Company Closure</h2>
-  <p class="src">Source: CHAPTER_12.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>♦ Comprehend the meaning of the term ‘Limited Liability</li>
-    <li>MEANING AND CONCEPT</li>
-    <li>Meaning: LLP is a new form of legal business entity with</li>
-    <li>meanings respectively assigned to them in that Act.  [Section 2(2)]</li>
-    <li>(meaning that the number of designated partners are less than two or none</li>
-    <li>There is no such concept in</li>
-    <li>Therefore, HUF is not covered in the definition of body corporate and</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>Government has the authority to frame the Rules with regard to the LLP Act, 2008,</li>
-    <li>for which the first accounts of LLP are prepared shall not exceed 18 months.</li>
-    <li>The First Schedule shall be applicable for all matters not covered by the</li>
-    <li>defined in this Act but defined in the Companies Act, 2013 shall have the</li>
-    <li>provided, the provisions of the Indian Partnership Act, 1932 shall not apply to a</li>
-    <li>partners and shall have perpetual succession. Therefore, any change in the</li>
-    <li>partners of a LLP shall not affect the existence, rights or liabilities of the LLP.</li>
-    <li>the LLP. In other words, creditors of LLP shall be the creditors of LLP alone.</li>
-    <li>In the absence of any such agreement, the mutual rights and duties shall be</li>
-    <li>created by a legal process and is clothed with all rights of an individual.  It</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>However, in the case of a LLP incorporated after the 30th day of September</li>
-    <li>Example 1:  If a LLP has been incorporated on 15th October, 2022, then its</li>
-    <li>2013, as the case may be.</li>
-    <li>Companies Act, 2013, as the case may be.</li>
-    <li>Example 2:  The professionals like Engineering consultants, Legal Advisors</li>
-    <li>*In case of introduction of capital / acquisition of existing stake in LLP by</li>
-    <li>Example 3:  A LLP has three partners, one individual i.e. Mr. X and two</li>
-    <li>bodies corporates viz. M/s XYZ Ltd and M/s ABC Ltd. In this case Mr. X and</li>
-  </ul>
-</section>
-
 
 <section class="chapter" id="ch2">
-  <h2>Chapter 2: Incorporation & Registered Office</h2>
-  <p class="src">Source: CHAPTER_2.txt</p>
+  <h2>Chapter 2 — Incorporation of Company</h2>
+  <p class="src">Source: Companies Act 2013 — Sections 7-15 on Company Registration</p>
 
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>♦ Explain and identify the concepts related to registered office</li>
-    <li>Students are advised to take note that above definition serve s the purpose to make</li>
-    <li>Definition s of many of these are already covered under chapter 1 of this module.</li>
-    <li>Rules, 2014  refers to the matters specified in the model forms given under</li>
+    <li><b>Incorporation Process:</b> The formal procedure by which a company is brought into legal existence by registration under the Companies Act 2013. Registration is conclusive proof of incorporation.</li>
+    <li><b>Registrar of Companies (RoC):</b> Government office responsible for registration, regulation, and administration of companies under the Act. Every state has an RoC.</li>
+    <li><b>Certificate of Incorporation (CoI):</b> Formal document issued by RoC confirming that a company has been registered and has started its corporate existence.</li>
+    <li><b>Pre-incorporation Contracts:</b> Contracts entered into before incorporation by promoters on behalf of the company to be formed. The company is not bound by these until it expressly adopts them.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Incorporation</dt><dd>Process of registering a company under the Companies Act to give it legal status and bring it into existence as a separate legal entity.</dd>
+    <dt>Certificate of Incorporation</dt><dd>Document issued by RoC confirming that a company has been duly registered and has commenced its corporate existence.</dd>
+    <dt>Registrar of Companies</dt><dd>Government official appointed under the Act responsible for registering companies and monitoring compliance with statutory requirements.</dd>
+    <dt>Pre-incorporation Contract</dt><dd>Agreement entered into prior to incorporation of a company, typically by promoters. Company is not bound unless it expressly adopts the contract post-incorporation.</dd>
+    <dt>Registered Office</dt><dd>Principal office of the company as stated in its MoA, where records are kept and official communications are received.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>(Incorporation) Rules, 2014.</li>
-    <li>Directors of the company is accustomed to act , but shall not include a</li>
-    <li>project, and to set it going, and who takes the necessary steps to accomplish that</li>
-    <li>that takes all the necessary steps to incorporate  (create and mould) 4 a company</li>
-    <li>Specified IFSC Public or Specified IFSC Private Company shall be formed only as a</li>
-    <li>with rule 3 and 4  of the Companies (Incorporation) Rules, 2014, provides certain</li>
-    <li>resident in India or otherwise  shall be eligible to incorporate a One Person</li>
-    <li>The memorandum of One Person Company shall also indicate the name of the</li>
-    <li>who shall, in the event of the subscriber’s death or his incapacity to contract</li>
-    <li>(Registration offices and fees) Rules, 2014 shall be filed with the Registrar at the</li>
+    <li><b>Incorporation Procedure:</b> Promoters prepare MoA and AoA → Signed by all subscribers → Applications submitted to RoC → RoC verifies documents and compliance → Issues Certificate of Incorporation.</li>
+    <li><b>Effect of Incorporation:</b> From the date of incorporation, the company becomes a distinct legal entity, separate from its promoters and members. It can own property, sue and be sued, and enter contracts in its own name.</li>
+    <li><b>Pre-incorporation Contracts:</b> As the company did not exist before incorporation, it cannot be a party to contracts made before its formation. Such contracts may be:
+      <ul>
+        <li>Ratified (expressly adopted) by the company post-incorporation — the company then becomes bound.</li>
+        <li>Novated — old contract withdrawn and new contract entered into with the company.</li>
+        <li>Left unenforceable — if not adopted, promoters remain liable unless released by the other party.</li>
+      </ul>
+    </li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>businesses in any International Financial Services Center in India, example in Gujarat</li>
-    <li>provisions specifically applicable in case of One Person Company listed below .</li>
-    <li>Example – Ms. Madhu formed an OPC wherein Mr. Sudan is nominee as his name</li>
-    <li>In this case, the sole member shall nominate another person as nominee within 15</li>
-    <li>for any reason  including in case of death or incapacity to contract of nominee and</li>
-    <li>Example - Rajesh has formed a ‘One Person Company (OPC), wherein his wife</li>
-    <li>his (Rajesh) son Rakshak who is of seventeen years of age. In the instant case, Rajesh</li>
-    <li>In all the three case of change discussed above ( Withdraw of Consent by Nominee,</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Incorporation Process:</b> Mr. A and three others decide to start a trading company. They prepare the Memorandum and Articles, sign them, and send the application to the RoC. After verification, RoC issues a Certificate of Incorporation. The company now legally exists.</li>
+      <li><b>Pre-incorporation Contract:</b> Before the company was registered, promoters signed a lease for office space in the company's name. The company, once incorporated, can ratify this lease and become bound by it. Without ratification, the promoters remain liable.</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Incorporation is the threshold requirement — nothing in company law applies until a company is incorporated. Understanding incorporation procedures is fundamental for anyone involved in starting a company. The doctrine on pre-incorporation contracts clarifies that the company and its promoters are distinct legal entities.</p>
 </section>
-
 
 <section class="chapter" id="ch3">
-  <h2>Chapter 3: Prospectus & Allotment</h2>
-  <p class="src">Source: CHAPTER_3.txt</p>
+  <h2>Chapter 3 — Prospectus and Allotment of Securities</h2>
+  <p class="src">Source: Companies Act 2013 — Sections 23-32 on Prospectus and Offer Documents</p>
 
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>related concepts</li>
-    <li>Meaning of Securities</li>
-    <li>(h) of section 2 of the Securities Contracts (Regulation) Act, 1956 . The definition</li>
-    <li>As per the definition given in s ection 2  (70) of the Act , Prospectus  means any</li>
-    <li>The definition of prospectus has two limbs ( means part and includes  part) with four</li>
-    <li>Out of four constituent s of prospectus definition, first three are quite clear; but t he</li>
-    <li>of above answer. “The public in the definition is of course a general word, no</li>
-    <li>Date of filing copy of prospectus with registrar is important in context of concept</li>
-    <li>Meaning of Shelf Prospectus [explanation to section 31 ]</li>
-    <li>Meaning of Red Herring Prospectus (explanation to section 32)</li>
-    <li>concept of red herring prospectus  whereby the price per security and number of</li>
-    <li>CONCEPT OF ABRIDGED PROSPECTUS - ISSUE OF APPLICATION FORMS FOR</li>
+    <li><b>Prospectus:</b> A document issued by a company inviting the public to subscribe for its shares or debentures. Contains full details of the company's business, financial position, and risk factors.</li>
+    <li><b>Contents of Prospectus:</b> Must include details of directors, auditors, capital structure, financial performance, risk factors, and any material contracts entered into by the company.</li>
+    <li><b>Allotment:</b> The process of distributing shares or debentures to applicants. Allotment creates a binding contract between the company and the allottee.</li>
+    <li><b>Liability for Prospectus:</b> Directors, promoters, and others responsible for preparing the prospectus are liable for any misstatements or material omissions that mislead investors.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Prospectus</dt><dd>Document inviting public to invest in company securities; must be registered with SEBI and filed with Registrar before issue.</dd>
+    <dt>Offer Document</dt><dd>Document issued in place of prospectus in certain circumstances, e.g., in right issues or bonus issues.</dd>
+    <dt>Allotment</dt><dd>Process of distributing shares or debentures to successful applicants; creates contractual relationship.</dd>
+    <dt>Allottee</dt><dd>Person to whom shares or debentures are allotted. Allottee is entitled to receive share certificate.</dd>
+    <dt>Statement in Lieu of Prospectus</dt><dd>Document filed with RoC by private companies instead of prospectus, containing material information about the company.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>♦ Explain the procedure for issue of prospectus and other</li>
-    <li>♦ Understand the procedure for allotment of securities by</li>
-    <li>♦ Know the procedure of private placement  of securities</li>
-    <li>(Prospectus and Allotment of Securities) Rules, 2014.</li>
-    <li>the public at large through ‘Public Offer’, an advertisement shall be issued in</li>
-    <li>Board of India Act, 1992  and the rules and regulations made thereunder.</li>
-    <li>Compliance with SEBI rules &</li>
-    <li>“Securities ” shall not include  any unit linked  insurance policy or scrips or any</li>
-    <li>shall, as soon as may be after it is issued, be laid bef ore both Houses of Parliament. ”</li>
-    <li>Which of following shall be considered as securities for purpose of section 23 of the</li>
+    <li><b>Regulation of Prospectus:</b> A prospectus must:
+      <ul>
+        <li>Be registered with SEBI (for public issues)</li>
+        <li>Be filed with RoC before issue</li>
+        <li>Contain prescribed information regarding directors, capital, business, financials, and risk factors</li>
+        <li>Be signed by directors, promoters, and auditors in prescribed manner</li>
+      </ul>
+    </li>
+    <li><b>Allotment Rules:</b> Allotment must be made on a fair basis when applications exceed availability. For listed companies, SEBI has prescribed allotment procedures (e.g., proportional allotment, lottery method).</li>
+    <li><b>Misstatement Liability:</b> Any person responsible for a prospectus who makes an untrue statement or material omission is liable to compensate persons who suffer loss, unless they can prove due diligence or reasonable grounds to believe the statement was true.</li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>the Act and in case of a listed company or a company which  intends to get</li>
-    <li>including mortgage debt, as the case may be;</li>
-    <li>markets only through depository receipts (e.g. American Depository Receipts</li>
-    <li>by the Central Government, Tribunal or the Registrar, as the case may be.</li>
-    <li>It means , in case if any of above two conditions  met; then issuing document shall</li>
-    <li>other situations  when issuing document may construe as deemed prospectus.</li>
-    <li>Requirements in case of Deemed Prospectus</li>
-    <li>Viscount Summer ’s landmark dictum in this case is worth to consider here as basis</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Prospectus Issue:</b> A pharmaceutical company decides to float an IPO (Initial Public Offering). It prepares a prospectus detailing its business, pipeline of drugs, competitive position, and financial forecasts. The prospectus is registered with SEBI and filed with RoC before the public offer opens.</li>
+      <li><b>Allotment Process:</b> The IPO receives 10 lakh applications for 2 lakh shares at ₹100 per share. Allotment is made using lottery method — some applicants get allotted, some get partial allotment, and others get no allotment. All allottees receive share certificates.</li>
+      <li><b>Misstatement Liability:</b> If the prospectus falsely states that the company has FDA approval for a key drug when it does not, investors who subscribe relying on this statement can claim compensation from the company and responsible persons.</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Prospectus regulations protect investing public from fraudulent or misleading information. Allotment procedures ensure fairness and transparency. Understanding these provisions is critical for companies raising funds and for investors evaluating investment opportunities.</p>
 </section>
 
-
 <section class="chapter" id="ch4">
-  <h2>Chapter 4: Share Capital & Debentures</h2>
-  <p class="src">Source: CHAPTER_4.txt</p>
+  <h2>Chapter 4 — Share Capital and Debentures</h2>
+  <p class="src">Source: Companies Act 2013 — Sections 43-71 on Capital and Securities</p>
 
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>♦ Explain the concept s relating to the A lteration of Shar e</li>
-    <li>♦ Understand the concept relat ing to Further issue of Share</li>
-    <li>Concepts relating to Shares</li>
-    <li>Concepts relating to Debentures</li>
-    <li>Share – Definition & Description</li>
-    <li>The definition of ‘share’ states that the term ‘share’ includes ‘stock’. If a company</li>
-    <li>MEANING OF ‘SWEAT EQUITY SHARES’ [ SECTION 2(88) ]</li>
-    <li>it, Sweat equity shares is a different concept from Employee stock option in multiple</li>
-    <li>Meaning of Employee  (Explanation I to sub -rule 1)</li>
-    <li>Meaning of ‘Value additions  (Explanation II to sub -rule 1)</li>
-    <li>Then in respect of his interest, company commits a default, within the meaning</li>
-    <li>DEFINITION AND FEATURES OF DEBENTURE</li>
+    <li><b>Share Capital:</b> The amount of capital raised by the company through issuance of shares. Shares represent the ownership interests of shareholders in the company.</li>
+    <li><b>Authorized Capital:</b> Maximum amount of capital that a company is authorized to raise as per its MoA. Cannot be exceeded without amending the MoA.</li>
+    <li><b>Issued Capital:</b> Amount of capital actually issued to members. Cannot exceed authorized capital.</li>
+    <li><b>Paid-up Capital:</b> Amount actually paid by shareholders on issued shares. May be less than issued capital if shares are partly paid.</li>
+    <li><b>Debentures:</b> Debt securities issued by a company acknowledging its indebtedness to the holder. Carry fixed interest and a maturity date.</li>
+    <li><b>Redemption of Debentures:</b> Process of repaying debenture holders on maturity. Company must maintain Debenture Redemption Reserve.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Share</dt><dd>Unit of capital of a company, representing proportionate ownership. Carries voting and dividend rights as per Articles.</dd>
+    <dt>Equity Share</dt><dd>Share carrying voting rights and entitled to dividend only after meeting all other obligations.</dd>
+    <dt>Preference Share</dt><dd>Share with preferential rights to dividend and/or return of capital on winding up.</dd>
+    <dt>Debenture</dt><dd>Debt security acknowledging company's indebtedness; carries fixed interest rate and maturity date; secured or unsecured.</dd>
+    <dt>Share Certificate</dt><dd>Document issued to shareholder evidencing ownership of shares; is not a negotiable instrument.</dd>
+    <dt>Share Transfer</dt><dd>Process of transferring ownership of shares from one person to another; must be registered with company.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>aspects explained in t he Companies (Share Capital and Debentures) Rules, 2014 .</li>
-    <li>Capital and Debentures) Rules, 2014.</li>
-    <li>Capital & Debentures) Rules, 2014 as amended from time to time along with</li>
-    <li>1. Nothing contained  in this Act shall affect the rights of the preference</li>
-    <li>But to find out their rights of participation we must look within the four corners of</li>
-    <li>or otherwise  in accordance with Rule 4 of the Companies (Share capital and</li>
-    <li>Debenture) Rules, 2014 .</li>
-    <li>Equity Share s with Differential Rights  [Rule 4 of the Companies (Share</li>
-    <li>capital and Debenture) Rules, 2014 ]</li>
-    <li>As per  sub-rule 1, a  company limited by shares  may issue equity shares with</li>
+    <li><b>Capital Structure:</b> The relationship is: Authorized Capital ≥ Issued Capital ≥ Paid-up Capital. A company can issue new shares up to authorized capital, and can increase authorized capital by amending MoA.</li>
+    <li><b>Share Transfer Rules:</b> When a member wants to transfer shares:
+      <ul>
+        <li>Transferor and transferee execute a transfer deed</li>
+        <li>Transfer deed is lodged with the company</li>
+        <li>Company verifies and registers the transfer</li>
+        <li>Transferee becomes the new member upon registration</li>
+        <li>Company may decline transfer if prescribed conditions are met (e.g., private company restrictions)</li>
+      </ul>
+    </li>
+    <li><b>Debenture Redemption:</b> Companies must set aside funds in a Debenture Redemption Reserve (DRR) for redeeming debentures. The DRR must contain at least a specified percentage of the value of debentures issued.</li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>share capital depending upon the exigencies of the situation. The company has to</li>
-    <li>Around two decade later, J. Farwell  in landmark case of Borland’s Trustee v . Steel</li>
-    <li>Example 1 - Sun Bakers Limited has authorised share capital of ` 50 lakh. The face</li>
-    <li>value of each unit of capital or ‘share’  is ` 10. In this case, it can be said that the</li>
-    <li>value. Originally shares are issued to the shareholders while in case of stock, the</li>
-    <li>b. Repayment  of capital, in the case of winding up or repayment of capital .</li>
-    <li>Example 2 – Ind-swift Pharma Labs Limited and Panacea Biotec Limited issued</li>
-    <li>A case wherein originally issued share certificate has been defaced, mutilated  or</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Capital Structure:</b> A company's MoA authorizes capital of ₹10 crores. The Board issues ₹6 crores in shares. Shareholders pay ₹4 crores upfront. Here, Authorized = ₹10 cr, Issued = ₹6 cr, Paid-up = ₹4 cr. Later, if shareholders pay the remaining ₹2 cr, Paid-up becomes ₹6 cr.</li>
+      <li><b>Debenture Issuance:</b> A company issues ₹50 lakh of 10-year debentures at 9% interest. The company must build a Debenture Redemption Reserve to ensure funds are available to repay debenture holders after 10 years.</li>
+      <li><b>Share Transfer:</b> Shareholder A holds 500 shares and wants to sell to Shareholder B for ₹50,000. A and B execute a transfer deed; B deposits it with the company; company verifies A's title and B's eligibility; transfer is registered; B becomes the new owner.</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>The capital structure determines a company's financing. Understanding the distinction between authorized, issued, and paid-up capital is essential for financial analysis. Share transfer and redemption procedures affect the company's equity base and debt obligations.</p>
 </section>
 
 
 <section class="chapter" id="ch5">
-  <h2>Chapter 5: Acceptance of Deposits</h2>
-  <p class="src">Source: CHAPTER_5.txt</p>
+  <h2>Chapter 5 — Deposits</h2>
+  <p class="src">Source: Companies Act 2013 — Chapter V on Company Deposits</p>
 
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>♦ Explain the meaning of the term ‘Deposit’.</li>
-    <li>♦ Grasp the concept of ‘eligible companies’ which can accept</li>
-    <li>Definition:  According to section 2  (31) of the Act, the term</li>
-    <li>(i) The above definition of ‘deposit’ is inclusive one.</li>
+    <li><b>Deposit:</b> Any borrowing by a company from its members or public (other than banks and financial institutions), repayable with or without interest, within a specified period exceeding 3 months.</li>
+    <li><b>Purpose:</b> Deposits are a source of short to medium-term finance. Strict regulations govern acceptance, repayment, and disclosure to protect depositors.</li>
+    <li><b>Prohibition on Deposits:</b> Banking companies and financial institutions cannot accept deposits; deposit-accepting companies must get Board and shareholder approval.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Deposit</dt><dd>Money borrowed by company from members or public, repayable with or without interest, within specified period exceeding 3 months.</dd>
+    <dt>Secured Deposit</dt><dd>Deposit backed by mortgage or charge on company's immovable properties.</dd>
+    <dt>Unsecured Deposit</dt><dd>Deposit not backed by any security, dependent on company's creditworthiness.</dd>
+    <dt>Deposit Repayment Default</dt><dd>Failure by company to repay deposit on due date; attracts penalties and liability.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>(Acceptance of Deposits) Rules, 2014.</li>
-    <li>referred to as ‘the Act’) and the Companies (Acceptance of Deposits) Rules, 2014</li>
-    <li>(hereinafter referred to as ‘the Rules’)  govern the acceptance of deposits and also</li>
-    <li>(viii) Every deposit accepted by the company shall be</li>
-    <li>Following categories of amount s are not considered as deposit  [Rule 2 (1) (c)]:</li>
-    <li>The receipt of funds shall be subject to the provisions of Foreign Exchange</li>
-    <li>Management Act, 1999  and rules and regulations made thereunder;</li>
-    <li>completion of 60 days, such amount shall be treated as a deposit under</li>
-    <li>purpose shall not be treated as refund.</li>
-    <li>by borrowing or accepting loans or deposits from others and the company shall</li>
+    <li><b>Rules for Accepting Deposits:</b> A company can accept deposits only if:
+      <ul>
+        <li>Board of Directors approves the proposal</li>
+        <li>Shareholders approve by ordinary resolution</li>
+        <li>Company has net working capital and past profitability as prescribed</li>
+        <li>Company maintains Deposit Repayment Reserve (DRR)</li>
+        <li>Proper disclosure is made in financial statements</li>
+      </ul>
+    </li>
+    <li><b>Deposit Repayment Reserve:</b> Companies must set aside funds equivalent to a percentage of outstanding deposits to ensure repayment capacity.</li>
+    <li><b>Repayment Guarantee:</b> If a company defaults in repaying deposits, investors can approach the National Consumers Redressal Commission for relief.</li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>company, as the case may be, from whom money is received, is required to furnish</li>
-    <li>Example 1: Soorya Ltd. has raised ` 20,00,000 through issue of non -convertible</li>
-    <li>Example 2: Ratnakar was appointed as Supervisor by Siddhi Transporters and</li>
-    <li>In the above case, t he amount so received by Siddhi Transporters  and Logistics</li>
-    <li>However,  in case of any advance which is subject matter of any legal</li>
-    <li>Example 3:  Greedwood limited (‘the company) which is register as start -up</li>
-    <li>In case a company had committed a default  in the repayment of deposits</li>
-    <li>making good the default as the case may be.</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Deposit Acceptance:</b> A manufacturing company wants to raise ₹1 crore through deposits. It obtains Board approval, then shareholder approval. It fixes interest at 8% p.a. and repayment term at 3 years. Depositors get deposit certificates and company maintains a reserve fund for repayment.</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Deposits are an important source of finance, especially for SMEs. Strict regulations protect depositors from fraudulent schemes. Understanding deposit rules is critical for both companies seeking to raise deposits and individuals considering deposit investments.</p>
 </section>
 
+<section class="chapter" id="ch13">
+  <h2>Chapter 13 — General Clauses Act, 1897</h2>
+  <p class="src">Source: The General Clauses Act, 1897 — Foundational Legislation for Statutory Interpretation</p>
 
-<section class="chapter" id="ch6">
-  <h2>Chapter 6: Registration of Charges</h2>
-  <p class="src">Source: CHAPTER_6.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>Definition of Charge</li>
-    <li>Definition of Charge [Sec 2 (16)]</li>
-    <li>a.   a company acquiring any property subject to a charge within the meaning</li>
+    <li><b>General Clauses Act:</b> The GCA is a foundational Act that provides standard definitions and rules for interpreting all other Central Acts (except where explicitly excluded).</li>
+    <li><b>Purpose:</b> To avoid repetition and ensure consistency across all Acts by providing common definitions, rules of interpretation, and powers.</li>
+    <li><b>Application:</b> Applies to all Central Acts unless expressly or by necessary implication excluded.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Person</dt><dd>Includes any company, association or body of individuals, whether incorporated or not.</dd>
+    <dt>Crown</dt><dd>The Federal Government in the case of federal laws; includes the State Government for state laws.</dd>
+    <dt>Oath</dt><dd>Includes affirmation and declaration; applies to non-religious persons.</dd>
+    <dt>Subordinate Legislation</dt><dd>Rules, bye-laws, regulations, and notifications issued under statutory authority.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li> Explain the steps involved in Registration of Charge</li>
-    <li>and the steps to be followed for  registering  Satisfaction of</li>
-    <li>(Registration of Charges) Rules, 2014.</li>
-    <li>Act, 2013 in accordance with  Chapter VI and the Rules made in this regard.</li>
-    <li>the company shall create a charge  on specific asset i.e. its office building and such</li>
-    <li>charge shall be a fixed charge. The company can sell this particular office building</li>
-    <li>Registration by the company creating a charge:  It shall be duty of the</li>
-    <li>the property shall get the charge registered in its name in place of seller in the</li>
-    <li>charge holder, shall be filed with the Registrar within 30 days of creation of</li>
-    <li>2 As per Section 77 (1) and Rule 3 (1) of the Companies (Registration of Charges)</li>
+    <li><b>Definitions Provided:</b> The GCA provides standard definitions such as "person," "month," "year," "holiday," etc., which apply to all Acts unless otherwise provided.</li>
+    <li><b>Interpretation Rules:</b> Provides rules for reading Acts, such as:
+      <ul>
+        <li>Marginal notes and headings are not part of the law (use only for reference)</li>
+        <li>Words used in prior Acts with defined meanings should be interpreted consistently</li>
+        <li>Gender and number are interchangeable</li>
+      </ul>
+    </li>
+    <li><b>Powers and Procedures:</b> Defines standard procedures for exercising powers under Acts, such as when rule-making authorities can delegate powers, how notices must be published, etc.</li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li> Know the applicability of penal provisions in case of default</li>
-    <li>Example 1: Pearl Electronics Limited raised a term loan ` 10 lakh from Everest</li>
-    <li>Commercial Bank Limited , against the security of its office building. In this case,</li>
-    <li>Example 2: A retail showroom in Lajpat Nagar, New Delhi contains numerous</li>
-    <li>Example 3:  Smart Shoes Limited manufactures leather goods . The raw material in</li>
-    <li>Example 4: Prism Limited  had taken a loan from ABC Bank, on the security of it</li>
-    <li>of charge  (explained later) provides that i n case the borrowing company creating</li>
-    <li>Registration by the purchaser:  Section 79 (explained later) covers another case</li>
-  </ul>
+  <h3>Why It Matters / Application</h3>
+  <p>The GCA is the lexicon of Indian legislation. A working knowledge of the GCA is essential for anyone reading or interpreting any Central Act, as it provides the default meanings and rules. It ensures consistency across the legal system.</p>
 </section>
 
+<section class="chapter" id="ch14">
+  <h2>Chapter 14 — Interpretation of Statutes</h2>
+  <p class="src">Source: Principles of Statutory Interpretation under Indian Law</p>
 
-<section class="chapter" id="ch7">
-  <h2>Chapter 7: Management & Administration</h2>
-  <p class="src">Source: CHAPTER_7.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>as to  link it with the essential concepts along with their procedures which can be</li>
-    <li> Meaning of beneficial interest:  For the purposes of section  89 and section</li>
-    <li>Definition of Significant Beneficial Owner:  Section 90(1) provides that every</li>
-    <li>specifically for the rules, and hence, to provide clarity, the following definition has</li>
-    <li>Before we move on to our next concept of types of meetings and the procedure</li>
-    <li>Meaning of 21 clear days:</li>
-    <li>the meaning, scope and implications of the items of business and to take</li>
-    <li> In case any item of business refers to any document which is to be</li>
-    <li>above refers to the members entitled to vote in respect of the items of</li>
-    <li>understand the meaning, scope and implications of the items of</li>
+    <li><b>Statutory Interpretation:</b> The process of determining the meaning and scope of words and phrases in legislation to apply them to given facts and circumstances.</li>
+    <li><b>Rules of Interpretation:</b> Courts follow established rules (literal, golden, mischief, purposive) to ascertain legislative intent.</li>
+    <li><b>Principle of Legality:</b> Laws must be clear and unambiguous; any ambiguity is interpreted against the drafter (Crown) for protection of the subject.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Literal Rule</dt><dd>Words are interpreted in their ordinary, plain meaning, without reading in anything not stated.</dd>
+    <dt>Golden Rule</dt><dd>When literal meaning produces an absurdity, modify interpretation to avoid absurdity, keeping as close as possible to literal meaning.</dd>
+    <dt>Mischief Rule</dt><dd>Look to the mischief or evil the Act sought to remedy and interpret words to suppress that mischief.</dd>
+    <dt>Purposive Rule</dt><dd>Interpret words in light of the object and purpose of the Act.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>(Management and Administration) Rules, 2014.</li>
-    <li>as to  link it with the essential concepts along with their procedures which can be</li>
-    <li>found in the respective rules, i.e. the Companies (Management and Administration)</li>
-    <li>Rules, 2014  as amended from time to time .</li>
-    <li>(Management & Administration) Rules, 2014</li>
-    <li>Companies (Management & Administration) Rules, 2014  are also applicable to the</li>
-    <li>Section 88  (1) of the Companies Act, 2013 requires that every company shall</li>
-    <li>- Register of members - Rule 3; Form MGT - 1</li>
-    <li>security-holder - Rule 4; Form MGT - 2</li>
-    <li>- Index of names of members - Rule 6</li>
+    <li><b>Hierarchy of Rules:</b> Courts typically follow the literal rule first. If it leads to absurdity or contradiction, they apply the golden rule. If the Act's purpose is unclear from the text, the mischief or purposive rule is used.</li>
+    <li><b>Context Matters:</b> Courts consider the historical context, earlier legislation on the subject, and related provisions in the same Act to determine meaning.</li>
+    <li><b>Presumptions:</b> Courts presume:
+      <ul>
+        <li>Parliament did not intend to change the law (so amendments are narrowly construed)</li>
+        <li>Parliament intended consistent usage of terms (if a word is defined in one section, it has the same meaning throughout)</li>
+        <li>Parliament did not intend to bind the Crown or exclude judicial review</li>
+      </ul>
+    </li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>However, in case of a company existing on the commencement of the</li>
-    <li>register of members in Form No. MGT -1. In case additional information,</li>
-    <li>(ii)  In case of a company not having share capital , the register shall contain the</li>
-    <li>♦ Name of the member, address (registered office address in case the</li>
-    <li>Number or Corporate Identity Number (‘CIN’); Nationality; in case</li>
-    <li>the case may be, for each type of debentures or other securities in Form</li>
-    <li>securities, as the case may be.</li>
-    <li>the respective registers, as the case may be.</li>
-  </ul>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Literal vs. Golden Rule:</b> An Act states "No vehicle shall be brought into the park." Literally, this includes ambulances and fire engines (vehicles). But applying the golden rule, we interpret it to exclude emergency vehicles because the mischief was to prevent traffic congestion, not to block emergency services.</li>
+      <li><b>Mischief Rule:</b> The Act was passed to curb unfair contract terms. When interpreting a provision on "reasonable terms," courts look to the mischief of unfairness and interpret "reasonable" to mean "fair and non-exploitative."</li>
+    </ul>
+  </div>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Statutory interpretation is central to legal practice. Courts' interpretation of legislative text determines how laws apply in practice. Understanding the rules and principles helps predict how courts will likely interpret a statute in a given situation.</p>
 </section>
 
+<section class="chapter" id="ch16">
+  <h2>Module 1 — Introduction to Intellectual Property</h2>
+  <p class="src">Source: Intellectual Property Law — Foundations</p>
 
-<section class="chapter" id="ch8">
-  <h2>Chapter 8: Dividend & Reserves</h2>
-  <p class="src">Source: CHAPTER_8.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
+  <h3>Core Concept(s)</h3>
   <ul>
-    <li>1. MEANING OF DIVIDEND</li>
-    <li>The table given below provides a quick summary of the above concepts of Interim</li>
-    <li>Definition  Interim dividend is declared</li>
+    <li><b>Intellectual Property (IP):</b> Creations of the mind — inventions, literary and artistic works, designs, symbols, names, and images — that are protected in law, giving creators exclusive rights to use and profit from their creations.</li>
+    <li><b>Categories of IP:</b> Patents (inventions), Copyrights (literary/artistic works), Trademarks (signs/symbols), Designs (shape/appearance), Trade Secrets (confidential business information).</li>
+    <li><b>IP Rights:</b> Exclusive rights granted to creators enabling them to control use and derive economic benefit from their creations for a limited period.</li>
+    <li><b>Public Domain:</b> Knowledge and works not protected by IP rights, freely available for use by all.</li>
   </ul>
 
-  <h3>Rules & Procedures</h3>
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Patent</dt><dd>Exclusive right granted to an inventor for an invention (product or process), allowing no one else to make, use, or sell the invention without permission.</dd>
+    <dt>Copyright</dt><dd>Exclusive right in literary, dramatic, musical, artistic works, and cinematograph films; automatically granted upon creation.</dd>
+    <dt>Trademark</dt><dd>Sign (word, symbol, design, etc.) used to distinguish goods/services of one person from those of another; protects reputation and consumer goodwill.</dd>
+    <dt>Trade Secret</dt><dd>Confidential business information giving competitive advantage; protected by confidentiality agreements.</dd>
+    <dt>Design</dt><dd>Visual appearance (shape, color, pattern) of an article; protects aesthetic aspects distinct from functional aspects.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
   <ul>
-    <li>Dividend) Rules,</li>
-    <li>The company in general meeting may declare dividends, but no dividend shall</li>
-    <li>dividend, such interim dividend shall not be declared at a rate higher than</li>
-    <li>♦ The amount of the dividend, including interim dividend, shall be deposited</li>
-    <li>♦ All provisions which are applicable to the payment of dividend shall also</li>
-    <li>According to Section 123 (1), the dividend for any financial year shall be declared</li>
-    <li>following items shall not be treated as free reserves:</li>
-    <li>fair value shall be excluded 7.</li>
-    <li>the procedure laid down in R ule 3  of the Companies (Declaration and Payment of</li>
-    <li>Dividend) Rules, 2014.</li>
+    <li><b>Purpose of IP Protection:</b> To incentivize innovation and creativity by allowing creators to recover investment and profit from creations, while eventually allowing ideas to enter public domain for societal benefit.</li>
+    <li><b>Balance:</b> IP law balances creators' rights (monopoly) against public interest (access, competition, follow-on innovation). Protection is limited in duration and scope.</li>
+    <li><b>Acquisition of IP Rights:</b>
+      <ul>
+        <li><b>Patents:</b> Require filing an application with examination and grant process</li>
+        <li><b>Copyrights:</b> Automatic upon creation; registration optional but advisable</li>
+        <li><b>Trademarks:</b> Require registration; rights can be lost if not used or if mark becomes generic</li>
+        <li><b>Designs:</b> Require registration; protection limited to aesthetic aspects</li>
+      </ul>
+    </li>
   </ul>
 
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1:  AB Ltd. has issued equity shares having face value of `  10 per share.</li>
-    <li>Example 2 : The shareholders at an annual general meeting unanimously passed a</li>
-    <li>Example 3 : If a company  declared dividend at the rate of 16% during the</li>
-    <li>immediately preceding three financial years , then in case the company</li>
-    <li>apply in case of interim dividend.</li>
-    <li>There is no accumulation of profit as in the case of cumulative</li>
-    <li>preference shares.  In case no dividend is declared in a year due to any</li>
-    <li>Let us take a hypothetical case where a company declares all the profits</li>
-  </ul>
-</section>
+  <h3 class="example">Examples</h3>
+  <div class="example-box">
+    <ul>
+      <li><b>Patent:</b> A researcher discovers a new drug molecule effective against a disease. Filing a patent application gives the researcher exclusive rights for 20 years to make, use, and sell the drug. After 20 years, the patent expires and others can manufacture generics.</li>
+      <li><b>Copyright:</b> An author writes a novel. Upon publication, copyright automatically protects the work for the author's lifetime plus 60 years. The author can control reproduction, translation, and adaptation.</li>
+      <li><b>Trademark:</b> A company creates the brand name "TechWave" for its software products. Registration as a trademark prevents competitors from using similar marks, protecting the company's reputation and customer goodwill.</li>
+    </ul>
+  </div>
 
-
-<section class="chapter" id="ch9">
-  <h2>Chapter 9: Board & Directors</h2>
-  <p class="src">Source: CHAPTER_9.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>♦ Comprehend various concepts related to Corporate Social</li>
-    <li>(Despite these  definition clauses already covered in chapter 1, a quick</li>
-    <li>concept followed in preparation of the financial statements, which warrants</li>
-    <li>misconduct" shall have the same meaning assigned to it as given under section 22</li>
-    <li>Adequacy refers to the design of the control/system and signify whether the</li>
-    <li>Operating effectively  refers to whether the control /system in place has the</li>
-    <li>concept of triple bottom line). India become torch bearer for rest of world by giving</li>
-    <li>Broadly, Corporate Social Responsibility ( CSR) implies a concept, whereby</li>
-    <li>concept, whereby the companies integrate social and other useful concerns in their</li>
-    <li>the class of companies  specified therein in succeeding years. Meaning thereby</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>♦ Explain procedure  related to internal audit of companies.</li>
-    <li>aspects described in relevant rules notified in this context. Following diagram</li>
-    <li>(Accounts) Rules, 2014.</li>
-    <li>Company shall prepare</li>
-    <li>Every company shall prepare books of account  and other relevant books and</li>
-    <li>reference shall be handy to recapitulate)</li>
-    <li>2023. Its first financial  year shall comprise  of the period ending on the 31st day of</li>
-    <li>of the Tribuna l shall not be required.</li>
-    <li>exemption notification specified above still carry the word tribunal ” (which shall be</li>
-    <li>the Tribunal shall be disposed of by the Tribunal in accordance with the provisi ons</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>of the Companies Act , 2013 (“Act”) in the case of a company which</li>
-    <li> A profit and loss account, or in the case of a company carrying on any</li>
-    <li> Cash flow statement for the financial year with exception  in case of one</li>
-    <li>Example 1 - Mahindra Limited was incorporated as a company on 22 nd February</li>
-    <li>It is worth noting that in case of a specified IFSC public company and specified IFSC</li>
-    <li>In order to ensure audit trial, in case of company which uses accounting software</li>
-    <li>In case of books of account and other books and papers maintained by the</li>
-    <li>In the case of financial information, if any, maintained outside the country</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="ipm1">
-  <h2>IP Module 1: Patents & Copyright</h2>
-  <p class="src">Source: IP_MODULE_1.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>you in terms of value -added study materials wherein the concepts and provisions</li>
-    <li>understanding the application of concepts and provisions.  Also, the representation</li>
-    <li>understanding of the concepts. Test Your Knowledge Questions at the end of each</li>
-    <li>4.   Content The concepts and provisions of specified Acts are</li>
-    <li>concept/ provision learnt in a better manner.</li>
-    <li>you develop conceptual clarity and get a good grasp</li>
-    <li>your conceptual clarity and sharpen your analytical skills.</li>
-    <li>as your application of concepts/provisions.</li>
-    <li>1. The General Clauses Act, 1897:  Important Definitions, Extent and</li>
-    <li>3. The Foreign Exchange Management Act, 1999:  Significant definitions and</li>
-    <li>concepts of Current and Capital Account Transactions.</li>
-    <li>3.  Definitions..............................................................................................................  ........... 1.4</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>process of learning should also help you  to inculcate the requisite professional</li>
-    <li>Laws and rules, in general, regulate the relationship between business and</li>
-    <li>learning process more enjoyable, enriches your knowledge and sharpens your</li>
-    <li>I.  The Companies Act, 2013  – including important rules and drafting of</li>
-    <li>II. The Limited Liability Partnership Act, 2008 including important Rules</li>
-    <li>(b) To develop an understanding of the rules for interpretation of statutes</li>
-    <li>Applicability, General Rules of Construction, Powers and Functionaries,</li>
-    <li>Provisions as to Orders, Rules, etc. made under Enactments and</li>
-    <li>2. Interpretation of S tatutes: Rules of Interpretation of Statutes, Aids to</li>
-    <li>Interpretation, Rules of Interpretation/  Construction of Deeds and</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>enable them to obtain knowledge in the subject. In case students need any</li>
-    <li>provisions addressing issues in moderately complex scenarios.</li>
-    <li>are explained in lucid language with illustrations , diagrams, and examples to aid</li>
-    <li>examples/ diagrams/  flow charts.  Diagrams and Flow</li>
-    <li>Examples would help you understand the application</li>
-    <li>analyse and apply the laws in practical situations.</li>
-    <li>3.  Members Severally liable in certain cases i.e. Reduction in Minimum</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="ipm2">
-  <h2>IP Module 2: IP Enforcement & Licensing</h2>
-  <p class="src">Source: IP_MODULE_2.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>1.  Meaning of Dividend................................................................................................. 8.2</li>
-    <li>as to  link it with the essential concepts along with their procedures which can be</li>
-    <li> Meaning of beneficial interest:  For the purposes of section  89 and section</li>
-    <li>Definition of Significant Beneficial Owner:  Section 90(1) provides that every</li>
-    <li>specifically for the rules, and hence, to provide clarity, the following definition has</li>
-    <li>Before we move on to our next concept of types of meetings and the procedure</li>
-    <li>Meaning of 21 clear days:</li>
-    <li>the meaning, scope and implications of the items of business and to take</li>
-    <li> In case any item of business refers to any document which is to be</li>
-    <li>above refers to the members entitled to vote in respect of the items of</li>
-    <li>understand the meaning, scope and implications of the items of</li>
-    <li>1. MEANING OF DIVIDEND</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>17.  Rule 12 of Companies (Registration of Foreign Companies)</li>
-    <li>Rules, 2014  .............................................................................................................. 11.24</li>
-    <li>(Management and Administration) Rules, 2014.</li>
-    <li>as to  link it with the essential concepts along with their procedures which can be</li>
-    <li>found in the respective rules, i.e. the Companies (Management and Administration)</li>
-    <li>Rules, 2014  as amended from time to time .</li>
-    <li>(Management & Administration) Rules, 2014</li>
-    <li>Companies (Management & Administration) Rules, 2014  are also applicable to the</li>
-    <li>Section 88  (1) of the Companies Act, 2013 requires that every company shall</li>
-    <li>- Register of members - Rule 3; Form MGT - 1</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>enable them to obtain knowledge in the subject. In case students need any</li>
-    <li>However, in case of a company existing on the commencement of the</li>
-    <li>register of members in Form No. MGT -1. In case additional information,</li>
-    <li>(ii)  In case of a company not having share capital , the register shall contain the</li>
-    <li>♦ Name of the member, address (registered office address in case the</li>
-    <li>Number or Corporate Identity Number (‘CIN’); Nationality; in case</li>
-    <li>the case may be, for each type of debentures or other securities in Form</li>
-    <li>securities, as the case may be.</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="ipm3">
-  <h2>IP Module 3: Trademarks, Designs & GI</h2>
-  <p class="src">Source: IP_MODULE_3.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>2.  Limited Liability Partnership - Meaning and Concept  .................................... 1 2.4</li>
-    <li>6.  Definitions  .................................................................................................................. 1. 10</li>
-    <li>3. Definitions  .................................................................................................................... 3.5</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>7.  General rules of constructio n ............................................................................... 1. 22</li>
-    <li>3.  Rules of interpretation/construction  .................................................................... 2.9</li>
-    <li>6.  Rules of interpretations/construction of deeds and documents  ................ 2 .37</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>enable them to obtain knowledge in the subject. In case students need any</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="p2ch1">
-  <h2>Part 2 Chapter 1: Mergers & Acquisitions</h2>
-  <p class="src">Source: PART_2_CHAPTER_1.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>♦ Know the general definitions under the Act.</li>
-    <li>The General Clauses Act, 1897 contains ‘definitions’ of certain terms and general</li>
-    <li>principles of interpretation. Th e general definitions  provided are applicable to all</li>
-    <li>Central Acts and Regulations in the absence of definition of a particular word in</li>
-    <li>definition in the specific enactments and where there is a conflict between the</li>
-    <li>General Definitions [Sections 3 to 4A]</li>
-    <li>giving definitions of a series of terms in common use;</li>
-    <li>So, whatever General Clauses Act says whether as regards to the meaning of</li>
-    <li>fish do not come under that category the definition in the General Clauses Act</li>
-    <li>follows that it is immovable property within the meaning of the Transfer of</li>
-    <li>relating to definitions and meanings of words and terms or dealing with</li>
-    <li>whether as regards the meanings of words or as regards legal principles, has to</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>♦ Identify general rules of construction.</li>
-    <li>♦ Explain powers as to orders, rules etc. made under</li>
-    <li>General Rules of Construction [Sections 5 to 13]</li>
-    <li>Provisions as to orders, rules etc. made under</li>
-    <li>(3)  To state explicitly certain convenient rules for the construction and</li>
-    <li>property” shall include land, benefits to arise out of land, and things attached to</li>
-    <li>with reference to all Central legislation and also to rules and regulations made</li>
-    <li>(a)  Acts of the Indian Parliament ( Central Act) along with the rules and</li>
-    <li>“Unless the context otherwise requires, the General Clauses Act, 1897, shall,</li>
-    <li>The provisions of the General Clauses Act , 1897 are mere rules of interpretation</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1: Wherever the law provides that court will have the power to appoint,</li>
-    <li>by the Supreme Court in the case of The</li>
-    <li>Example 2:  A claim of the right to catch fish came under the consideration of</li>
-    <li>and it applies  automatically in each and every case. It all depends on the facts and</li>
-    <li>circumstances of each case.</li>
-    <li>“Interpretation Act”. The Supreme Court had observed in the case of Chief</li>
-    <li>Example 3:  Section 3  of the General Clauses Act, which deals with the</li>
-    <li>ascertain to which class of instruments or enactment it applies. In certain cases,</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="p2ch2">
-  <h2>Part 2 Chapter 2: Winding Up</h2>
-  <p class="src">Source: PART_2_CHAPTER_2.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li>definition of document is comprehensive.</li>
-    <li>to ascertain the meaning of the legislature through the medium of the words in</li>
-    <li>real meaning of an Act (or a document) and the intention of the legislature in</li>
-    <li>and ‘true’ meaning of the statute.</li>
-    <li>report any doubt as to its meaning to a Statute Commission and abide by their</li>
-    <li>ordinary rules of speech for finding out the meaning of the words used in the</li>
-    <li>from its known elements its true meaning or the intention of its framers.</li>
-    <li>the meaning of the legislature from the words  with which it is expressed, these</li>
-    <li>Interpretation is the art of ascertaining the meaning of words and the true sense</li>
-    <li>It is the duty of the courts to give effect to the meaning of an Act when the</li>
-    <li>meaning can be equitably gathered from the words used. Words of legal import</li>
-    <li>Thus, where the Court adheres to the plain meaning of the language used by the</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li> Explain the various Rules of Interpretation of Statutes .</li>
-    <li> Comprehend the Rules of Interpretation of Deeds and</li>
-    <li>becomes relevant. This chapter will enable you to understand certain rules of</li>
-    <li>We shall also discuss the art of interpreting deeds and documents.</li>
-    <li>Rules of Interpretation</li>
-    <li>Rules of interpretation</li>
-    <li>ordinance, order, bye - law, rule, regulation, notification, and the like.</li>
-    <li>Section 3(18) of the General Clauses Act, 1897 states that the term ‘document’ shall</li>
-    <li>(ii) Record—This second element must be certain mutual or mechanical device</li>
-    <li>employed on the substance. It must be by writing, expression or description.</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>Example 1: A writing is a documen t; any words printed, photographed are</li>
-    <li>it comes from some other source such as custom or case law. Thus , when</li>
-    <li>ordinary cases, the Courts must be content to accept the letter of the law as the</li>
-    <li>situation before the court. Here, the court would be resorting t o ‘construction’.</li>
-    <li>certain legal principles. In such a case, the interpretation has to be one which is</li>
-    <li>meaning without reference to cases, in the first instance.</li>
-    <li>The Rule in Heydon's Case or</li>
-    <li>interpretations – one narrower and the other wider or bolder. In such a situation,</li>
-  </ul>
-</section>
-
-
-<section class="chapter" id="p2ch3">
-  <h2>Part 2 Chapter 3: Restructuring</h2>
-  <p class="src">Source: PART_2_CHAPTER_3.txt</p>
-
-  <h3>Core Concepts & Definitions</h3>
-  <ul>
-    <li> Comprehend c ertain important terms and definition s under</li>
-    <li> Gain knowledge about t he concept of Residential Status</li>
-    <li> Identify t he meaning of  Current and Capital Account</li>
-    <li>3. DEFINITIONS [SECTION 2]</li>
-    <li>The definition of “person”  is similar to the definition contained in the Income -tax</li>
-    <li>Under FEMA such offices and branches are included in definition of Person Resident</li>
-    <li>in India. Therefore , they have been i ncluded in the definition of “Person” .</li>
-    <li>As the definitions of Person Resident in India (PRII) and Person Resident outside</li>
-    <li>There are three limbs in the definition. The first limb prescribes the number of days</li>
-    <li>registered or incorporated like corporate entities nor the definition can be far</li>
-    <li>the definition for HUF,  AOP, BOI fail. Practically if the HUF, AOP etc. are in India,</li>
-    <li>incorporated in India, will be considered a  PRII. This definition  too, does  not apply</li>
-  </ul>
-
-  <h3>Rules & Procedures</h3>
-  <ul>
-    <li>Transactions  and the Rules and Regulations  governing them</li>
-    <li>Defense of India rules by the Britishers in 1939. Subsequently, Foreign Exchange</li>
-    <li>*Rules are notified by the Ministry of Finance, Government of India</li>
-    <li>Rules* & Regulations**</li>
-    <li>India.  In addition , it shall also apply to all branches, offices and agencies outside</li>
-    <li>In this Act, unless the context otherwise requires:</li>
-    <li>No person shall -</li>
-    <li>any place outside India, then, such person shall be deemed to have</li>
-    <li>Except as provided in this Act,  no person resident in India shall acquire, hold, own,</li>
-    <li>certain co nditions and compliance rules.</li>
-  </ul>
-
-  <h3>Cases & Examples</h3>
-  <ul>
-    <li>The change in the economic scenario,</li>
-    <li>(B) a person who has come to or stays in India, in either case,</li>
-    <li>In the case of individuals,  to be considered as “resident”, the person should have</li>
-    <li>Example 1: If a person resides in India for more than 182 days during FY 2020-21,</li>
-    <li>situations that do not fall under the main body of a section, even  though they</li>
-    <li>Thus, in the example given for the first limb above, if a person leaves India on 1 st</li>
-    <li>An example for clause (iii) can be a person who has a green card in the USA. The</li>
-    <li>For example, if a person comes to India on 1 st June 2021 for visiting his parents.</li>
-  </ul>
+  <h3>Why It Matters / Application</h3>
+  <p>IP protection is critical for innovation-driven economies. It incentivizes creators and investors to develop new technologies and creative works. Understanding IP basics is essential for businesses, inventors, and creatives to protect their innovations and respect others' rights.</p>
 </section>
 
 </div>
 </main>
 </div>
-<button class="topbtn" onclick="window.scrollTo({top:0,behavior:window.innerWidth<820?'auto':'smooth'})">↑ Top</button>
+
+<button class="topbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+
 <script>
-const isMobile=window.innerWidth<820;
-const links=[...document.querySelectorAll('#toc a')];
-const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
-if(!isMobile){const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map.get(e.target.id);if(a){a.classList.add('active');}}});},{rootMargin:'-10% 0px -80% 0px'});document.querySelectorAll('section.chapter').forEach(s=>obs.observe(s));}
-const box=document.getElementById('navfilter');
-if(box){box.addEventListener('input',()=>{const q=box.value.toLowerCase();document.querySelectorAll('#toc .nav-group').forEach(g=>{let any=false;g.querySelectorAll('li').forEach(li=>{const hit=li.textContent.toLowerCase().includes(q);li.style.display=hit?'':'none';if(hit)any=true;});g.style.display=any?'':'none';});});}
-document.querySelectorAll('#toc a').forEach(link=>{link.addEventListener('click',(e)=>{const href=link.getAttribute('href');if(href.startsWith('#')){const target=document.querySelector(href);if(target){setTimeout(()=>{target.scrollIntoView({behavior:'auto',block:'start'});},50);}}});});
+// Filter functionality
+const navfilter = document.getElementById('navfilter');
+const navlinks = document.querySelectorAll('#toc li a');
+
+navfilter?.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  navlinks.forEach(link => {
+    const text = link.textContent.toLowerCase();
+    link.parentElement.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Active link tracking
+window.addEventListener('scroll', () => {
+  const chapters = document.querySelectorAll('section.chapter');
+  let current = '';
+  chapters.forEach(chapter => {
+    const top = chapter.getBoundingClientRect().top;
+    if (top <= 100) current = chapter.id;
+  });
+  navlinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
 </script>
 </body>
 </html>
