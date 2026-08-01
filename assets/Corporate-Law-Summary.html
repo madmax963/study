@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corporate Law — Essential Summary</title>
+<style>
+:root{
+  --bg:#0f1115; --panel:#161a21; --panel2:#1b212b; --ink:#e6e9ef; --muted:#95a0b3;
+  --line:#2a3140; --accent:#5aa9ff; --accent2:#7ee0c0; --note:#ffcf6b; --chip:#232b38;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.layout{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+/* Sidebar */
+#toc{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+  background:var(--panel);border-right:1px solid var(--line);padding:18px 14px 60px}
+.toc-head{font-weight:700;font-size:18px;letter-spacing:.3px;color:var(--ink);
+  padding:6px 8px 14px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.nav-group{margin-bottom:12px}
+.nav-group-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--accent2);padding:8px 8px 4px;font-weight:700}
+#toc ul{list-style:none;margin:0;padding:0}
+#toc li a{display:block;padding:5px 10px;border-radius:7px;color:var(--muted);
+  font-size:13.5px;line-height:1.4}
+#toc li a:hover{background:var(--panel2);color:var(--ink);text-decoration:none}
+#toc li a.active{background:var(--chip);color:var(--accent);font-weight:600}
+/* Main */
+main{padding:0 0 120px}
+header.hero{padding:48px 48px 30px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#12161d,#0f1115)}
+header.hero h1{margin:0 0 8px;font-size:30px;letter-spacing:.2px}
+header.hero p{margin:4px 0;color:var(--muted);max-width:820px}
+.meta-chips{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--chip);border:1px solid var(--line);color:var(--muted);
+  padding:4px 11px;border-radius:999px;font-size:12.5px}
+.wrap{max-width:900px;padding:0 48px}
+section.chapter{padding:38px 0 10px;border-bottom:1px solid var(--line);scroll-margin-top:12px}
+section.chapter h2{font-size:23px;margin:0 0 4px;color:#fff;
+  padding-left:14px;border-left:4px solid var(--accent)}
+.src{color:var(--muted);font-size:12px;margin:0 0 18px;padding-left:18px;font-style:italic}
+section.chapter h3{font-size:14px;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--accent2);margin:22px 0 8px}
+section.chapter h3.note{color:var(--note)}
+section.chapter ul{margin:6px 0;padding-left:22px}
+section.chapter li{margin:5px 0}
+dl{margin:6px 0;padding:12px 16px;background:var(--panel);border:1px solid var(--line);
+  border-radius:10px}
+dt{font-weight:700;color:#fff;margin-top:8px}
+dt:first-child{margin-top:0}
+dd{margin:2px 0 8px;color:var(--ink)}
+table{border-collapse:collapse;margin:12px 0;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--accent2)}
+b{color:#fff}
+.topbtn{position:fixed;right:22px;bottom:22px;background:var(--accent);color:#04121f;
+  border:none;padding:11px 15px;border-radius:999px;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.searchbox{margin:8px 4px 14px;position:relative}
+.searchbox input{width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--line);
+  background:var(--panel2);color:var(--ink);font-size:13px}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr}
+  #toc{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .wrap,header.hero{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav id="toc"><div class="toc-head">Contents</div><div class="searchbox"><input id="navfilter" placeholder="Filter chapters…" autocomplete="off"></div>
+<div class="nav-group"><div class="nav-group-title">Part 1 · Foundation (Ch 1–6)</div><ul>
+<li><a href="#ch1">Ch 1 · Introduction to Companies</a></li>
+<li><a href="#ch2">Ch 2 · Types of Companies & Incorporation</a></li>
+<li><a href="#ch3">Ch 3 · Memorandum & Articles</a></li>
+<li><a href="#ch4">Ch 4 · Share Capital</a></li>
+<li><a href="#ch5">Ch 5 · Debentures</a></li>
+<li><a href="#ch6">Ch 6 · Company Meetings</a></li>
+</ul></div>
+<div class="nav-group"><div class="nav-group-title">Part 1 · Directors & Management (Ch 7–12)</div><ul>
+<li><a href="#ch7">Ch 7 · Board of Directors</a></li>
+<li><a href="#ch8">Ch 8 · Directors' Powers & Duties</a></li>
+<li><a href="#ch9">Ch 9 · Directors' Remuneration</a></li>
+<li><a href="#ch10">Ch 10 · Company Auditors</a></li>
+<li><a href="#ch11">Ch 11 · Audit Process & Reporting</a></li>
+<li><a href="#ch12">Ch 12 · Corporate Governance</a></li>
+</ul></div>
+<div class="nav-group"><div class="nav-group-title">Part 1 · IP & Special Topics</div><ul>
+<li><a href="#ipm1">Intellectual Property Module</a></li>
+<li><a href="#ipm2">Advanced IP Issues Module</a></li>
+<li><a href="#ipm3">IP Rights & Infringement Module</a></li>
+</ul></div>
+<div class="nav-group"><div class="nav-group-title">Part 2 · Advanced Topics (Ch 1–3)</div><ul>
+<li><a href="#p2ch1">P2 Ch 1 · Corporate Restructuring</a></li>
+<li><a href="#p2ch2">P2 Ch 2 · Liquidation & Winding Up</a></li>
+<li><a href="#p2ch3">P2 Ch 3 · Regulatory Compliance</a></li>
+</ul></div>
+</nav>
+<main>
+<header class="hero">
+  <h1>Corporate Law — Essential Summary</h1>
+  <p>Condensed study notes distilled from the ICAI Intermediate Paper 2 (Corporate Law) Board of Studies material — 12 chapters + 3 IP modules + advanced topics, extracted to core concepts, definitions, principles, case law and application.</p>
+  <div class="meta-chips">
+    <span class="chip">15 sections</span>
+    <span class="chip">Company Formation to Liquidation</span>
+    <span class="chip">Intellectual Property Rights</span>
+    <span class="chip">Source: 18 BoS PDFs</span>
+  </div>
+</header>
+<div class="wrap">
+
+<section class="chapter" id="ch1">
+  <h2>Chapter 1 — Introduction to Companies</h2>
+  <p class="src">Source: 87769bos-aps2160-ch1.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Company:</b> An association of persons incorporated under the Companies Act, having a separate legal entity, perpetual succession, a common seal, and limited liability. It is a creature of statute and exists only when properly incorporated.</li>
+    <li><b>Nature of Company:</b> A company is a legal person distinct from its members. This doctrine of corporate personality was established in <i>Salomon v Salomon & Co Ltd</i> (1897) — the company can own property, enter into contracts, sue and be sued independently of its shareholders.</li>
+    <li><b>Separate Legal Entity:</b> Despite being formed by natural persons, a company acquires a legal identity of its own. Its shareholders have no direct claim on company assets; creditors must recover from the company itself.</li>
+    <li><b>Incorporation:</b> Process by which a company acquires legal status. Upon incorporation, the company becomes a distinct legal entity with rights, duties and liabilities separate from those of its members.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Juristic Person / Legal Person</dt><dd>An entity recognised by law as capable of holding rights and obligations independently; includes both natural persons (individuals) and artificial persons (corporations, associations).</dd>
+    <dt>Corporate Veil / Separate Legal Entity Doctrine</dt><dd>The principle that a company is a distinct legal person, separate from its shareholders. Piercing the veil (exception) occurs when the company is used as a mere façade or for fraudulent purposes.</dd>
+    <dt>Perpetual Succession</dt><dd>The uninterrupted continuance of a company despite changes in membership. Death or retirement of members does not affect the existence of the company.</dd>
+    <dt>Common Seal</dt><dd>The official stamp/seal of a company used to authenticate documents and contracts on the company's behalf; its use signifies the company's authority.</dd>
+    <dt>Lifting the Veil / Piercing the Corporate Veil</dt><dd>An exceptional principle allowing courts to disregard the separate legal status of a company and hold shareholders personally liable, applied in cases of fraud, sham transactions or public policy.</dd>
+    <dt>Capacity & Ultra Vires</dt><dd>Capacity = the power of a company to act; Ultra vires = acts beyond the company's authority as defined in its memorandum of association, now largely obsolete under modern company law.</dd>
+  </dl>
+
+  <h3>How It Works / Logic</h3>
+  <ul>
+    <li><b>Formation & Incorporation:</b> A company comes into existence upon receipt of the Certificate of Incorporation from the Registrar of Companies. Before incorporation, promoters act in a pre-incorporation capacity and are personally liable on pre-incorporation contracts.</li>
+    <li><b>Separate Entity Status:</b> Once incorporated, the company is a distinct legal entity. Contracts entered into in the company's name are binding on the company, not on individual shareholders. Property is held in the company's name, not in the names of members.</li>
+    <li><b>Limited Liability:</b> Shareholders' liability is limited to the amount they have invested (or agreed to invest). Even if the company becomes insolvent, creditors cannot pursue shareholders for additional payment.</li>
+    <li><b>Lifting the Veil — Exceptions:</b> Courts will disregard the corporate veil where: (i) a company is a mere façade concealing true facts; (ii) fraud is involved; (iii) the statute expressly requires it; (iv) public policy demands it (e.g. tax evasion, circumventing sanctions). Mere informality or breach of statute is insufficient.</li>
+  </ul>
+
+  <h3>Key Cases</h3>
+  <ul>
+    <li><b>Salomon v Salomon & Co Ltd (1897):</b> Established the doctrine of corporate personality. A company, once incorporated, is a distinct legal entity separate from its shareholders, with its own rights and liabilities. Even a one-man company has this status.</li>
+    <li><b>Lee v Lee's Air Farming Ltd (1961):</b> Affirmed that a director/shareholder can also be an employee of the company; the corporate veil will not be lifted merely because the company is owned by one person.</li>
+    <li><b>Gilford Motor Co v Horne (1933):</b> The corporate veil was lifted because the company was a mere façade — formed solely to evade a contract restriction on the defendant, with the defendant controlling and benefiting from the company while hiding behind it.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Understanding the corporate personality doctrine is foundational to company law. It explains why a company is treated as a separate legal entity with perpetual succession and limited liability for shareholders. The principle of lifting the veil establishes that while the corporate form is generally respected, courts will intervene in exceptional cases to prevent fraud or injustice. These concepts underpin all subsequent topics: share capital, board structure, directors' duties, and winding up.</p>
+
+  <h3 class="note">Note</h3>
+  <p>The doctrine of corporate personality is not absolute. Courts in India have shown willingness to lift the veil in cases involving tax evasion, regulatory violation, or public policy. The mere fact that a company has only one shareholder, or is thinly capitalised, or is used for tax planning does not justify lifting the veil — there must be an element of fraud, façade, or explicit statutory requirement.</p>
+</section>
+
+<section class="chapter" id="ch2">
+  <h2>Chapter 2 — Types of Companies & Incorporation</h2>
+  <p class="src">Source: 87770bos-aps2160-ch2.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Classification by Liability:</b> Companies are classified as: (i) Limited by Shares (most common) — liability limited to amount invested; (ii) Limited by Guarantee — liability limited to amount members guarantee; (iii) Unlimited — members' liability is unlimited.</li>
+    <li><b>Classification by Membership:</b> Private Companies (restricted membership, private shares, minimum 2 members, no public invitation); Public Companies (unrestricted membership, transferable shares, minimum 7 members, can invite public).</li>
+    <li><b>Government Companies:</b> Companies in which at least 51% shares are held by Central/State Government or government nominees. Statutory corporations are created by special statute, not under Companies Act.</li>
+    <li><b>One-Person Company (OPC):</b> A private company with only one member, allowed under Companies Act 2013 to promote entrepreneurship and reduce compliance burden for small businesses.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Private Company</dt><dd>A company whose Memorandum restricts the right to transfer shares, limits the number of members to 50 (excluding employees), and prohibits public invitation to subscribe for shares/debentures. Minimum 2 members required.</dd>
+    <dt>Public Company</dt><dd>A company that is not a private company. Must have minimum 7 members, unrestricted transferability of shares, and can invite the public to subscribe for shares/debentures. Must have minimum paid-up capital of ₹5 lakh.</dd>
+    <dt>Government Company</dt><dd>Any company in which at least 51% of the paid-up capital is held by Central Government, State Government or by both, either directly or through investing companies.</dd>
+    <dt>Statutory Corporation</dt><dd>A body corporate created by a special statute. Though not incorporated under Companies Act, it has a legal personality and may be subject to some company law provisions.</dd>
+    <dt>One-Person Company (OPC)</dt><dd>A private company with a sole member, incorporated to encourage entrepreneurship. It enjoys relaxed compliance and audit exemption up to prescribed thresholds but requires a nominee director.</dd>
+    <dt>Incorporation / Charter Document</dt><dd>The process of creating a company as a legal entity through registration. Documents filed include Memorandum and Articles of Association, with proof of identity, address and regulatory declarations.</dd>
+  </dl>
+
+  <h3>Incorporation Process</h3>
+  <ul>
+    <li><b>Pre-Incorporation Stage:</b> Promoters identify the need for a company, identify prospective members, and prepare constitutional documents (Memorandum & Articles). Any contracts entered at this stage are personal to promoters and do not bind the company when formed.</li>
+    <li><b>Filing & Registration:</b> Memorandum and Articles of Association are filed with the Registrar of Companies. The Registrar scrutinises the documents for compliance with statutory requirements and rejects or accepts accordingly.</li>
+    <li><b>Certificate of Incorporation:</b> Upon acceptance of documents, the Registrar issues a Certificate of Incorporation. This is the birth of the company as a legal entity. Before this, the entity does not exist in law.</li>
+    <li><b>Post-Incorporation Stage:</b> The company must hold statutory meetings (statutory meeting for public companies, statutory meeting of the Board for private companies), allot shares as per statutory requirements, and commence business (for public companies, only after obtaining Certificate of Commencement of Business).</li>
+  </ul>
+
+  <h3>Statutory Requirements</h3>
+  <ul>
+    <li><b>Memorandum of Association:</b> Constitution of the company defining its objects, jurisdiction, liabilities and capital structure. Must state the company's name, objects, initial members' signatures, and capital structure.</li>
+    <li><b>Articles of Association:</b> Internal regulations for conduct of company business — powers of board, conduct of meetings, appointment of directors, dividend policy, etc. Subject to memorandum and statute.</li>
+    <li><b>Form of Constitution:</b> Both memorandum and articles must be signed by subscribers with an authorized witness. Digital signatures are now acceptable under the Companies (Incorporation) Rules.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Proper classification of company type and correct incorporation procedure are essential for legal validity and ongoing compliance. A company incorporated as Private vs Public will have very different legal obligations regarding meetings, audit, capital structure and public disclosure. The incorporation process itself creates the legal entity; pre-incorporation contracts are not binding on the company and promoters remain personally liable. Understanding these distinctions is critical before engaging with or forming a company.</p>
+
+  <h3 class="note">Note</h3>
+  <p>One-Person Companies (OPCs) are a relatively new addition under Companies Act 2013. They require a nominee director (who cannot be the sole member) and have audit exemption if turnover does not exceed ₹1 crore in the immediately preceding financial year. An OPC cannot convert to any other type of company for 2 years from incorporation. Government companies are subject to additional compliance under the Government Companies (Acquisition and Consequential Matters) Act.</p>
+</section>
+
+<section class="chapter" id="ch3">
+  <h2>Chapter 3 — Memorandum & Articles of Association</h2>
+  <p class="src">Source: 87771bos-aps2160-ch3.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Memorandum of Association (MoA):</b> The fundamental constitutional document defining the company's scope, objects, structure, capital and jurisdiction. It is the company's external face, binding the company and outsiders. Cannot be altered except with special resolution and approval of Central Government (if required).</li>
+    <li><b>Articles of Association (AoA):</b> Internal regulations governing company management — rules for meetings, appointment of directors, powers of board, dividend policy, etc. AoA binds the company and members; amendments require special resolution.</li>
+    <li><b>Contractual Nature:</b> The MoA and AoA constitute a contract between the company and members, and among members inter se. A member cannot sue on the contract except on matters concerning membership rights (not mere contract rights).</li>
+    <li><b>Objects Clause & Doctrine of Ultra Vires:</b> The Objects Clause in the MoA defines the company's permitted business. Acts beyond these objects are ultra vires (beyond authority) and void. However, modern practice emphasises a broad objects clause to avoid this trap.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Objects Clause</dt><dd>The clause in the Memorandum specifying the company's purpose and permitted business activities. Acts outside this clause are ultra vires (void). The clause may include incidental and ancillary powers.</dd>
+    <dt>Alteration of Memorandum</dt><dd>Changes to the Memorandum require a special resolution and, in certain cases (alteration of objects), approval from the Central Government. Not all provisions can be altered — e.g., name clause, capital, jurisdiction.</dd>
+    <dt>Alteration of Articles</dt><dd>Internal regulations of a company can be altered by passing a special resolution in general meeting. Existing members cannot be deprived of vested rights by alteration; alteration cannot affect vested rights.</dd>
+    <dt>Ultra Vires</dt><dd>Latin for "beyond the powers." Acts done by the company beyond the scope of its Memorandum or authority are ultra vires and void. The company cannot ratify such acts, nor can outsiders enforce them against the company.</dd>
+    <dt>Doctrine of Indoor Management / Turquand's Rule</dt><dd>Unless an outsider has notice to the contrary, they may assume that internal procedures have been followed. This protects outsiders who deal with the company in good faith, even if internal procedures were breached.</dd>
+    <dt>Vested Rights</dt><dd>Rights that a member has acquired under the original Articles. Alteration of Articles cannot adversely affect vested rights accrued to a member under the original Articles, though prospective rights may be altered.</dd>
+  </dl>
+
+  <h3>Structure of Memorandum of Association</h3>
+  <ul>
+    <li><b>Name Clause:</b> The company name, with Private/Public/Government designation, and registered office location.</li>
+    <li><b>Objects Clause:</b> Primary objects (main business) and incidental/ancillary objects. Incidental objects support the primary objects and are within ultra vires limits.</li>
+    <li><b>Liability Clause:</b> Declares whether liability of members is limited (by shares or by guarantee) or unlimited.</li>
+    <li><b>Capital Clause:</b> Specifies the authorised capital, division into shares, nominal value of shares, and terms of capital structure.</li>
+    <li><b>Jurisdiction Clause:</b> Specifies that the company is subject to the jurisdiction of Indian courts and the Companies Act.</li>
+    <li><b>Subscription Clause:</b> Lists the subscribers (first members) with their names, occupations, addresses, and number of shares subscribed.</li>
+  </ul>
+
+  <h3>Articles of Association — Key Provisions</h3>
+  <ul>
+    <li><b>Share Transfers:</b> Rules governing transfer of shares — whether shares are fully transferable (public company) or restricted (private company).</li>
+    <li><b>Share Certificates:</b> Issuance, cancellation and replacement of share certificates.</li>
+    <li><b>Directors:</b> Appointment, vacation of office, removal, and powers of the Board.</li>
+    <li><b>General Meetings:</b> Conduct of Annual General Meetings and Extraordinary General Meetings, notice, quorum, voting procedures.</li>
+    <li><b>Dividends:</b> Declaration, computation, and payment of dividends to shareholders.</li>
+    <li><b>Borrowing Powers:</b> Authority of the Board to borrow on behalf of the company up to prescribed limits.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>The MoA and AoA are the foundational governing documents of a company. The MoA defines the company's legal scope and authority; the AoA provides internal governance rules. Understanding these documents is essential because: (i) they define what the company can legally do; (ii) they establish the relationship between company and members; (iii) they govern how company decisions are made; (iv) third parties dealing with the company can rely on their terms (except where Turquand's Rule applies). Any significant company action — director appointment, share issue, dividend, borrowing — must be authorised under these documents.</p>
+
+  <h3 class="note">Note</h3>
+  <p>The doctrine of ultra vires has been significantly narrowed under modern company law. Companies Act 2013 does not require the court's approval for alteration of the objects clause (unlike the pre-2013 position), making it easier for companies to expand or diversify. However, if the altered objects are not approved by the required majority of members, the alteration is invalid. Turquand's Rule (doctrine of indoor management) is a critical exception to ultra vires — it protects outsiders dealing with the company in good faith, even if internal procedures were breached or powers exceeded, provided they acted without notice of irregularity.</p>
+</section>
+
+<section class="chapter" id="ch4">
+  <h2>Chapter 4 — Share Capital</h2>
+  <p class="src">Source: 87772bos-aps2160-ch4.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Share Capital:</b> The capital of a company divided into shares. Represents the ownership interest of members in the company. Divided into: Authorised Capital (maximum that company can issue), Issued Capital (capital actually issued), and Paid-up Capital (capital paid by members).</li>
+    <li><b>Share:</b> A unit of ownership interest in the company. Gives the holder rights: to attend meetings, vote, receive dividends, and a claim on assets in winding up. Shares are personal property, transferable (in public companies) and indivisible.</li>
+    <li><b>Equity Shares vs Preference Shares:</b> Equity shares carry voting rights and participate in profits after preference dividends. Preference shares carry priority dividend (fixed rate) but may have limited/no voting rights; cumulative preference shares accumulate unpaid dividends.</li>
+    <li><b>Share Issue:</b> Shares are issued to raise capital. The issue price may be at par (nominal value), at premium (above par) or at discount (below par). Discount is now prohibited except in limited circumstances; premium must be credited to Share Premium Account (capital reserve).</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Authorised / Registered Capital</dt><dd>The maximum amount of capital the company is authorised to issue as stated in its Memorandum of Association. The company cannot issue shares beyond this limit without amending the Memorandum.</dd>
+    <dt>Issued Capital</dt><dd>The amount of capital actually issued and allotted to shareholders. Must not exceed the Authorised Capital.</dd>
+    <dt>Paid-up Capital / Subscribed Capital</dt><dd>The amount actually paid by shareholders on the shares allotted to them. May be less than Issued Capital if calls are not fully made.</dd>
+    <dt>Equity Shares</dt><dd>Ordinary shares giving voting rights, participatory dividend rights (after preference shareholders), and a residual claim on assets in winding up. Represent the true ownership of the company.</dd>
+    <dt>Preference Shares</dt><dd>Shares carrying preferential rights: (i) priority fixed dividend; (ii) priority in return of capital on winding up. May have limited or no voting rights. Can be cumulative (unpaid dividends accumulate) or non-cumulative.</dd>
+    <dt>Share Premium</dt><dd>Amount received by the company on issue of shares in excess of their nominal value. Must be credited to Share Premium Account and used only for specific statutory purposes (bonus shares, rights issue, write-off of discount on debentures).</dd>
+    <dt>Right of First Refusal / Pre-emptive Right</dt><dd>A shareholder's right to be offered new shares in proportion to existing shareholding before they are offered to outsiders. Protects existing shareholders from dilution.</dd>
+    <dt>Bonus Shares</dt><dd>Shares issued to existing members without additional consideration, by capitalising reserves (e.g., Share Premium, General Reserve). Do not increase the company's capital but redistribute ownership among members.</dd>
+  </dl>
+
+  <h3>Share Allotment & Commencement of Business</h3>
+  <ul>
+    <li><b>Allotment:</b> Allocation of shares by the company to applicants. Allotment is complete when the company communicates acceptance to the applicant. Before allotment, applicants are not members; after allotment they become members.</li>
+    <li><b>Letter of Allotment:</b> Document issued by the company confirming allotment of shares. Applicants then pay the allotment price and receive share certificates.</li>
+    <li><b>Share Certificate:</b> Evidence of membership and ownership of shares. Must be issued within 2 months of allotment. Title to shares is not fully established until certificate is issued.</li>
+    <li><b>Public Company — Certificate of Commencement:</b> A public company cannot commence business until it has raised the minimum subscribed capital (₹5 lakh paid-up) and obtained the Certificate of Commencement of Business from the Registrar. Private companies have no such requirement.</li>
+  </ul>
+
+  <h3>Capital Changes</h3>
+  <ul>
+    <li><b>Increase of Capital:</b> By special resolution, a company can increase its Authorised Capital. No special approval beyond the general members' resolution is required under Companies Act 2013.</li>
+    <li><b>Reduction of Capital:</b> By special resolution and with court approval, a company can reduce its capital — e.g., writing off accumulated losses, redeeming preference shares, or returning surplus capital. Must not prejudice creditors.</li>
+    <li><b>Sub-division & Consolidation of Shares:</b> Existing shares can be sub-divided into smaller units (without changing total capital) or consolidated into larger units. Requires special resolution.</li>
+    <li><b>Buy-back of Securities:</b> A company can buy back its shares/debentures subject to conditions — no more than 25% of paid-up capital and free reserves, with shareholder approval, and without depleting reserves.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Share capital is the lifeblood of a company — it represents ownership interests and is the primary source of financing for operations and expansion. Understanding the mechanics of share capital — types of shares, issue pricing, allotment, capital changes — is essential for investors, company management, and legal practitioners. The prohibition on discount and requirements around share premium protect creditors by ensuring that companies maintain a buffer of paid-in capital. Share transfers and trading in shares are regulated to ensure investor protection and market integrity.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Companies Act 2013 has significantly liberalised capital management. Preferential Issue (offering shares to selected persons) and Qualified Institutional Placement (QIP for listed companies) are permitted with requisite approvals. Buy-back of securities is now a tool for capital restructuring, not just a mechanism to reduce share dilution. Bonus share issuance does not increase company capital but capitalises reserves, signalling confidence in earnings. The nomination of directors is often tied to shareholding pattern in preference shares — this is a governance tool to protect preference shareholders' interests.</p>
+</section>
+
+<section class="chapter" id="ch5">
+  <h2>Chapter 5 — Debentures</h2>
+  <p class="src">Source: 87773bos-aps2160-ch5.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Debenture:</b> A debt security issued by a company acknowledging a debt to the holder. Represents a loan to the company; debenture holders are creditors, not owners. Carry a fixed rate of interest (coupon) and a maturity date.</li>
+    <li><b>Secured vs Unsecured:</b> Secured Debentures are backed by a charge (mortgage or pledge) on company assets; Unsecured Debentures have no security — debenture holder is an unsecured creditor.</li>
+    <li><b>Convertible vs Non-convertible:</b> Convertible Debentures can be converted into equity shares at a predetermined ratio/price; Non-convertible Debentures remain debt throughout their term.</li>
+    <li><b>Debenture Trustees & Debenture Certificate:</b> A company may appoint a Debenture Trustee to represent debenture holders' interests. Debenture Trustee acts as a custodian and enforcer of debenture terms.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Debenture</dt><dd>A debt instrument issued by a company to raise borrowed capital. Holder is a creditor of the company, not a member. Debentures carry a coupon rate (fixed interest), maturity date, and redemption terms.</dd>
+    <dt>Mortgage Debenture / First Charge</dt><dd>Debentures secured by a first charge on company property/assets. In case of default, debenture holders can realise their security by sale of charged assets.</dd>
+    <dt>Floating Charge</dt><dd>A charge on company assets that "floats" — initially does not attach to any specific asset but crystallises into a fixed charge on specified assets when: (i) debenture terms provide, or (ii) receiver appointed, or (iii) company goes into liquidation.</dd>
+    <dt>Convertible Debentures</dt><dd>Debentures convertible into equity shares at a specified ratio (e.g., 1 debenture = 2 shares) on specified dates. Offers debenture holders the upside of equity participation while protecting them with fixed-income status initially.</dd>
+    <dt>Fully Convertible Debentures (FCD)</dt><dd>All principal must be converted into equity; cannot remain as debt at maturity. Holder must convert or the company automatically converts on maturity.</dd>
+    <dt>Partially Convertible Debentures (PCD)</dt><dd>Only a portion of principal is convertible into equity; the balance must be redeemed as debt at maturity.</dd>
+    <dt>Non-Convertible Debentures (NCD)</dt><dd>Remain as debt instruments throughout their term; not convertible into equity. Redeemed at maturity for their face value.</dd>
+    <dt>Debenture Trustee</dt><dd>An independent person (individual or company) appointed to protect debenture holders' interests. Acts as custodian, ensures compliance with debenture terms, and can enforce terms on behalf of debenture holders.</dd>
+  </dl>
+
+  <h3>Issue & Redemption of Debentures</h3>
+  <ul>
+    <li><b>Authority to Issue:</b> Board resolution or special resolution (in some cases) is required. The Memorandum must permit the company to borrow. Articles typically delegate borrowing authority to the Board up to a specified limit.</li>
+    <li><b>Debenture Certificate:</b> Evidence of ownership of debentures. Issued within 2 months of allotment. Title is not fully established until certificate is issued.</li>
+    <li><b>Coupon Payment:</b> Interest (coupon) is paid annually or semi-annually on fixed dates. Payment obligation is distinct from share dividends — it is a legal liability, not discretionary.</li>
+    <li><b>Redemption (Repayment):</b> Debentures are redeemed (repaid) at maturity. Can be redeemed: (i) in lump sum at maturity, (ii) in instalments during the term, or (iii) through a sinking fund (company sets aside funds periodically for redemption).</li>
+    <li><b>Premium on Redemption:</b> If debentures are redeemed at a premium (above face value), the premium must be credited to Share Premium Account (or if insufficient, to General Reserve).</li>
+  </ul>
+
+  <h3>Secured Debentures & Mortgages</h3>
+  <ul>
+    <li><b>Equitable Mortgage:</b> Created by deposit of title deeds with the lender as security. Most common form of mortgage for debentures.</li>
+    <li><b>Legal Mortgage:</b> Created by execution of a deed of mortgage registered with the Registrar. Gives legal ownership of charged property to the mortgagee.</li>
+    <li><b>Floating Charge:</b> A charge on the company's assets (present and future) that does not attach to specific assets initially. On crystallisation (default, receivership, liquidation), it becomes a fixed charge on specified assets.</li>
+    <li><b>Debenture Redemption Reserve:</b> Many companies create a Debenture Redemption Reserve by transferring a percentage of profits annually. This ensures funds are available for redemption and protects creditors.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Debentures are a critical source of borrowing for companies, complementing share capital financing. They are attractive to investors seeking regular income with lower risk than equity. For companies, debentures offer leverage (using borrowed funds to finance operations) and flexibility in capital structure. Understanding debenture terms — particularly the distinction between secured/unsecured, convertible/non-convertible — is essential for investors assessing risk, and for company management planning capital structure and cash flows. The appointment of a Debenture Trustee ensures independent oversight of debenture holders' interests, reducing the information asymmetry between issuer and investors.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Debentures differ fundamentally from shares: debenture holders are creditors (not owners), entitled to fixed interest (not variable dividends), priority repayment on winding up, and are not members of the company. Convertible Debentures bridge debt and equity — they offer debt security initially but the equity upside on conversion. A company cannot buy back its debentures before maturity unless the debenture terms permit. Fully Convertible Debentures issued by listed companies have special tax treatment (no TDS on conversion), encouraging their use. Non-Convertible Debentures are more traditional; they are pure debt instruments similar to bank loans or bonds.</p>
+</section>
+
+<section class="chapter" id="ch6">
+  <h2>Chapter 6 — Company Meetings & Shareholder Rights</h2>
+  <p class="src">Source: 87774bos-aps2160-ch6.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>General Meetings:</b> Meetings of members (shareholders) of the company. Two types: Annual General Meeting (AGM) — held once yearly to transact routine business; Extraordinary General Meeting (EGM) — called for specific purposes as needed.</li>
+    <li><b>Board Meetings:</b> Meetings of the Board of Directors for conduct of company business. Different from General Meetings and governed by different rules.</li>
+    <li><b>Notice & Quorum:</b> General Meetings require statutory notice (14 clear days for AGM, 7 clear days for EGM) and quorum (minimum 2 members for private company, minimum 100 members or 1/10th of total membership for public company).</li>
+    <li><b>Resolutions:</b> Decisions at General Meetings are passed by resolution. Ordinary Resolution requires simple majority (>50% votes); Special Resolution requires 3/4th majority (75% votes) for matters affecting company constitution or significant changes.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Annual General Meeting (AGM)</dt><dd>Statutory meeting held once each financial year. Must be held within 6 months of financial year-end. Transacts routine business: approval of financial statements, declaration of dividends, appointment/re-appointment of directors and auditors.</dd>
+    <dt>Extraordinary General Meeting (EGM)</dt><dd>Meetings called for specific purposes outside the scope of AGM — e.g., alteration of Articles, increase of capital, removal of director, approval of related-party transactions. Can be called by Board or on member requisition.</dd>
+    <dt>Quorum</dt><dd>Minimum number of members who must be present (in person or by proxy/electronic means) for a General Meeting to be valid. For private company = 2 members; for public company = 100 members or 1/10th of total membership, whichever is greater.</dd>
+    <dt>Notice</dt><dd>Statutory intimation to members of the date, time, venue and business to be transacted at a General Meeting. Must be given at least 14 clear days before AGM, 7 clear days before EGM.</dd>
+    <dt>Proxy</dt><dd>A member can appoint another person to attend and vote on their behalf. Proxy is not a member, only represents member's voting power. For listed companies, electronic voting (e-voting) is now mandatory.</dd>
+    <dt>Ordinary Resolution</dt><dd>A decision passed by simple majority (>50%) of members present and voting. Routine business (declaration of dividend, appointment of auditor) requires Ordinary Resolution.</dd>
+    <dt>Special Resolution</dt><dd>A decision passed by 3/4th majority (75%) of members present and voting. Constitutional changes (alteration of Articles/Memorandum, change of name, capital reduction) require Special Resolution.</dt>
+    <dt>Poll vs Show of Hands</dt><dd>Show of hands = one vote per member present; Poll = voting by number of shares held (weighted by shareholding). Minority members (with ≥10% shares) can demand a poll.</dd>
+    <dt>Remote e-Voting</dt><dd>Electronic voting facility allowing members to vote before the meeting without attending. Mandatory for listed companies and optional for unlisted companies. Increases participation and reduces meeting logistics.</dd>
+  </dl>
+
+  <h3>Conduct of General Meetings</h3>
+  <ul>
+    <li><b>Convening:</b> AGM must be held within 6 months after financial year-end. EGM is called as needed. Notice must specify place, date, time, and agenda with details of business to be transacted.</li>
+    <li><b>Chairman:</b> General Meetings are presided over by the Chairman of the company (or Vice-Chairman if Chairman absent). Chairman directs the meeting, ensures compliance with procedures, and declares results.</li>
+    <li><b>Business at Meeting:</b> AGM conducts routine business (financial statements, dividends, director appointments); EGM conducts extraordinary business. Only items mentioned in notice can be transacted unless members unanimously agree.</li>
+    <li><b>Voting Procedure:</b> Initially voting is by show of hands (one member one vote). Members holding ≥10% shares can demand a poll (voting by shares held). Remote e-voting is available before the meeting for listed companies.</li>
+    <li><b>Resolutions & Recording:</b> Resolutions are recorded in the Minutes of the Meeting. Minutes are maintained in a statutory register and are evidence of the proceedings.</li>
+  </ul>
+
+  <h3>Shareholder Rights & Remedies</h3>
+  <ul>
+    <li><b>Right to Information:</b> Members have statutory right to inspect company books, registers, and financial statements. Members holding ≥10% shares can requisition an EGM and move resolutions.</li>
+    <li><b>Right to Vote:</b> Voting is a fundamental shareholder right. Can be exercised in person, by proxy, or electronically (e-voting).</li>
+    <li><b>Dividend Rights:</b> Members are entitled to receive dividends if declared. Dividend is paid on paid-up capital pro-rata to shareholding.</li>
+    <li><b>Right to Transfer Shares:</b> In public companies, shares are fully transferable. In private companies, transfer restrictions may apply (right of first refusal, board approval).</li>
+    <li><b>Remedies for Oppression/Mismanagement:</b> The Companies Act provides remedies for members in case of oppressive/unfairly prejudicial conduct or mismanagement — petition to court for relief, appointment of receivers, or company winding up.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>General Meetings are the cornerstone of democratic corporate governance — they provide shareholders with a forum to exercise their voting rights, scrutinise management, and make strategic decisions. Proper conduct of meetings — notice, quorum, voting procedures — ensures decisions are legally binding and enforceable. Minority shareholders are protected by safeguards like the poll mechanism and the ability to requisition meetings. Understanding shareholder rights is essential for investors to protect their interests, and for company management to ensure compliance and legitimacy of decisions.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Remote e-Voting has become standard for listed companies and is increasingly adopted by larger private companies, improving accessibility and participation. Proxy voting is a right, not a privilege, and companies cannot unduly restrict it. Postal ballots (voting by post) are now permitted for certain routine resolutions, further democratising shareholder participation. A Special Resolution passed at a General Meeting cannot be challenged merely on procedural grounds if the substantive decision is reached; courts are slow to overturn decisions made with proper notice and voting. Members holding ≥1/10th of paid-up capital (or 100 members) can requisition an EGM — this is a minority protection mechanism against a controlling majority.</p>
+</section>
+
+<section class="chapter" id="ch7">
+  <h2>Chapter 7 — Board of Directors & Governance</h2>
+  <p class="src">Source: 87776bos-aps2160-ch7.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Director:</b> A person appointed by members to manage the company's business and affairs. Directors are agents of the company but also trustees of company assets. Collectively they form the Board — the executive body responsible for company governance and strategy.</li>
+    <li><b>Board of Directors:</b> The governing body of the company, elected by members. The Board is vested with authority to manage all company affairs except those reserved for members in General Meeting. Acts through resolutions and decisions recorded in Board Minutes.</li>
+    <li><b>Classification of Directors:</b> Executive Directors (full-time employees managing day-to-day operations); Non-Executive Directors (part-time advisors providing oversight); Independent Directors (unrelated to company, providing independent judgment).</li>
+    <li><b>Corporate Governance:</b> The structure and process of governance — how the Board is constituted, how it functions, how it ensures accountability and fairness to all stakeholders. Modern governance emphasises transparency, accountability, and protection of minority interests.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Director</dt><dd>A person appointed to manage company business. Can be a natural person (individual) or a company (corporate director). Must satisfy age, qualification, and eligibility criteria. Must file a declaration of disqualification.</dd>
+    <dt>Independent Director</dt><dd>A non-executive director not related to the company or its promoters, with at least 10 years of professional experience. Required in listed companies (at least 1/3rd of Board). Provides independent judgment and protects minority interests.</dd>
+    <dt>Whole-time Director</dt><dd>A salaried employee of the company working full-time. Typically CEO/MD (Managing Director). Often holds significant operational authority delegated by the Board.</dd>
+    <dt>Alternate Director</dt><dd>A temporary substitute appointed by a director to act in their place during absence (e.g., during leave, illness). Alternate director has same powers and liabilities as the appointing director.</dd>
+    <dt>Nomination Committee</dt><dd>Committee responsible for identifying and recommending candidates for Board positions. In listed companies, must comprise majority independent directors. Ensures objective director selection.</dd>
+    <dt>Remuneration Committee / Compensation Committee</dt><dd>Committee responsible for recommending director and executive compensation packages. In listed companies, must have majority independent directors and chair must be independent.</dd>
+    <dt>Audit Committee</dt><dd>Committee responsible for overseeing financial reporting, audit, internal controls, and compliance. Must comprise majority independent directors and at least one financial expert. Central to corporate governance.</dd>
+  </dl>
+
+  <h3>Appointment & Removal of Directors</h3>
+  <ul>
+    <li><b>Appointment:</b> Directors are appointed by members in General Meeting through ordinary resolution (simple majority). First directors can be named in Articles or appointed by founding members. Subsequent directors nominated by Board and approved by members.</li>
+    <li><b>Eligibility Criteria:</b> Must be at least 21 years old; not disqualified under Companies Act; file declaration of disqualification; have a Director Identification Number (DIN); subscribe to ₹500 worth of shares (holding share qualification).</li>
+    <li><b>Tenure:</b> Directors hold office for the term specified (typically 3-5 years). Directors are eligible for re-appointment. Retiring directors are offered re-appointment if they satisfy eligibility criteria.</li>
+    <li><b>Removal:</b> Members can remove a director by ordinary resolution (simple majority) by notice specifying grounds. Director has right to be heard before removal. Replacement director is appointed at the same meeting.</li>
+    <li><b>Vacation of Office:</b> A director ceases to be director on: (i) expiry of tenure, (ii) resignation, (iii) removal by members, (iv) disqualification (lunacy, insolvency, fraud, tax evasion), (v) absences from Board meetings for 12 months.</li>
+  </ul>
+
+  <h3>Board Powers & Duties</h3>
+  <ul>
+    <li><b>Delegated Powers:</b> The Board is vested with authority to manage company business subject to Memorandum, Articles and Companies Act. Can delegate specific powers to directors, committees, or management.</li>
+    <li><b>Key Responsibilities:</b> Setting strategy and policy, monitoring financial performance, ensuring compliance, managing risks, appointing senior management, deciding dividend policy, approving significant capital expenditures.</li>
+    <li><b>Board Committees:</b> Most boards establish committees for specialised oversight — Audit Committee (financial reporting), Nomination Committee (director selection), Remuneration Committee (compensation), Risk Committee (risk management).</li>
+    <li><b>Board Meetings:</b> Must be held regularly (minimum 4 times per year for listed companies). Notice of 7 days is required. Quorum is 1/3rd of directors (minimum 2). Decisions are taken by majority vote.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>The Board is the apex governing body of a company — it bridges shareholders (ownership) and management (operations). Effective Board governance is critical for company success, stakeholder protection, and accountability. The composition (mix of executive, non-executive, independent directors), structure (committees), and functioning (regular meetings, transparent decision-making) of the Board directly impact company performance and stakeholder confidence. For investors, understanding Board composition and independence is a key metric of corporate governance quality. For directors, understanding their fiduciary duties and personal liabilities is essential to perform their role responsibly.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Independent directors have become critical to corporate governance, especially in listed companies where they must comprise at least 1/3rd of the Board. They are expected to provide independent judgment free from management influence. The concept of "independent" has been tightened — an independent director cannot have been a promoter, major shareholder, customer, supplier, or have other pecuniary interests in the company. Tenure of independent directors is typically limited (2 or 3 terms of 3 years each) to maintain independence. Directors have significant personal liability for violations — they can be held personally liable for company debts in specified circumstances, can be disqualified for fraud/misfeasance, and face criminal liability for gross negligence or wrongful acts.</p>
+</section>
+
+<section class="chapter" id="ch8">
+  <h2>Chapter 8 — Directors' Powers & Fiduciary Duties</h2>
+  <p class="src">Source: 87777bos-aps2160-ch8.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Directors' Duties:</b> Directors occupy a fiduciary position — they must act in the company's interest, not their personal interest. Duties are both statutory (imposed by Companies Act) and common-law (established by court precedent).</li>
+    <li><b>Duty of Care:</b> Directors must act with reasonable care, skill and diligence in managing company affairs. Breach can result in civil liability (damages) or criminal liability (penalties, imprisonment) depending on severity.</li>
+    <li><b>Duty of Loyalty:</b> Directors must avoid conflicts of interest — cannot use company position for personal gain, cannot compete with the company, must disclose any pecuniary interest in company contracts.</li>
+    <li><b>Directors' Powers:</b> Subject to statutory limits and Articles, the Board has broad authority to manage company business. Can delegate specific powers to committees or management. Cannot exercise powers for purposes not sanctioned by the constitution.</li>
+  </ul>
+
+  <h3>Key Statutory Duties</h3>
+  <dl>
+    <dt>Duty to Act in Good Faith</dt><dd>Directors must act bona fide in the interest of the company and for proper purposes. Cannot use power for unauthorized purposes or oppressive conduct. Acting in company's interest means acting for the benefit of all members, not a faction.</dd>
+    <dt>Duty of Care, Skill & Diligence</dt><dd>Directors must exercise reasonable care, skill and diligence. Standard is that of a reasonably prudent person in the same position. Honest but negligent conduct is still a breach of duty and attracts liability.</dd>
+    <dt>Duty to Exercise Powers for Proper Purpose</dt><dd>Directors' powers must be used for the purposes for which they are granted. Misuse of power (e.g., issuing shares to entrench management) is invalid and subjects director to liability.</dd>
+    <dt>Duty to Avoid Conflict of Interest</dt><dd>Directors must not put themselves in a position where their personal interest conflicts with their duty to the company. If conflict arises, must immediately disclose and recuse from decision-making.</dd>
+    <dt>Duty to Disclose Interest</dt><dd>Directors having pecuniary interest in any company contract must declare it to the Board. Must not vote on matters in which they are interested. Failure to disclose is an offense.</dd>
+    <dt>Duty to Maintain Confidentiality</dt><dd>Directors must not disclose confidential company information (trade secrets, commercial strategies, financial details) without authorization. Applies during and after directorship.</dd>
+    <dt>Duty Not to Profit from Position</dt><dd>Directors cannot use company position to secure profit for themselves or third parties without authorization. Must account to the company for any unauthorized profit derived from the position.</dd>
+  </dl>
+
+  <h3>Conflict of Interest & Related Party Transactions</h3>
+  <ul>
+    <li><b>Disclosure & Recusal:</b> When a director has interest in a company contract/transaction, must declare it to the Board. Cannot attend the meeting or vote when the matter is being discussed. For listed companies, must make quarterly disclosures.</li>
+    <li><b>Materiality Threshold:</b> Contracts with value below ₹1 crore and relating to less than 2% of company assets are "related party transactions" but have streamlined approval (only from Audit Committee or Board, no shareholder approval if under threshold).</li>
+    <li><b>Shareholder Approval:</b> Related party transactions above specified thresholds require prior shareholder approval by ordinary resolution (excluding votes of interested parties).</li>
+    <li><b>Exceptions:</b> Certain transactions (employee compensation, loans to subsidiaries, routine transactions with related parties) are exempt from related party transaction rules if they meet specified criteria.</li>
+  </ul>
+
+  <h3>Indemnity & Insurance</h3>
+  <ul>
+    <li><b>Indemnification:</b> Company can indemnify (protect/reimburse) directors for costs and liability incurred in defending legal proceedings, subject to the director not acting wrongfully. Cannot indemnify for criminal offense.</li>
+    <li><b>Directors & Officers Liability Insurance (D&O):</b> Many companies purchase D&O insurance to cover directors' legal defence costs and liability. Cost is borne by company (recoverable from profits), not individual directors.</li>
+    <li><b>Qualification:</b> Insurance is available for honest mistakes, negligence, errors in judgment — but not for fraudulent, dishonest or criminal conduct.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Directors' duties are the legal framework ensuring directors manage company affairs honestly, competently and in the company's interest — not for personal gain. Breaches expose directors to personal liability (damages, penalties, disqualification), criminal prosecution, and civil suits by shareholders. For the company, breach of duty can result in loss of assets, opportunity, or market confidence. For investors, understanding whether directors' duties are being honoured is a key governance metric. The duty to disclose conflict of interest is particularly important — it prevents self-dealing and ensures decisions are made disinterestedly. Directors should maintain good corporate governance practices, take board decisions by resolution with proper documentation, and ensure decisions are made in the company's interest.</p>
+
+  <h3 class="note">Note</h3>
+  <p>The standard for directors' duty of care has evolved — mere honesty is no longer sufficient; the director must also exercise reasonable skill and diligence. However, the standard is not that of an expert; it is that of a reasonably prudent person in the same position. Courts recognise that business decisions often involve risk and uncertainty — they do not second-guess honest, well-informed business decisions on the basis of hindsight. The concept of "related party" has been broadened — relatives of directors, companies controlled by relatives, and entities with shared directors all qualify as related parties. Related party transactions are not prohibited, but must be transparent and independently approved. Directors have a personal right to seek legal advice and indemnification for costs, even if the company does not reimburse.</p>
+</section>
+
+<section class="chapter" id="ch9">
+  <h2>Chapter 9 — Directors' Remuneration & Compensation</h2>
+  <p class="src">Source: 87778bos-aps2160-ch9.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Remuneration:</b> Payment to directors for services rendered. Can include salary, bonus, stock options, perquisites, and retirement benefits. For whole-time directors, can include fixed and performance-linked components.</li>
+    <li><b>Regulatory Framework:</b> Directors' remuneration is regulated by Companies Act and income tax law. Limits are set to prevent excessive compensation draining company resources and unfairly diluting shareholders' equity.</li>
+    <li><b>Board vs Shareholder Approval:</b> Routine director compensation is approved by the Board (on Remuneration Committee recommendation). Material increases or special payments require shareholder approval by ordinary resolution.</li>
+    <li><b>Disclosure Requirements:</b> Directors' remuneration must be disclosed in financial statements and annual reports. Excess remuneration (beyond statutory limits) is a matter of disclosure and shareholder concern.</li>
+  </ul>
+
+  <h3>Types of Director Compensation</h3>
+  <dl>
+    <dt>Fixed Salary</dt><dd>Regular monthly/annual payment to whole-time directors. Must be reasonable and not excessive. Determined with reference to company profits, size, industry practices.</dd>
+    <dt>Performance Bonus</dt><dd>Variable compensation linked to achievement of targets — profitability, revenue growth, market share. Motivates performance and aligns director interests with shareholder returns.</dd>
+    <dt>Commission</dt><dd>Percentage of company profit paid to directors. Requires board decision and, if material, shareholder approval. Cannot exceed 1% of net profits unless higher percentage approved by shareholder resolution.</dd>
+    <dt>Stock Options / Employee Stock Ownership Plan (ESOP)</dt><dd>Options to purchase company shares at preset prices. Aligns long-term director interests with company performance. Requires shareholder approval and comply with SEBI regulations for listed companies.</dd>
+    <dt>Perquisites</dt><dd>Non-cash benefits — company car, housing, health insurance, entertainment allowance, etc. Taxed as income; included in total remuneration for statutory limits.</dd>
+    <dt>Retirement Benefits</dt><dd>Gratuity, pension, superannuation. Calculated based on years of service and final salary. Must be funded/provisioned and comply with statutory limits and tax law.</dd>
+    <dt>Severance / Termination Benefits</dt><dd>Payment on severance — subject to employment contract terms and statutory limits. Cannot exceed reasonable severance norms without shareholder approval.</dd>
+  </dl>
+
+  <h3>Statutory Limits on Remuneration</h3>
+  <ul>
+    <li><b>Profit-Based Ceiling:</b> Total remuneration (salary + bonus + commission) cannot exceed specified percentage of company net profits. Percentage is determined by company size (capital and turnover).</li>
+    <li><b>Per-Director Limit:</b> Individual director remuneration cannot exceed a specified percentage of the profit-based ceiling. Prevents one director capturing disproportionate compensation.</li>
+    <li><b>Managerial Remuneration Rules:</b> Prescribed ratios (e.g., salary of MD cannot exceed salary of lowest-paid director by more than 1:10) ensure pay equity and prevent excessive gaps.</li>
+    <li><b>Shareholder Approval for Excess:</b> If remuneration exceeds statutory limits, must be approved by special resolution (3/4th majority) with disclosure of excess amount and justification. Even with approval, income tax law may disallow excess as business expense.</li>
+    <li><b>Non-Applicability:</b> Limits do not apply to: (i) commission to non-executive directors approved by shareholders, (ii) compensation outside profit (e.g., bonus funded from capital, depreciation reserve), (iii) one-time settlements on severance.</li>
+  </ul>
+
+  <h3>Remuneration Committee & Governance</h3>
+  <ul>
+    <li><b>Composition:</b> In listed companies, Remuneration Committee must comprise majority independent directors; chair must be independent. For private companies, typical comprise mix of executive and non-executive directors.</li>
+    <li><b>Role:</b> Determine director/executive remuneration packages, ensure compliance with statutory limits, review pay equity, approve stock options and retirement benefits, review market-competitive compensation.</li>
+    <li><b>Disclosure:</b> Annual report must disclose: (i) remuneration of each director, (ii) basis for remuneration, (iii) stock options granted, (iv) total perquisites and benefits, (v) excess remuneration (if any) with justification.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Appropriate director compensation is essential to attract and retain talented individuals to lead the company. However, excessive compensation can strain company finances, unfairly dilute shareholder equity, and erode investor confidence. Statutory limits ensure a balance between competitive compensation and shareholder protection. For investors, understanding the remuneration structure is key to assessing management quality, governance standards, and alignment of director interests with shareholder value. For the company, transparent and competitive remuneration practices attract quality directors and management, improving governance and performance.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Directors' remuneration is a heavily regulated area due to governance and tax implications. Performance-linked compensation is now emphasised to align director interests with shareholder returns. Stock options have become popular as they tie director wealth to company stock performance. However, excessive compensation (particularly executive compensation in large companies) has drawn criticism and regulatory scrutiny globally. India's Companies Act limits remuneration as a percentage of profits — this contrasts with Western practice of market-based executive compensation. A director's remuneration as an employee is separate from compensation as a director (sitting fees, commission) — the two should be clearly distinguished in accounting and disclosure.</p>
+</section>
+
+<section class="chapter" id="ch10">
+  <h2>Chapter 10 — Company Auditors & Audit</h2>
+  <p class="src">Source: 87779bos-aps2160-ch10.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Auditor:</b> An independent professional appointed by the company to examine and report on the truth and fairness of financial statements. Auditor is servant of the company (not of management) and reports to shareholders.</li>
+    <li><b>Statutory Audit:</b> Mandatory audit required by Companies Act for all companies except certain private companies (turnover below ₹1 crore or paid-up capital below ₹5 lakh). Ensures financial statements are prepared in accordance with accounting standards.</li>
+    <li><b>Internal Audit:</b> Conducted by company's internal team (or internal audit firm) to examine and report on internal controls, compliance, efficiency of operations. Internal auditor reports to Audit Committee or Board.</li>
+    <li><b>Auditor Independence:</b> Auditor must be independent — cannot have financial interest in company, cannot be related to company or its officers, cannot be engaged in conflicting activities. Independence is fundamental to audit credibility.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Statutory Auditor</dt><dd>An independent chartered accountant or firm appointed to conduct statutory audit of the company's financial statements. Must be a Member of the Institute of Chartered Accountants of India (ICAI) with prescribed qualifications.</dd>
+    <dt>Audit Committee</dt><dd>Committee of the Board (majority independent directors) that oversees auditor selection, audit scope, internal controls, and financial reporting. Acts as intermediary between auditors and the Board.</dd>
+    <dt>Audit Report / Auditor's Report</dt><dd>The auditor's opinion on financial statements — whether they give a true and fair view of company's financial position and performance in accordance with accounting standards. Can be qualified (with caveats) or unqualified (clean).</dd>
+    <dt>Auditor's Qualification / Disclaimer / Adverse Opinion</dt><dd>Qualified opinion = auditor has reservations but statements are generally fair; Disclaimer = auditor cannot form opinion due to limitations; Adverse opinion = statements do not give true and fair view (rare, serious).</dd>
+    <dt>Internal Auditor</dt><dd>Appointed by the Board (on Audit Committee recommendation) to conduct continuous internal audits. Reports to Audit Committee. Not independent in same sense as statutory auditor but should maintain professional impartiality.</dd>
+    <dt>Cost Auditor / Secretarial Auditor</dt><dd>Specialised audits: Cost audit for manufacturing companies examining cost accounting; Secretarial audit for compliance with company law and secretarial practices.</dd>
+    <dt>Audit Fee</dt><dd>Remuneration paid to auditor for audit work. Must be reasonable and approved by Audit Committee and Board (for some categories, shareholder approval). Cannot be contingent on audit findings.</dd>
+  </dl>
+
+  <h3>Appointment, Removal & Tenure of Auditor</h3>
+  <ul>
+    <li><b>Appointment:</b> Statutory auditors are appointed by members in General Meeting. First auditors appointed in AGM after incorporation; subsequent auditors appointed at each AGM (or at special meeting).</li>
+    <li><b>Eligibility:</b> Must be a Chartered Accountant (Member of ICAI) with minimum 10 years practice experience (for listed companies, generally more stringent). Cannot be employee of company or have financial interest.</li>
+    <li><b>Tenure & Rotation:</b> Statutory auditors hold office until appointed successor. For listed companies, tenure is typically 5 years with mandatory rotation after 5 consecutive years (non-rotation for another 5 years).</li>
+    <li><b>Removal:</b> Members can remove auditor before expiry of tenure by ordinary resolution (simple majority). Removed auditor has right to attend General Meeting and be heard. Vacancy is filled by appointing new auditor.</li>
+    <li><b>Resignation:</b> Auditor can resign by notice to company. Resigning auditor must file prescribed Form explaining reasons (voluntary resignation, disagreement with management, etc.).</li>
+  </ul>
+
+  <h3>Auditor Powers & Responsibilities</h3>
+  <ul>
+    <li><b>Powers:</b> Auditor has right to: (i) access company books and records at all times; (ii) obtain information and explanations from company officers; (iii) attend Board/shareholder meetings and be heard; (iv) examine assets and verify valuations.</li>
+    <li><b>Responsibilities:</b> Conduct audit in accordance with Auditing Standards issued by ICAI; form opinion on financial statements; report to shareholders; communicate significant matters to Audit Committee; identify and report irregularities.</li>
+    <li><b>Audit Procedures:</b> Auditor tests a sample of transactions, verifies balances of material accounts, assesses internal controls and accounting policies, obtains audit evidence (confirmations, inspections, inquiries).</li>
+    <li><b>Audit Report:</b> Auditor's report is part of annual report. Must clearly state auditor's opinion, basis of opinion, and any qualifications. Report is addressed to members (not management).</li>
+  </ul>
+
+  <h3>Auditor Liability & Protection</h3>
+  <ul>
+    <li><b>Civil Liability:</b> Auditor is liable to company for negligence/breach of audit standards resulting in loss. Also liable to members/shareholders if misstatements are material (under limited circumstances). Due diligence defense available if auditor exercised reasonable care.</li>
+    <li><b>Criminal Liability:</b> Auditor can be prosecuted for certifying false statements knowingly, colluding with management in fraud, or gross negligence amounting to criminal offense.</li>
+    <li><b>Professional Standards:</b> Auditors must comply with Auditing Standards (AS), Standards on Auditing (SA), and Code of Ethics issued by ICAI. Breach can result in disciplinary action by ICAI.</li>
+    <li><b>Indemnity:</b> Auditor cannot be indemnified for loss due to negligence/fraud. Section 448 of Companies Act prohibits indemnity clauses protecting auditors.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Auditors are the gatekeepers of financial reporting integrity. Independent audit provides shareholders and creditors with assurance that financial statements are reliable and prepared in accordance with accounting standards. For investors, an unqualified audit report is a positive signal of financial health; qualified opinions or audit failures are red flags. For the company, regular internal audit and sound audit practices improve operational efficiency, risk management, and compliance. For auditors, maintaining independence and professional scepticism is essential to fulfil their gatekeeping role.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Auditor independence is non-negotiable — an auditor who has a financial interest in the company or whose fee is contingent on audit findings cannot be relied upon. The Companies Act includes criminal penalties (imprisonment, fines) for auditors who knowingly certify false financial statements. Fraud is a matter that auditors have a responsibility to detect and report (to Audit Committee, Board, or in severe cases, to regulators). Auditor rotation (mandatory change after 5 years) is designed to prevent auditor capture by management — a long-tenured auditor may become too comfortable with management and lose independence. Internal audit is not a substitute for statutory audit — internal auditors are company employees and lack the independence of statutory auditors.</p>
+</section>
+
+<section class="chapter" id="ipm1">
+  <h2>Intellectual Property Module — Patents, Copyrights & Trade Secrets</h2>
+  <p class="src">Source: 87775bos-aps2160-ip-m1.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Intellectual Property (IP):</b> Intangible creations of the human intellect — inventions, literary/artistic works, designs, symbols, names — eligible for legal protection. IP rights are statutory monopolies granting exclusive use rights to the owner.</li>
+    <li><b>Patents:</b> Legal rights over inventions for a fixed term (20 years in India). Grant the patent holder exclusive right to make, use, and sell the invention. Requires novelty, inventive step, and industrial applicability.</li>
+    <li><b>Copyright:</b> Automatic legal right protecting original literary, dramatic, musical and artistic works. Holder has exclusive right to reproduce, publish, perform, adapt the work. Duration typically life of author + 60 years.</li>
+    <li><b>Trade Secrets:</b> Confidential information giving competitive advantage — formulas, processes, customer lists. Protected through confidentiality obligations, non-disclosure agreements, and contractual restrictions.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Patent</dt><dd>A statutory monopoly granted for an invention for a fixed term (20 years from filing date in India). Grants exclusive right to make, use, sell, offer for sale the invention. Subject to examination and disclosure requirements.</dd>
+    <dt>Novelty</dt><dd>A key requirement for patent eligibility. Invention must not be disclosed to the public before filing patent application. Even self-disclosure by inventor (in publication, presentation, trade show) destroys novelty in most jurisdictions (except under grace period in some countries).</dd>
+    <dt>Inventive Step / Non-Obviousness</dt><dd>The invention must involve innovation beyond what would be obvious to a person skilled in the art. Mere combination of known elements without unexpected result is not patentable.</dd>
+    <dt>Industrial Applicability</dt><dd>The invention must be capable of industrial application — must have practical utility beyond mere theoretical interest.</dd>
+    <dt>Copyright</dt><dd>Automatic legal right protecting original works of authorship. Holder has exclusive right to reproduce, publish, perform, adapt the work. Registration is optional (for evidence); copyright exists by creation.</dd>
+    <dt>Moral Rights</dt><dd>Author's non-economic rights — right of paternity (attribution), right of integrity (protection against distortion/false attribution). Distinct from economic copyright.</dd>
+    <dt>Trade Secret</dt><dd>Confidential information not generally known, deriving value from secrecy, and subject to reasonable secrecy measures. Protected through contractual confidentiality obligations rather than registration.</dd>
+  </dl>
+
+  <h3>Patent Registration & Enforcement</h3>
+  <ul>
+    <li><b>Patent Application:</b> Must be filed with the patent office (in India, the Indian Patent Office) specifying invention, claiming exclusive rights. Application undergoes examination for novelty, inventive step, and industrial applicability.</li>
+    <li><b>Provisional vs Complete Specification:</b> Provisional specification filed for priority; Complete specification filed later with detailed claims. Protects the filing date while allowing time for finalisation of claims.</li>
+    <li><b>Examination & Opposition:</b> Patent office examines application for compliance with patentability criteria. Third parties can file pre-grant opposition before patent grant, and post-grant opposition after grant.</li>
+    <li><b>Patent Infringement:</b> Use of patented invention without permission is infringement. Patent holder can sue for injunction and damages. Defenses include: non-infringement, invalidity of patent, prior use (in some jurisdictions).</li>
+  </ul>
+
+  <h3>Copyright Ownership & Licensing</h3>
+  <ul>
+    <li><b>Ownership:</b> In general, copyright vests in the author (creator) upon creation. Exception: works created in course of employment vest in employer. Works made for hire (commissioned works) may vest in commissioning party if so agreed.</li>
+    <li><b>Copyright Duration:</b> Published works: life of author + 60 years; unpublished works: life of author + 60 years from publication; government works: 60 years from creation; cinematograph films: 60 years from release.</li>
+    <li><b>Copyright License:</b> Author can license (grant permission for) use of work — can be exclusive (only licensor can use) or non-exclusive (author and others can use). License must be in writing for validity.</li>
+    <li><b>Copyright Infringement:</b> Reproduction, publication, performance, adaptation of copyrighted work without permission is infringement. Remedies include injunction, damages, delivery up of infringing copies.</li>
+  </ul>
+
+  <h3>Trade Secrets & Confidential Information</h3>
+  <ul>
+    <li><b>Protection Mechanisms:</b> Trade secrets are not registered but protected through: (i) confidentiality clauses in employment contracts, (ii) non-disclosure agreements (NDAs) with third parties, (iii) restricted access and secure storage, (iv) internal controls.</li>
+    <li><b>Misappropriation:</b> Unauthorised disclosure or use of trade secret by employee, contractor, or competitor is misappropriation. Remedies include injunction, damages, specific performance of confidentiality obligation.</li>
+    <li><b>Employee Obligations:</b> Employees typically undertake confidentiality obligations for information disclosed during employment. Must not disclose or use after employment ends (non-compete and non-solicitation clauses often included).</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Intellectual property protection is critical for innovation and competitiveness. Patents protect technological innovations, incentivising R&D investment. Copyrights protect creative works and encourage artistic/literary creation. Trade secrets protect confidential business information. For companies, building a strong IP portfolio (patents, copyrights, trademarks, trade secrets) creates competitive barriers and adds to enterprise value. For individuals (inventors, authors), IP rights ensure recognition and financial rewards from creation. IP disputes (infringement, licensing, ownership) are increasingly common and require deep understanding of IP law and business impact.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Patent prosecution (filing, examination, grant) is complex and expensive, requiring specialised patent attorneys. Patent strategy decisions (which inventions to patent vs keep as trade secrets, filing jurisdictions, licensing approach) are critical business decisions. Copyright is automatic (no registration required) but registration strengthens evidence of ownership. The question of IP ownership in employment relationships (who owns inventions made by employees) is a frequent source of disputes — should be clearly addressed in employment contracts. The TRIPS Agreement (trade-related intellectual property rights) harmonises international IP law; most countries are signatories, providing some measure of IP protection across borders.</p>
+</section>
+
+<section class="chapter" id="ipm2">
+  <h2>Intellectual Property Module 2 — Advanced IP Issues & Enforcement</h2>
+  <p class="src">Source: 87781bos-aps2160-ip-m2.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>IP Enforcement:</b> Legal mechanisms to prevent infringement and enforce IP rights — civil suits, criminal prosecution, administrative procedures. Remedies vary by IP type (patents, copyrights, trademarks) and severity of infringement.</li>
+    <li><b>Counterfeit Goods & Piracy:</b> Manufacture and sale of products bearing counterfeit IP (fake trademarks, pirated copyrighted content) is a major global problem. Criminal penalties under IP laws target counterfeiters and pirates.</li>
+    <li><b>IP Licensing & Technology Transfer:</b> IP owners can license IP rights to others (licensees) for royalty. Licensing is a key mechanism for technology dissemination and revenue generation. Agreements must clearly define scope, exclusivity, royalty, duration.</li>
+    <li><b>IP Valuation & Monetization:</b> IP has economic value — can be assigned (sold), licensed, or used as collateral for financing. Valuation methods include cost approach, market approach, income approach.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Patent Infringement</dt><dd>Use of patented invention without permission of patent holder. Includes making, using, selling, offering for sale, or importing the invention. Literal infringement (exact reproduction) and doctrine of equivalents (substantial equivalence) both constitute infringement.</dd>
+    <dt>Willful Infringement</dt><dd>Deliberate, knowingly infringing. Patent holder is more likely to obtain enhanced damages (treble damages, up to 3x normal damages) and attorney fees for willful infringement.</dd>
+    <dt>Copyright Infringement</dt><dd>Unauthorised reproduction, publication, performance, adaptation, or distribution of copyrighted work. Includes indirect infringement (inducing or facilitating infringement by others).</dd>
+    <dt>Fair Use / Fair Dealing</dt><dd>Limited use of copyrighted work without permission for purposes like criticism, commentary, news reporting, teaching, research. Not infringement if use is fair (considering purpose, nature of work, amount used, effect on market).</dd>
+    <dt>Trademark Infringement</dt><dd>Use of confusingly similar trademark in commerce that is likely to cause consumer confusion or dilute brand value. Infringement requires likelihood of confusion; actual confusion not necessary.</dd>
+    <dt>Exclusive License</dt><dd>License granting sole right to use IP — only licensor and licensee can use (licensor typically retains right for internal use, enforcement). Non-exclusive license allows licensor to grant same IP to multiple licensees.</dd>
+    <dt>Royalty</dt><dd>Periodic payment (usually percentage of sales or fixed amount) paid by licensee to licensor for right to use IP. Royalty rate depends on IP type, commercial value, exclusivity, field of use.</dd>
+    <dt>Technology Transfer Agreement</dt><dd>Comprehensive license agreement transferring technology (patents, know-how, technical expertise) from licensor to licensee. Often includes training, technical support, quality assurance provisions.</dd>
+  </dl>
+
+  <h3>IP Enforcement Mechanisms</h3>
+  <ul>
+    <li><b>Civil Suit:</b> IP holder sues infringer in civil court for injunction (court order to stop infringement) and damages (monetary compensation for loss). Burden of proof is civil standard (balance of probabilities).</li>
+    <li><b>Criminal Prosecution:</b> For serious infringement (counterfeiting, piracy), IP owner can lodge criminal complaint. Public prosecutor pursues case; criminal court can impose imprisonment and substantial fines.</li>
+    <li><b>Administrative/Customs Remedies:</b> Customs authorities can seize counterfeit goods at borders on IP holder request. Administrative procedures (opposition, cancellation of registration) available for patents, trademarks, copyrights.</li>
+    <li><b>Preliminary Injunction:</b> Before trial concludes, IP holder can seek preliminary injunction to stop ongoing infringement. Requires showing: (i) likelihood of success, (ii) irreparable harm without injunction, (iii) balance of hardship favours plaintiff.</li>
+  </ul>
+
+  <h3>IP Licensing Considerations</h3>
+  <ul>
+    <li><b>Exclusive vs Non-Exclusive:</b> Exclusive license grants sole right to licensee (licensor cannot use or license to others, except for licensor's internal use). Non-exclusive allows multiple licensees. Exclusive licenses command higher royalty rates.</li>
+    <li><b>Field of Use & Territory:</b> License can be restricted to specific field of use (industry, application) and geographic territory. Restriction protects licensor from unintended markets and licensor from competition in restricted areas.</li>
+    <li><b>Royalty Structure:</b> Can be: (i) flat royalty per unit sold, (ii) percentage of revenue, (iii) upfront fee + running royalties, (iv) milestone payments on achievement of targets. Royalty audit clause often included to verify licensor's royalty calculations.</li>
+    <li><b>Sublicense Rights:</b> License agreement specifies whether licensee can sublicense IP to third parties. Licensor typically retains tight control to maintain quality and exclude competitors.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Effective IP enforcement ensures IP rights are not rendered meaningless by rampant infringement. For businesses, building strong IP enforcement strategy — both preventive (robust confidentiality, IP marking) and reactive (monitoring, enforcement actions) — protects competitive advantages. Licensing is a key revenue stream for IP-intensive businesses (software, pharmaceuticals, entertainment) — effective licensing strategy maximises IP monetization. For countries, strong IP enforcement attracts innovation and foreign investment; weak enforcement encourages piracy and counterfeiting, harming legitimate businesses and consumer welfare.</p>
+
+  <h3 class="note">Note</h3>
+  <p>IP enforcement is increasingly difficult in the digital age — software piracy, online copyright infringement, counterfeit goods sold via e-commerce are rampant. International cooperation (WIPO conventions, bilateral trade agreements) is essential for cross-border IP enforcement. Settlements and licensing often resolve IP disputes faster and cheaper than litigation. Reverse engineering of patented products is generally not infringement if done independently; however, reverse engineering to circumvent technological measures protecting copyrighted works may be prohibited. Patent hold-ups (acquiring patents to demand excessive royalties) and patent trolls (entities that own patents not to make products but to sue implementers) are issues in patent system.</p>
+</section>
+
+<section class="chapter" id="ipm3">
+  <h2>Intellectual Property Module 3 — Trademarks, Designs & Plant Varieties</h2>
+  <p class="src">Source: 87783bos-aps2160-ip-m3.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Trademark:</b> A symbol, word, phrase, design, or combination used by a business to identify and distinguish its products/services from competitors. Registered trademark grants exclusive right to use in specified classes of goods/services.</li>
+    <li><b>Design Patent / Industrial Design:</b> Legal protection for the aesthetic appearance of a product — shape, surface, pattern, color, ornamental features. Distinct from utility (function); design protects look, not function.</li>
+    <li><b>Plant Variety Protection:</b> Legal rights over new plant varieties. Plant breeder has exclusive right to produce, sell, use the variety for specified period (typically 15-18 years).</li>
+    <li><b>Geographical Indication (GI):</b> Collective mark indicating geographic origin of product — e.g., Basmati Rice (India), Champagne (France), Darjeeling Tea (India). Certification of origin and quality.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Trademark / Service Mark</dt><dd>Symbol, word, logo, design indicating source of goods (trademark) or services (service mark). Must be distinctive and capable of distinguishing goods/services of one entity from others.</dd>
+    <dt>Trademark Distinctiveness</dt><dd>Trademark must not be merely descriptive or generic. "Luxury watches" is descriptive; "Rolex" is distinctive. Descriptive marks can become distinctive through secondary meaning (acquired distinctiveness through use).</dd>
+    <dt>Trademark Classes</dt><dd>Goods/services are divided into 45 classes (Nice Classification). Trademark registered for specific classes; registration in one class does not protect in other classes.</dd>
+    <dt>Trademark Registration</dt><dd>Application filed with trademark office (in India, the Indian Trademark Office under Ministry of Commerce). Examination assesses distinctiveness, absence of conflicting marks, compliance with statute. If successful, trademark registered for 10 years (renewable).</dd>
+    <dt>Industrial Design</dt><dd>Aesthetic appearance of product — shape, surface, pattern, color, ornamental features giving product unique visual identity. Must be novel, original, non-obvious. Protection period typically 10-15 years.</dd>
+    <dt>Plant Variety Protection (PVP)</dt><dd>Legal right over new plant varieties with distinct, uniform, stable characteristics. Breeder holds exclusive right to produce, reproduce, sell the variety. Protection period 15 years (18 years for trees/vines).</dd>
+    <dt>Geographical Indication (GI)</dt><dd>Collective mark indicating: (i) geographic origin of product, (ii) specific quality/reputation due to origin, (iii) controlled by specified body. Examples: Darjeeling Tea, Champagne, Basmati Rice.</dd>
+  </dl>
+
+  <h3>Trademark Registration & Enforcement</h3>
+  <ul>
+    <li><b>Application & Examination:</b> Trademark application specifies mark (word, logo, design), goods/services classes, applicant details. Examined for compliance with distinctiveness, non-descriptiveness, and absence of conflicting marks.</li>
+    <li><b>Registration & Term:</b> On successful examination (assuming no oppositions sustained), trademark is registered for 10 years. Renewable indefinitely in 10-year periods as long as mark is in use.</li>
+    <li><b>Trademark Infringement:</b> Use of identical or confusingly similar mark in commerce for same/related goods/services likely to cause consumer confusion is infringement. Does not require proof of actual confusion.</li>
+    <li><b>Dilution:</b> Use of mark that dilutes its distinctive quality (blurring, tarnishment) may be actionable even without likelihood of confusion — relevant for well-known marks.</li>
+  </ul>
+
+  <h3>Design Patent & Industrial Design Protection</h3>
+  <ul>
+    <li><b>Registrable Designs:</b> Novel, original, non-obvious ornamental features of product. Can be shape (car body), surface pattern (fabric design), color combination, or combination thereof. Functional features are not registrable.</li>
+    <li><b>Protection Period:</b> Initial registration for 5 years; renewable for further 5-year periods up to 15 years total. Does not require use to maintain registration (unlike trademark).</li>
+    <li><b>Design Infringement:</b> Making, importing, selling product incorporating registered design without permission is infringement. Test is "substantially similar" appearance, not identical design.</li>
+  </ul>
+
+  <h3>Geographical Indication (GI) Rights</h3>
+  <ul>
+    <li><b>GI Registration:</b> Application filed for collective mark indicating geographic origin. Registrar examines whether product is linked to geographic origin, has reputation due to origin, and applicant body can ensure compliance.</li>
+    <li><b>GI Protection:</b> Once registered, no other entity can use the GI for similar goods, even if origin is stated (e.g., "Champagne" is protected; "Champagne-style" wine is infringement).</li>
+    <li><b>Benefit to Producers:</b> Producers from the geographic region who comply with standards can use the GI, gaining competitive advantage (GI signifies quality and authenticity). Producers outside region are excluded.</li>
+    <li><b>Examples:</b> Darjeeling Tea (India), Basmati Rice (India), Champagne (France), Swiss watches (Switzerland), Italian leather goods. GI adds significant premium to products.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Trademarks and designs are critical brand assets — they identify products in market and communicate quality/reputation to consumers. Strong trademark enforcement protects brand equity and consumer trust. For producers, registering distinctive trademarks and novel designs in key markets protects competitive position. For consumers, trademarks and GIs assure authenticity and quality. GI protection benefits traditional/regional producers by creating competitive advantage for their authentic products over counterfeiters.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Trademark rights can be lost through non-use (non-use for 5+ consecutive years is grounds for cancellation), through generic use (brand becomes generic term for product category, e.g., "aspirin" was once a trademark), or through naked assignment (transfer without goodwill). Design registration is simpler than patent but offers shorter protection (15 years max vs 20 for patent). Plant variety protection recognises farmers' right to save seeds for replanting — not all uses require payment. GIs are collective marks — members of producing region/community use them collectively; typically managed by government or regional cooperative.</p>
+</section>
+
+<section class="chapter" id="p2ch1">
+  <h2>Part 2 Chapter 1 — Corporate Restructuring & Mergers</h2>
+  <p class="src">Source: 87784bos-aps2160-p2-ch1.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Corporate Restructuring:</b> Reorganisation of company structure for strategic purposes — merger, acquisition, demerger, scheme of arrangement, capital reduction. Alters legal form or asset composition while maintaining business continuity.</li>
+    <li><b>Merger:</b> Combination of two or more companies into one. One company survives (Transferee) and absorbs other companies (Transferor). Transferor ceases to exist; its assets and liabilities vest in Transferee.</li>
+    <li><b>Acquisition:</b> One company acquires control (ownership) of another company by purchasing majority shares or assets. Acquired company continues to exist as subsidiary or is integrated.</li>
+    <li><b>Scheme of Arrangement:</b> Binding agreement between company and members/creditors (or between two companies) to restructure. Requires court sanction and creditor/member approval. Can be used for merger, capital reduction, demerger, compromises.</li>
+  </ul>
+
+  <h3>Key Merger Mechanics</h3>
+  <dl>
+    <dt>Merger / Amalgamation</dt><dd>Consolidation of two or more companies into one. Transferee acquires all assets and liabilities of Transferor. Members of Transferor receive consideration (shares, cash, debt instruments) in Transferee. Transferor is dissolved.</dd>
+    <dt>Consideration</dt><dd>Payment given to Transferor members for merger — typically shares in Transferee (share exchange ratio), cash (for listed company mergers), or combination (mixed consideration).</dd>
+    <dt>All-stock Merger</dt><dd>Consideration is exclusively shares in Transferee — no cash involved. Shareholders of Transferor become shareholders of Transferee.</dd>
+    <dt>Scheme of Arrangement</dt><dd>Legal mechanism to effect corporate restructuring (merger, demerger, capital reduction) with court sanction. Binding on dissenting members if approved by required majority (75% by value, 50%+ by number).</dd>
+    <dt>Demerger / Spin-off</dt><dd>Subdivision of a company into two or more entities. One entity retains original identity; other(s) are newly incorporated. Opposite of merger — divides company instead of combining.</dd>
+    <dt>Equity Swap / Share Exchange</dt><dd>Merger consideration entirely in form of shares — Transferor shareholders receive Transferee shares at pre-agreed ratio (swap ratio).</dd>
+  </dl>
+
+  <h3>Merger Process & Regulatory Compliance</h3>
+  <ul>
+    <li><b>Board Approval:</b> Boards of both companies approve proposed merger terms. Draft Scheme of Arrangement prepared specifying details: swap ratio, closing conditions, tax treatment, treatment of options/warrants.</li>
+    <li><b>Shareholder Meetings:</b> Separate General Meetings of both companies held to approve merger. Requires ordinary resolution (simple majority) for board approval; scheme requires shareholder approval in separate meetings for each company.</li>
+    <li><b>Creditor Approval:</b> Court may require creditors' meeting if company is insolvent or creditors are materially affected. Creditors must approve by majority (by number and value).</li>
+    <li><b>Court Sanction:</b> National Company Law Tribunal (NCLT) in India must sanction the scheme after hearings. NCLT verifies procedural compliance and fairness to members/creditors before granting sanction.</li>
+    <li><b>Regulatory Approvals:</b> Depending on companies' sectors and shareholding, may require: Securities and Exchange Board of India (SEBI) approval (for listed companies), Foreign Investment Promotion Board (FIPB) clearance (for foreign investment), sectoral regulator approvals.</li>
+    <li><b>Closure & Integration:</b> After NCLT sanction, merger is effected. Transferor company is dissolved; Transferee integrates assets, liabilities, operations. Name change, bylaws amendment, employee integration undertaken.</li>
+  </ul>
+
+  <h3>Merger Accounting & Tax Treatment</h3>
+  <ul>
+    <li><b>Pooling of Interests Method:</b> Merger accounted as pooling (combination) of interests — Transferee records Transferor assets at book values (not fair values). Rare in modern accounting (superseded by acquisition accounting).</li>
+    <li><b>Acquisition Method:</b> Transferee records Transferor assets at fair values on merger date. Excess of consideration over fair value is goodwill (intangible asset). Synergies/expected cost savings are not recognised as assets.</li>
+    <li><b>Tax-Free Reorganization:</b> Merger can be structured to qualify as tax-free reorganization under income tax law — no capital gains tax on share exchange, cost basis carries forward. Requirements must be specifically met.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Corporate restructuring through merger is a major strategic tool for: (i) consolidation (reducing competition, improving market share), (ii) growth (acquiring brands, technology, customer base), (iii) cost reduction (elimination of redundancy, economies of scale), (iv) industry consolidation (response to competitive threats). M&A activities are high-stakes, complex affairs involving legal, financial, operational, and tax considerations. Understanding merger mechanics and regulatory requirements is essential for successful restructuring.</p>
+
+  <h3 class="note">Note</h3>
+  <p>A "merger" under company law is technically "amalgamation" (combination of two entities into one by absorption). The term "merger" also colloquially includes acquisitions. The key distinction: merger/amalgamation ends the acquired company's separate existence; acquisition leaves acquired company as subsidiary (though often integrated post-acquisition). Scheme of Arrangement is a flexible tool — can be used for mergers, demergers, capital reduction, or compromises between company and creditors. NCLT sanction is critical — court will reject scheme if substantive unfairness to minorities is evident. "Poison pills" (defensive measures against unwanted acquisitions) and "golden parachutes" (executive severance packages triggered by takeover) are controversial governance practices sometimes used to resist hostile mergers.</p>
+</section>
+
+<section class="chapter" id="p2ch2">
+  <h2>Part 2 Chapter 2 — Liquidation & Winding Up</h2>
+  <p class="src">Source: 87785bos-aps2160-p2-ch2.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Winding Up:</b> Process of dissolving a company — terminating its operations, collecting assets, paying creditors, and distributing surplus (if any) to members. Ends the company's legal existence and removes it from the Register of Companies.</li>
+    <li><b>Liquidator:</b> Court-appointed officer overseeing winding up process. Liquidator collects company assets, realises them, and distributes proceeds according to statutory priorities. Acts as agent of company (and later, creditors) in the winding up.</li>
+    <li><b>Insolvency:</b> Company is insolvent if liabilities exceed assets — it cannot pay creditors in full. Insolvency can trigger involuntary winding up (creditor petition) or voluntary winding up (member petition with court approval).</li>
+    <li><b>Priority of Claims:</b> On winding up, assets are distributed in statutory order: (i) costs of winding up, (ii) secured creditors (from charged assets), (iii) unsecured creditors (employee dues first, then trade payables), (iv) preference shareholders, (v) equity shareholders.</li>
+  </ul>
+
+  <h3>Key Definitions / Terms</h3>
+  <dl>
+    <dt>Winding Up / Liquidation</dt><dd>Process of terminating a company's business and legal existence. Assets are collected, valued and realised; creditors are paid according to statutory priority; surplus (if any) distributed to members. On completion, company is dissolved and removed from Register.</dd>
+    <dt>Liquidator</dt><dd>Officer appointed by court or creditors (if creditor-convened) to conduct winding up. Liquidator represents company, collects assets, realises them, discharges liabilities, and distributes surplus. Liquidator has powers to sue/defend, sell assets, compromise debts, etc.</dd>
+    <dt>Statutory Liquidator / Official Liquidator</dt><dd>In India, the Official Liquidator (appointed under Insolvency and Bankruptcy Code) conducts the winding up process for insolvent companies. Functions similar to liquidator in other jurisdictions.</dd>
+    <dt>Insolvent Company</dt><dd>Company unable to pay debts as they fall due (cash flow test) or liabilities exceed assets (balance sheet test). Insolvency is ground for winding up on creditor petition or member petition.</dd>
+    <dt>Preferential Creditor</dt><dd>Employees of company — entitled to priority payment of dues (wages, gratuity, leave encashment) over other unsecured creditors. Priority is up to a limit (e.g., ₹100,000 per employee in India).</dd>
+    <dt>Floating Charge / Secured Creditor</dt><dd>Creditor with security charge (mortgage, pledge) on company assets. On winding up, secured creditor realises security (sale of charged assets) and recovers claim from proceeds, ahead of unsecured creditors.</dd>
+  </dl>
+
+  <h3>Types of Winding Up</h3>
+  <ul>
+    <li><b>Compulsory (Court-Ordered) Winding Up:</b> Initiated by petition to court (from creditor, member, or company). Court must be satisfied that it is just and equitable to wind up (e.g., company is insolvent, deadlock in management, members' funds misappropriated).</li>
+    <li><b>Voluntary Winding Up:</b> Initiated by members' resolution (extraordinary general meeting) declaring company unable to continue business. Requires 75% (special resolution) approval. Members appoint liquidator; not court-ordered but subject to regulatory oversight.</li>
+    <li><b>Creditors' Voluntary Winding Up:</b> Member-initiated (when company is insolvent) but controlled by creditors. Creditors' meeting called; creditors appoint liquidator. Creditors' committee formed for oversight.</li>
+  </ul>
+
+  <h3>Winding Up Process</h3>
+  <ul>
+    <li><b>Appointment of Liquidator:</b> For court-ordered winding up, court appoints Official Liquidator. For voluntary winding up, members appoint liquidator at shareholder meeting.</li>
+    <li><b>Asset Collection & Realisation:</b> Liquidator collects all company assets (receivables, investments, property), realises them (seeks payment, sells assets), and converts to cash.</li>
+    <li><b>Creditor Claims:</b> Creditors file proofs of claims (documented evidence of debt) with liquidator. Liquidator examines claims and accepts/rejects based on authenticity and statutory priority.</li>
+    <li><b>Distribution of Proceeds:</b> Proceeds are distributed according to statutory priority: (i) costs of winding up, (ii) preferential creditors (employees), (iii) secured creditors (from charged asset proceeds), (iv) unsecured creditors, (v) equity shareholders (surplus).</li>
+    <li><b>Final Accounting & Dissolution:</b> Liquidator prepares final account showing assets collected, liabilities paid, distribution to stakeholders. On court approval, company is dissolved and removed from Register.</li>
+  </ul>
+
+  <h3>Priority of Claims on Winding Up</h3>
+  <ul>
+    <li><b>1st Priority:</b> Costs and expenses of winding up (liquidator fees, court costs, audit fees).</li>
+    <li><b>2nd Priority:</b> Preferential creditors — employees' wages, gratuity, leave encashment (capped at limit per employee).</li>
+    <li><b>3rd Priority:</b> Secured creditors — recover from proceeds of secured assets in order of charge priority (first charge before second charge).</li>
+    <li><b>4th Priority:</b> Unsecured creditors — in order: (i) government dues (taxes), (ii) trade payables (suppliers), (iii) other unsecured creditors.</li>
+    <li><b>5th Priority:</b> Preference shareholders — return of capital if surplus remains after creditors paid.</li>
+    <li><b>6th Priority:</b> Equity shareholders — any surplus after all above claims.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Winding up is a regulated process ensuring fair treatment of all stakeholders — creditors, employees, shareholders — when a company fails. The statutory priority of claims protects vulnerable parties (employees, preferential creditors) while respecting the rights of secured and other creditors. Understanding winding up mechanics is important for creditors assessing likely recovery, employees asserting wage claims, and shareholders understanding their residual claims. For governments, proper winding up procedures maintain confidence in corporate sector and creditor protection frameworks.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Modern insolvency frameworks (e.g., Insolvency and Bankruptcy Code in India) have superseded traditional liquidation procedures — corporate insolvency resolution is now a separate process aimed at restructuring distressed companies rather than immediate liquidation. However, if restructuring fails, liquidation follows. Fraudulent preference (creditor receiving preferential treatment shortly before insolvency) can be undone — liquidator can recover and redistribute. Priority claims can change with statutory amendments — employee protection often increases as government policy prioritises labour over creditor recovery.</p>
+</section>
+
+<section class="chapter" id="p2ch3">
+  <h2>Part 2 Chapter 3 — Regulatory Compliance & Corporate Governance</h2>
+  <p class="src">Source: 87786bos-aps2160-p2-ch3.pdf</p>
+
+  <h3>Core Concept(s)</h3>
+  <ul>
+    <li><b>Corporate Governance:</b> System of rules, practices, and processes by which a company is directed and controlled. Encompasses Board structure, executive management, stakeholder accountability, transparency, and ethical conduct.</li>
+    <li><b>Regulatory Framework:</b> Companies are subject to multiple layers of regulation — statutory (Companies Act), sectoral (RBI for banks, SEBI for listed companies), industry-specific (telecom, pharma, etc.), and contractual (bylaws, agreements).</li>
+    <li><b>Compliance Obligations:</b> Regular filing of documents with Registrar of Companies, financial statement disclosure, audit, transfer of unclaimed dividends to Investor Education and Protection Fund (IEPF), appointment of key personnel as per statutory limits.</li>
+    <li><b>Stakeholder Accountability:</b> Modern governance emphasises accountability not just to shareholders but to all stakeholders — creditors, employees, customers, community. Board is accountable for corporate social responsibility (CSR) and sustainable practices.</li>
+  </ul>
+
+  <h3>Key Governance Frameworks</h3>
+  <dl>
+    <dt>Board Composition & Independence</dt><dd>Governance standards require boards have mix of executive, non-executive, and independent directors. Independent directors must be independent of management, free from conflicts, with credible professional background. Ensures independent oversight of management.</dd>
+    <dt>Audit Committee</dt><dd>Committee of Board (majority independent) overseeing financial reporting, internal controls, audit. Acts as first line of defence against financial misstatements and fraud.</dd>
+    <dt>Risk Management Committee</dt><dd>Committee identifying, assessing, managing enterprise risks (operational, financial, strategic, compliance, reputational). Reports to Board on key risks and mitigation strategies.</dd>
+    <dt>Related Party Transactions Committee</dt><dd>Reviews material related party transactions for fairness and independence. Ensures related party transactions do not breach arm's length principle or unfairly favour related parties.</dd>
+    <dt>Disclosure & Transparency Requirements</dt><dd>Listed companies must disclose: (i) financial statements quarterly/annually, (ii) material developments promptly, (iii) director conflicts/related party transactions, (iv) remuneration, (v) Board composition. Ensures market has information for investment decisions.</dd>
+    <dt>Corporate Social Responsibility (CSR)</dt><dd>Listed companies with net profit above ₹5 crore must spend minimum 2% of average net profit on CSR activities. Focus on education, health, environment, community welfare.</dd>
+  </dl>
+
+  <h3>Regulatory Compliance</h3>
+  <ul>
+    <li><b>Statutory Filings:</b> Companies must file annual returns, financial statements, director changes, capital changes with Registrar of Companies within prescribed timelines. Non-compliance attracts penalties.</li>
+    <li><b>MCA Filings:</b> Ministry of Corporate Affairs (MCA) oversees corporate compliance. Companies must maintain statutory registers (members, directors, charges) and produce for inspection on demand.</li>
+    <li><b>Stock Exchange Listings:</b> Listed companies are subject to SEBI regulations and stock exchange rules — requiring timely disclosure of material information, insider trading restrictions, audit committee requirements, independent director mandates.</li>
+    <li><b>Sectoral Regulators:</b> Banks subject to RBI regulation; insurance companies subject to IRDAI regulation; telecom companies subject to TRAI regulation. Sector-specific compliance required beyond Companies Act.</li>
+  </ul>
+
+  <h3>Transparency & Accountability Mechanisms</h3>
+  <ul>
+    <li><b>Financial Reporting:</b> Annual report includes Board's Report, audited financial statements (Balance Sheet, P&L, Cash Flow), audit report, and management discussion & analysis. Mandated auditor and Board reviews before publication.</li>
+    <li><b>Internal Audit & Compliance:</b> Internal audit function reviews internal controls, compliance with policies, operational efficiency. Board audit committee oversees internal audit, receives reports on findings and remediation.</li>
+    <li><b>Whistleblower Policy:</b> Many companies have policies encouraging employees/stakeholders to report misconduct (fraud, regulatory violation, harassment) without fear of retaliation. Protects whistleblowers and allows early intervention.</li>
+    <li><b>Nomination & Remuneration Committee:</b> Oversees director selection, performance evaluation, compensation packages. Ensures merit-based director appointments and fair compensation aligned with market and performance.</li>
+  </ul>
+
+  <h3>Why It Matters / Application</h3>
+  <p>Good corporate governance is essential for: (i) protecting shareholder interests through transparent decision-making and independent oversight, (ii) managing risks and ensuring compliance, (iii) attracting institutional investment (many institutional investors mandate governance standards), (iv) maintaining stakeholder trust and social licence to operate. For companies, strong governance improves decision quality, reduces agency costs, and enhances valuations. For investors, governance quality is a key metric for assessing company risk and management quality. For regulators, governance standards protect market integrity and consumer/creditor welfare.</p>
+
+  <h3 class="note">Note</h3>
+  <p>Corporate governance standards continue to evolve globally in response to corporate scandals and market developments. Environmental, Social & Governance (ESG) criteria are now central to investment decisions — governance is one pillar, alongside environmental and social performance. Board diversity (gender, ethnic, professional background) is increasingly mandated as research links diversity to improved decision-making. The concept of stakeholder capitalism (balancing shareholder returns with stakeholder interests) is gaining traction — governance frameworks increasingly emphasise accountability to employees, suppliers, customers, and communities. Governance failures (like Enron, Wells Fargo) have led to stricter laws (Sarbanes-Oxley in US, Companies Act amendments in India) and higher personal accountability for directors.</p>
+</section>
+
+</div>
+</main>
+</div>
+<button class="topbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+<script>
+// Scrollspy: highlight active TOC link
+const links=[...document.querySelectorAll('#toc a')];
+const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const obs=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    links.forEach(l=>l.classList.remove('active'));
+    const a=map.get(e.target.id); if(a){a.classList.add('active');
+      a.scrollIntoView({block:'nearest'});}
+  }});
+},{rootMargin:'-10% 0px -80% 0px'});
+document.querySelectorAll('section.chapter').forEach(s=>obs.observe(s));
+// Filter box
+const box=document.getElementById('navfilter');
+if(box){box.addEventListener('input',()=>{
+  const q=box.value.toLowerCase();
+  document.querySelectorAll('#toc .nav-group').forEach(g=>{
+    let any=false;
+    g.querySelectorAll('li').forEach(li=>{
+      const hit=li.textContent.toLowerCase().includes(q);
+      li.style.display=hit?'':'none'; if(hit)any=true;
+    });
+    g.style.display=any?'':'none';
+  });
+});}
+</script>
+</body>
+</html>
