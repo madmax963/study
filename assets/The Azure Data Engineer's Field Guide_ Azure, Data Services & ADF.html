@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Azure Data Engineer's Field Guide: Azure, Data Services &amp; ADF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7FA; --surface:#FFFFFF; --ink:#18212C; --muted:#56606D; --rule:#D9DEE5;
+  --accent:#2457A6; --accent-soft:#E6EEF9;
+  --analogy-bg:#EAF4EE; --analogy-rule:#2F7A55; --analogy-ink:#1E4D37;
+  --code-bg:#EEF1F5; --code-ink:#1E2A3A;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11161D; --surface:#171E27; --ink:#E4E8EE; --muted:#9AA4B2; --rule:#2B3542;
+    --accent:#7FA8E8; --accent-soft:#1D2A3D;
+    --analogy-bg:#15261E; --analogy-rule:#5DBB8A; --analogy-ink:#BFE5CF;
+    --code-bg:#1C242F; --code-ink:#D7DEE8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11161D; --surface:#171E27; --ink:#E4E8EE; --muted:#9AA4B2; --rule:#2B3542;
+  --accent:#7FA8E8; --accent-soft:#1D2A3D;
+  --analogy-bg:#15261E; --analogy-rule:#5DBB8A; --analogy-ink:#BFE5CF;
+  --code-bg:#1C242F; --code-ink:#D7DEE8; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px); scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Serif 4", Georgia, "Times New Roman", serif; font-size:1.08rem; line-height:1.7;}
+a{color:var(--accent)}
+a:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+.masthead{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead-inner{max-width:1200px; margin:0 auto; padding:2.5rem 1.5rem 2rem}
+.masthead h1{font-family:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif; font-weight:600;
+  font-size:clamp(1.9rem, 4.5vw, 3rem); line-height:1.15; letter-spacing:-0.015em; margin:0 0 .6rem; max-width:22ch}
+.masthead p{margin:0; color:var(--muted); max-width:62ch; font-size:1.05rem}
+.legend{display:flex; flex-wrap:wrap; gap:1rem 1.5rem; margin-top:1.4rem; font-family:"IBM Plex Sans", system-ui, sans-serif; font-size:.9rem; color:var(--muted)}
+.legend span{display:inline-flex; align-items:center; gap:.5rem}
+.sw{width:14px; height:14px; border-radius:3px; display:inline-block}
+.layout{max-width:1200px; margin:0 auto; display:grid; grid-template-columns:280px minmax(0,1fr); gap:3rem; padding:0 1.5rem}
+nav.toc{position:sticky; top:env(safe-area-inset-top,0px); align-self:start; max-height:100vh; overflow-y:auto;
+  padding:2rem 0 3rem; font-family:"IBM Plex Sans", system-ui, sans-serif; font-size:.88rem; line-height:1.4}
+nav.toc > p{color:var(--muted); margin:0 0 .8rem; font-weight:600}
+nav.toc ol{list-style:none; margin:0; padding:0}
+nav.toc > ol > li{margin:0 0 .35rem}
+nav.toc summary{cursor:pointer; list-style:none; padding:.3rem .4rem; border-radius:4px}
+nav.toc summary::-webkit-details-marker{display:none}
+nav.toc summary:hover{background:var(--accent-soft)}
+nav.toc summary a{color:var(--ink); text-decoration:none}
+nav.toc .pn{color:var(--accent); font-weight:600; margin-right:.25rem}
+nav.toc details ol{padding:.2rem 0 .5rem 1rem; border-left:1px solid var(--rule); margin-left:.6rem}
+nav.toc details li a{display:block; padding:.18rem .4rem; color:var(--muted); text-decoration:none}
+nav.toc details li a:hover{color:var(--ink)}
+main{min-width:0; padding:1rem 0 5rem; max-width:46rem}
+main h1{font-family:"IBM Plex Sans", system-ui, sans-serif; font-weight:600; font-size:1.85rem; line-height:1.2;
+  letter-spacing:-0.01em; margin:4rem 0 1.5rem; padding-top:1.2rem; border-top:3px solid var(--accent)}
+main h2{font-family:"IBM Plex Sans", system-ui, sans-serif; font-weight:600; font-size:1.38rem; line-height:1.3; margin:2.8rem 0 .9rem}
+main h3{font-family:"IBM Plex Sans", system-ui, sans-serif; font-weight:600; font-size:1.1rem; margin:2rem 0 .6rem}
+main hr{display:none}
+main p, main li{max-width:68ch}
+main li{margin:.3rem 0}
+strong{font-weight:650}
+blockquote{margin:1.4rem 0; padding:1rem 1.25rem 1rem 1.25rem; background:var(--analogy-bg); color:var(--analogy-ink);
+  border-left:4px solid var(--analogy-rule); border-radius:0 6px 6px 0}
+blockquote p{margin:.45rem 0}
+blockquote p:first-child{margin-top:0} blockquote p:last-child{margin-bottom:0}
+blockquote strong{color:inherit}
+blockquote ul, blockquote ol{margin:.4rem 0; padding-left:1.3rem}
+code{font-family:"JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace; font-size:.86em;
+  background:var(--code-bg); color:var(--code-ink); padding:.1em .35em; border-radius:4px}
+pre{background:var(--code-bg); color:var(--code-ink); padding:1rem 1.1rem; border-radius:6px; overflow-x:auto;
+  line-height:1.5; font-size:.92rem; border:1px solid var(--rule)}
+pre code{background:none; padding:0; font-size:inherit}
+.tablewrap{overflow-x:auto; margin:1.3rem 0; border:1px solid var(--rule); border-radius:6px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-family:"IBM Plex Sans", system-ui, sans-serif; font-size:.9rem; line-height:1.45}
+th, td{padding:.6rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule)}
+th{background:var(--accent-soft); font-weight:600}
+tr:last-child td{border-bottom:none}
+.diagram{overflow-x:auto; margin:1.5rem 0; padding:1rem; background:var(--surface); border:1px solid var(--rule); border-radius:6px}
+pre.mermaid{background:none; border:none; padding:0; margin:0; text-align:center}
+img{max-width:100%}
+.toggle-toc{display:none}
+@media (max-width: 900px){
+  .layout{grid-template-columns:minmax(0,1fr); gap:0}
+  nav.toc{position:static; max-height:none; padding:1.2rem 0 0; border-bottom:1px solid var(--rule)}
+  nav.toc > ol{display:none}
+  nav.toc.open > ol{display:block; padding-bottom:1rem}
+  .toggle-toc{display:inline-block; font:inherit; font-weight:600; background:var(--accent-soft); color:var(--ink);
+    border:1px solid var(--rule); border-radius:6px; padding:.5rem .8rem; cursor:pointer; margin-bottom:.8rem}
+  nav.toc > p{display:none}
+  main h1{margin-top:3rem}
+}
+</style>
+</head>
+<body>
+<header class="masthead"><div class="masthead-inner">
+<h1>The Azure Data Engineer's Field Guide</h1>
+<p>Azure foundations, security, storage, databases, analytics services and Azure Data Factory in depth, explained with real-world analogies for a data engineer at around three years of experience.</p>
+<div class="legend">
+<span><i class="sw" style="background:var(--analogy-bg);border-left:4px solid var(--analogy-rule)"></i>Green panels are analogies</span>
+<span><i class="sw" style="background:var(--code-bg);border:1px solid var(--rule)"></i>Grey panels are code: SQL, ADF expressions, JSON, KQL, Bicep</span>
+</div>
+</div></header>
+<div class="layout">
+<nav class="toc" id="toc" aria-label="Contents">
+<button class="toggle-toc" type="button" aria-expanded="false" aria-controls="toc">Show contents</button>
+<p>Contents</p>
+<ol>
+<li><details><summary><a href="#how-to-read-this-guide">How to read this guide</a></summary></details></li>
+<li><details><summary><a href="#part-1-azure-foundations"><span class="pn">Part 1</span> Azure foundations</a></summary><ol><li><a href="#11-why-the-cloud-renting-vs-owning">1.1 Why the Cloud? Renting vs Owning</a></li><li><a href="#12-iaas-paas-saas-the-pizza-analogy">1.2 IaaS, PaaS, SaaS: The Pizza Analogy</a></li><li><a href="#13-the-azure-hierarchy-how-everything-is-organised">1.3 The Azure Hierarchy: How Everything Is Organised</a></li><li><a href="#14-regions-availability-zones-and-region-pairs">1.4 Regions, Availability Zones and Region Pairs</a></li><li><a href="#15-how-you-talk-to-azure-azure-resource-manager">1.5 How You Talk to Azure: Azure Resource Manager</a></li><li><a href="#16-naming-and-tagging-labels-on-every-box">1.6 Naming and Tagging: Labels on Every Box</a></li></ol></details></li>
+<li><details><summary><a href="#part-2-identity-security-and-networking"><span class="pn">Part 2</span> Identity, security and networking</a></summary><ol><li><a href="#21-microsoft-entra-id-the-passport-office">2.1 Microsoft Entra ID: The Passport Office</a></li><li><a href="#22-service-principals-vs-managed-identities-the-robots-badge">2.2 Service Principals vs Managed Identities: The Robot's Badge</a></li><li><a href="#23-azure-rbac-control-plane-vs-data-plane">2.3 Azure RBAC: Control Plane vs Data Plane</a></li><li><a href="#24-azure-key-vault-the-bank-locker">2.4 Azure Key Vault: The Bank Locker</a></li><li><a href="#25-networking-the-gated-community">2.5 Networking: The Gated Community</a></li><li><a href="#26-encryption">2.6 Encryption</a></li><li><a href="#27-governance-azure-policy-and-microsoft-purview">2.7 Governance: Azure Policy and Microsoft Purview</a></li></ol></details></li>
+<li><details><summary><a href="#part-3-storage-azure-blob-storage-and-adls-gen2"><span class="pn">Part 3</span> Storage: Blob and ADLS Gen2</a></summary><ol><li><a href="#31-the-storage-account-the-warehouse-building">3.1 The Storage Account: The Warehouse Building</a></li><li><a href="#32-blob-storage-vs-adls-gen2-the-mailroom-vs-the-filing-cabinet">3.2 Blob Storage vs ADLS Gen2: The Mailroom vs the Filing Cabinet</a></li><li><a href="#33-access-tiers-fridge-freezer-attic-and-off-site-store">3.3 Access Tiers: Fridge, Freezer, Attic and Off-site Store</a></li><li><a href="#34-redundancy-how-many-photocopies-and-where">3.4 Redundancy: How Many Photocopies, and Where?</a></li><li><a href="#35-data-protection-undo-buttons-for-the-lake">3.5 Data Protection: Undo Buttons for the Lake</a></li><li><a href="#36-access-control-on-the-lake-rbac-acls-sas-and-keys">3.6 Access Control on the Lake: RBAC, ACLs, SAS and Keys</a></li><li><a href="#37-designing-the-lake-zones-folders-and-file-formats">3.7 Designing the Lake: Zones, Folders and File Formats</a></li></ol></details></li>
+<li><details><summary><a href="#part-4-azure-databases"><span class="pn">Part 4</span> Azure databases</a></summary><ol><li><a href="#41-the-azure-sql-family-apartment-house-or-land">4.1 The Azure SQL Family: Apartment, House or Land</a></li><li><a href="#42-purchasing-models-and-service-tiers">4.2 Purchasing Models and Service Tiers</a></li><li><a href="#43-high-availability-backups-and-disaster-recovery-in-azure-sql">4.3 High Availability, Backups and Disaster Recovery in Azure SQL</a></li><li><a href="#44-performance-and-monitoring-in-azure-sql">4.4 Performance and Monitoring in Azure SQL</a></li><li><a href="#45-azure-database-for-postgresql-and-mysql-flexible-server">4.5 Azure Database for PostgreSQL and MySQL (Flexible Server)</a></li><li><a href="#46-authentication-to-azure-sql-from-pipelines">4.6 Authentication to Azure SQL from Pipelines</a></li><li><a href="#47-azure-cosmos-db-briefly-the-global-library-network">4.7 Azure Cosmos DB (Briefly): The Global Library Network</a></li></ol></details></li>
+<li><details><summary><a href="#part-5-azure-analytics-services"><span class="pn">Part 5</span> Azure analytics services</a></summary><ol><li><a href="#51-the-map-of-services-who-does-what-in-the-kitchen">5.1 The Map of Services: Who Does What in the Kitchen</a></li><li><a href="#52-azure-synapse-analytics-the-multi-purpose-workshop">5.2 Azure Synapse Analytics: The Multi-Purpose Workshop</a></li><li><a href="#53-azure-databricks-the-industrial-kitchen">5.3 Azure Databricks: The Industrial Kitchen</a></li><li><a href="#54-microsoft-fabric-the-all-in-one-food-hall">5.4 Microsoft Fabric: The All-in-One Food Hall</a></li><li><a href="#55-streaming-and-glue-services">5.5 Streaming and Glue Services</a></li><li><a href="#56-choosing-a-platform-a-practical-decision-guide">5.6 Choosing a Platform: A Practical Decision Guide</a></li></ol></details></li>
+<li><details><summary><a href="#part-6-azure-data-factory-in-depth"><span class="pn">Part 6</span> Azure Data Factory in depth</a></summary><ol><li><a href="#61-what-adf-is-and-isnt-the-logistics-company">6.1 What ADF Is (and Isn't): The Logistics Company</a></li><li><a href="#62-the-building-blocks">6.2 The Building Blocks</a></li><li><a href="#63-parameters-variables-and-expressions-the-pipelines-language">6.3 Parameters, Variables and Expressions: The Pipeline's Language</a></li><li><a href="#64-control-flow-activities-traffic-lights-and-assembly-lines">6.4 Control Flow Activities: Traffic Lights and Assembly Lines</a></li><li><a href="#65-the-copy-activity-in-depth-the-forklift">6.5 The Copy Activity in Depth: The Forklift</a></li><li><a href="#66-transformations-data-flows-vs-pushing-work-down">6.6 Transformations: Data Flows vs Pushing Work Down</a></li><li><a href="#67-metadata-driven-pipelines-the-shipping-manifest">6.7 Metadata-Driven Pipelines: The Shipping Manifest</a></li><li><a href="#68-error-handling-retries-and-timeouts">6.8 Error Handling, Retries and Timeouts</a></li><li><a href="#69-logging-monitoring-and-alerting">6.9 Logging, Monitoring and Alerting</a></li><li><a href="#610-cicd-for-adf-drafts-the-printed-edition-and-moving-between-offices">6.10 CI/CD for ADF: Drafts, the Printed Edition, and Moving Between Offices</a></li><li><a href="#611-security-in-adf">6.11 Security in ADF</a></li><li><a href="#612-cost-management-in-adf-the-couriers-bill">6.12 Cost Management in ADF: The Courier's Bill</a></li><li><a href="#613-adf-vs-synapse-pipelines-vs-fabric-data-factory">6.13 ADF vs Synapse Pipelines vs Fabric Data Factory</a></li><li><a href="#614-troubleshooting-field-notes">6.14 Troubleshooting Field Notes</a></li></ol></details></li>
+<li><details><summary><a href="#part-7-reference-architectures"><span class="pn">Part 7</span> Reference architectures</a></summary><ol><li><a href="#71-batch-lakehouse-on-azure-adf-adls-databricks-sqlfabric-power-bi">7.1 Batch Lakehouse on Azure (ADF + ADLS + Databricks + SQL/Fabric + Power BI)</a></li><li><a href="#72-on-premises-sql-server-to-azure-sql-managed-instance-warehouse">7.2 On-Premises SQL Server to Azure SQL Managed Instance Warehouse</a></li><li><a href="#73-event-driven-file-ingestion">7.3 Event-Driven File Ingestion</a></li><li><a href="#74-streaming">7.4 Streaming</a></li></ol></details></li>
+<li><details><summary><a href="#part-8-operating-the-platform-on-azure"><span class="pn">Part 8</span> Operating the platform</a></summary><ol><li><a href="#81-monitoring-stack-the-buildings-control-room">8.1 Monitoring Stack: The Building's Control Room</a></li><li><a href="#82-business-continuity-and-disaster-recovery">8.2 Business Continuity and Disaster Recovery</a></li><li><a href="#83-cost-management-the-household-budget">8.3 Cost Management: The Household Budget</a></li></ol></details></li>
+<li><details><summary><a href="#part-9-infrastructure-as-code"><span class="pn">Part 9</span> Infrastructure as code</a></summary><ol><li><a href="#91-why-iac-the-architects-blueprint">9.1 Why IaC: The Architect's Blueprint</a></li><li><a href="#92-example-bicep-for-a-lake-a-factory-and-a-role-assignment">9.2 Example: Bicep for a Lake, a Factory, and a Role Assignment</a></li></ol></details></li>
+<li><details><summary><a href="#part-10-checklists-interview-preparation-and-learning-path"><span class="pn">Part 10</span> Checklists, interviews and learning path</a></summary><ol><li><a href="#101-new-azure-data-platform-checklist">10.1 New Azure Data Platform Checklist</a></li><li><a href="#102-adf-pipeline-review-checklist">10.2 ADF Pipeline Review Checklist</a></li><li><a href="#103-interview-questions-with-model-answers">10.3 Interview Questions with Model Answers</a></li><li><a href="#104-learning-path">10.4 Learning Path</a></li></ol></details></li>
+</ol>
+</nav>
+<main>
+
+
+<hr />
+<h2 id="how-to-read-this-guide">How to Read This Guide</h2>
+<p>This is the companion to the RDBMS, SQL and Data Warehousing field guide. That guide explained <strong>what</strong> a data engineer builds (models, pipelines, warehouses). This one explains <strong>where and with what</strong> you build it on Microsoft Azure.</p>
+<p>Every concept follows the same rhythm:</p>
+<ol>
+<li><strong>The analogy</strong> (green panels) — a real-world picture so the idea clicks.</li>
+<li><strong>The real explanation</strong> — how the service actually works.</li>
+<li><strong>Why it matters to you</strong> — how it shows up in daily work, design decisions and interviews.</li>
+<li><strong>Examples</strong> — expressions, SQL, JSON, KQL or configuration where useful.</li>
+</ol>
+<p><strong>A note on where Azure is heading (as of late 2026).</strong> Microsoft's strategic investment for analytics is now centred on <strong>Microsoft Fabric</strong>. Azure Data Factory (ADF) and Azure Synapse Analytics remain fully supported and are still running a huge number of production workloads, but most new features are landing in Fabric, and Microsoft has published guidance for moving ADF and Synapse pipelines into Fabric. Some ADF features, like its managed Apache Airflow option, have been deprecated for new customers. For you this means: <strong>ADF skills are still essential</strong> (they transfer almost one-to-one into Fabric Data Factory), Synapse knowledge matters for supporting and migrating existing estates, and Fabric literacy is increasingly expected. This guide covers all three, with ADF in the most depth.</p>
+<hr />
+<h1 id="part-1-azure-foundations">Part 1: Azure foundations</h1>
+<h2 id="11-why-the-cloud-renting-vs-owning">1.1 Why the Cloud? Renting vs Owning</h2>
+<blockquote>
+<p><strong>Analogy.</strong> Running your own data centre is like <strong>owning a house</strong>: you buy it up front, you fix the roof, you pay for empty rooms even when guests aren't visiting, and if you need more space, you build an extension over months. The cloud is like <strong>renting</strong>: you pay for what you use, the landlord fixes the plumbing, and you can take a bigger flat next month.</p>
+</blockquote>
+<p>The cloud converts <strong>capital expense</strong> (buying servers) into <strong>operating expense</strong> (paying per hour, per GB, per run). It gives you <strong>elasticity</strong> (scale up for the month-end load, scale down overnight), <strong>managed services</strong> (Microsoft patches, backs up and replicates for you), and <strong>global reach</strong>. The trade-off: costs are continuous and easy to lose track of, and you must understand each service's responsibilities and limits.</p>
+<h2 id="12-iaas-paas-saas-the-pizza-analogy">1.2 IaaS, PaaS, SaaS: The Pizza Analogy</h2>
+<blockquote>
+<p><strong>Analogy.</strong> You want pizza tonight.
+- <strong>On-premises:</strong> make it at home — buy the oven, the flour, everything. You do all of it.
+- <strong>IaaS (Infrastructure as a Service):</strong> rent a kitchen with an oven; you still bring ingredients, cook and clean.
+- <strong>PaaS (Platform as a Service):</strong> order from a takeaway — they cook it, you just provide the table and drinks.
+- <strong>SaaS (Software as a Service):</strong> dine in at a restaurant — everything is done for you; you just eat.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>You manage</th>
+<th>Microsoft manages</th>
+<th>Data examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IaaS</td>
+<td>OS, patches, database engine, backups, HA</td>
+<td>Hardware, networking, data centre</td>
+<td>SQL Server on an Azure VM</td>
+</tr>
+<tr>
+<td>PaaS</td>
+<td>Data, schema, queries, access, configuration</td>
+<td>OS, engine patching, backups, HA</td>
+<td>Azure SQL Database, ADF, Synapse, Databricks</td>
+</tr>
+<tr>
+<td>SaaS</td>
+<td>Your content and settings</td>
+<td>Nearly everything</td>
+<td>Microsoft Fabric, Power BI, Microsoft 365</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The shared responsibility model:</strong> Microsoft is always responsible for the physical security of data centres; <strong>you</strong> are always responsible for your data, who can access it, and how it is classified. Everything in between shifts depending on the model. A huge share of real cloud data breaches come from customer-side misconfiguration (a public storage container, an over-privileged identity, a leaked key), not from the provider.</p>
+<h2 id="13-the-azure-hierarchy-how-everything-is-organised">1.3 The Azure Hierarchy: How Everything Is Organised</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a large corporation.
+- The <strong>tenant (Microsoft Entra ID)</strong> is the <strong>company itself</strong>, with its staff directory.
+- <strong>Management groups</strong> are <strong>divisions</strong> (Retail, Finance), each with company-wide rules.
+- <strong>Subscriptions</strong> are <strong>department budgets with their own bill</strong>: dev, test and prod usually get separate ones.
+- <strong>Resource groups</strong> are <strong>project folders</strong>: everything for one solution, created, secured and deleted together.
+- <strong>Resources</strong> are the <strong>individual items</strong> in the folder: a storage account, a data factory, a SQL database.</p>
+</blockquote>
+<div class="diagram"><pre class="mermaid">flowchart TB
+    T[Entra ID tenant&lt;br/&gt;the company] --&gt; MG1[Management group: Data Platform]
+    MG1 --&gt; S1[Subscription: data-prod]
+    MG1 --&gt; S2[Subscription: data-nonprod]
+    S1 --&gt; RG1[Resource group: rg-sales-dw-prod]
+    RG1 --&gt; R1[ADLS Gen2 storage]
+    RG1 --&gt; R2[Data Factory]
+    RG1 --&gt; R3[Azure SQL / Synapse]
+    RG1 --&gt; R4[Key Vault]
+</pre></div>
+<p><strong>Why it matters:</strong>
+- <strong>Permissions inherit downwards.</strong> A role granted at subscription level applies to every resource group and resource inside it. Grant at the <strong>lowest level that works</strong>.
+- <strong>Policies inherit downwards</strong> too (Section 2.7).
+- <strong>Billing</strong> is per subscription, broken down by resource group and tags.
+- <strong>Lifecycle:</strong> deleting a resource group deletes everything in it — useful for tearing down test environments, dangerous in production (use <strong>resource locks</strong>: <code>CanNotDelete</code> or <code>ReadOnly</code>).</p>
+<h2 id="14-regions-availability-zones-and-region-pairs">1.4 Regions, Availability Zones and Region Pairs</h2>
+<blockquote>
+<p><strong>Analogy.</strong>
+- A <strong>region</strong> is a <strong>city</strong> where Microsoft has data centres (e.g., Central India, Australia East, West Europe).
+- <strong>Availability zones</strong> are <strong>separate buildings in different neighbourhoods of that city</strong>, each with independent power, cooling and network. A fire in one building doesn't affect the others.
+- A <strong>region pair</strong> is a <strong>sister city</strong> hundreds of kilometres away, used for geo-redundant copies and coordinated maintenance.</p>
+</blockquote>
+<p><strong>Design rules:</strong>
+- Keep <strong>data and compute in the same region</strong> to avoid latency and cross-region data transfer (egress) costs, and to meet data residency requirements.
+- Use <strong>zone-redundant</strong> options for production where available (ZRS storage, zone-redundant SQL).
+- For disaster recovery, replicate to a second region (often the pair) — Part 8 covers this.</p>
+<h2 id="15-how-you-talk-to-azure-azure-resource-manager">1.5 How You Talk to Azure: Azure Resource Manager</h2>
+<blockquote>
+<p><strong>Analogy:</strong> whether you place an order in the shop, by phone, or through the website, it ends up at the <strong>same order desk</strong>. That desk checks your identity, checks you're allowed to order, and processes it.</p>
+</blockquote>
+<p>Every action — through the <strong>Azure Portal</strong>, <strong>Azure CLI</strong>, <strong>PowerShell</strong>, <strong>REST API</strong>, <strong>ARM/Bicep templates</strong> or <strong>Terraform</strong> — goes through <strong>Azure Resource Manager (ARM)</strong>, which authenticates you, checks RBAC and policy, and then creates or changes resources.</p>
+<p><strong>Infrastructure as Code (IaC)</strong> — describing resources in files (Bicep, ARM JSON, Terraform) and deploying them through pipelines — is the professional standard. Clicking in the portal is fine for learning, but production environments should be <strong>reproducible from code</strong> (Part 9).</p>
+<h2 id="16-naming-and-tagging-labels-on-every-box">1.6 Naming and Tagging: Labels on Every Box</h2>
+<blockquote>
+<p><strong>Analogy:</strong> in a warehouse with thousands of identical boxes, the label is everything. A box labelled "stuff" is useless; a box labelled "Sales – Prod – Owner: Data Team – Cost centre 4410" can be found, billed and disposed of correctly.</p>
+</blockquote>
+<p>Adopt a <strong>naming convention</strong> (Microsoft's Cloud Adoption Framework is a common basis): <code>&lt;type&gt;-&lt;workload&gt;-&lt;env&gt;-&lt;region&gt;-&lt;instance&gt;</code>, e.g. <code>adf-salesdw-prod-cin-01</code>, <code>stsalesdwprodcin01</code> (storage account names allow only lowercase letters and numbers, 3–24 characters, globally unique), <code>kv-salesdw-prod-cin</code>.</p>
+<p>Apply <strong>tags</strong> to every resource: <code>environment</code>, <code>owner</code>, <code>cost-centre</code>, <code>application</code>, <code>data-classification</code>. Tags power cost reports, ownership lookups and automation. Enforce them with Azure Policy.</p>
+<hr />
+<h1 id="part-2-identity-security-and-networking">Part 2: Identity, security and networking</h1>
+<h2 id="21-microsoft-entra-id-the-passport-office">2.1 Microsoft Entra ID: The Passport Office</h2>
+<blockquote>
+<p><strong>Analogy.</strong> A <strong>passport office</strong> issues identities that every country (application) trusts. You don't need a separate ID card for every shop; you show your passport, and each shop decides what you may do inside.</p>
+</blockquote>
+<p><strong>Microsoft Entra ID</strong> (formerly Azure Active Directory) is Azure's identity provider. It holds:</p>
+<ul>
+<li><strong>Users</strong> — people.</li>
+<li><strong>Groups</strong> — collections of users (always grant access to groups, not individuals).</li>
+<li><strong>App registrations / service principals</strong> — identities for applications.</li>
+<li><strong>Managed identities</strong> — identities for Azure resources themselves.</li>
+</ul>
+<p>Authentication protocols are OAuth 2.0 / OpenID Connect; services receive <strong>tokens</strong> rather than passwords.</p>
+<h2 id="22-service-principals-vs-managed-identities-the-robots-badge">2.2 Service Principals vs Managed Identities: The Robot's Badge</h2>
+<blockquote>
+<p><strong>Analogy.</strong> Your company employs a <strong>robot</strong> that carries files between departments.
+- A <strong>service principal with a client secret</strong> is like giving the robot a <strong>badge plus a written password</strong> on a card. Someone must store that card safely, and renew it before it expires (or the robot gets locked out at 2 am).
+- A <strong>managed identity</strong> is like the building <strong>recognising the robot by its built-in chip</strong>. There's no password card to lose, leak or renew — Azure manages the credential automatically.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Service principal (with secret/certificate)</th>
+<th>Managed identity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Credential</td>
+<td>Secret or certificate you manage and rotate</td>
+<td>Managed by Azure, invisible to you</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Secrets leak, expire, get hard-coded</td>
+<td>No secret to leak</td>
+</tr>
+<tr>
+<td>Works from</td>
+<td>Anywhere (on-prem, other clouds, CI/CD)</td>
+<td>Azure resources only</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>External tools, some CI/CD scenarios</td>
+<td>ADF, Databricks, Functions, VMs accessing Azure services</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Two kinds of managed identity:</strong>
+- <strong>System-assigned</strong> — created with the resource and deleted with it. <em>A chip built into one specific robot.</em> Every Data Factory has one automatically.
+- <strong>User-assigned</strong> — a standalone identity you create and attach to one or more resources. <em>A chip you can move between robots.</em> Useful when several resources need the same permissions, or when you want the identity to survive resource re-creation.</p>
+<p><strong>Rule:</strong> prefer <strong>managed identities</strong> wherever both sides support Entra authentication (ADF → ADLS, ADF → Azure SQL, ADF → Key Vault, Databricks → storage). Fall back to secrets in Key Vault only when you must.</p>
+<h2 id="23-azure-rbac-control-plane-vs-data-plane">2.3 Azure RBAC: Control Plane vs Data Plane</h2>
+<blockquote>
+<p><strong>Analogy.</strong> In a hotel:
+- The <strong>facilities manager's key</strong> lets you install, move or remove <strong>lockers</strong> in the hotel (the <strong>control plane</strong>: create, configure, delete resources).
+- A <strong>locker key</strong> lets you open a locker and take out what's inside (the <strong>data plane</strong>: read and write the actual data).</p>
+<p>Being allowed to install lockers doesn't automatically mean you can open everyone's locker.</p>
+</blockquote>
+<p><strong>Role-Based Access Control (RBAC)</strong> = <strong>security principal</strong> (who) + <strong>role definition</strong> (what) + <strong>scope</strong> (where).</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Common role</th>
+<th>Plane</th>
+<th>Grants</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td>Control</td>
+<td>Everything, including assigning roles</td>
+</tr>
+<tr>
+<td>Contributor</td>
+<td>Control</td>
+<td>Create/manage resources, cannot assign roles</td>
+</tr>
+<tr>
+<td>Reader</td>
+<td>Control</td>
+<td>View resources</td>
+</tr>
+<tr>
+<td>Data Factory Contributor</td>
+<td>Control</td>
+<td>Create and manage data factories</td>
+</tr>
+<tr>
+<td>Storage Blob Data Reader / Contributor / Owner</td>
+<td><strong>Data</strong></td>
+<td>Read / write / manage ACLs on blob/ADLS data</td>
+</tr>
+<tr>
+<td>Key Vault Secrets User</td>
+<td><strong>Data</strong></td>
+<td>Read secret values</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Classic gotcha:</strong> an engineer is <strong>Owner</strong> of a storage account but gets "This request is not authorized" when reading files. Owner is a control-plane role; reading data via Entra needs a <strong>data-plane role</strong> such as Storage Blob Data Reader. Same pattern applies to Key Vault (with RBAC permission model) and to databases (Azure SQL needs a <strong>database user</strong> for the identity, Section 4.6).</p>
+<p><strong>Least privilege:</strong> grant at the narrowest scope (a container or resource, not a subscription), to groups, with the narrowest role. Use <strong>Privileged Identity Management (PIM)</strong> for just-in-time elevation to admin roles.</p>
+<h2 id="24-azure-key-vault-the-bank-locker">2.4 Azure Key Vault: The Bank Locker</h2>
+<blockquote>
+<p><strong>Analogy.</strong> You don't keep your jewellery in your coat pocket. You keep it in a <strong>bank locker</strong>: the bank guards it, records every visit, and only authorised people get in. When you need it, you go to the bank, take it out, use it, and the record shows you did.</p>
+</blockquote>
+<p><strong>Key Vault</strong> stores <strong>secrets</strong> (passwords, connection strings, API keys), <strong>keys</strong> (encryption keys, including customer-managed keys for TDE and storage) and <strong>certificates</strong>.</p>
+<p><strong>How ADF uses it:</strong> create a Key Vault linked service, grant the factory's managed identity the <strong>Key Vault Secrets User</strong> role (or an access policy with Get/List on secrets), and reference secrets in other linked services. The secret is fetched at runtime and never stored in ADF's JSON or your Git repository.</p>
+<p><strong>Good practice:</strong> one vault per application per environment (<code>kv-salesdw-dev</code>, <code>kv-salesdw-prod</code>) so a dev pipeline can never read prod secrets; enable <strong>soft delete</strong> and <strong>purge protection</strong>; use the <strong>RBAC permission model</strong>; monitor access logs; set expiry dates and rotate secrets.</p>
+<h2 id="25-networking-the-gated-community">2.5 Networking: The Gated Community</h2>
+<blockquote>
+<p><strong>Analogy.</strong>
+- A <strong>Virtual Network (VNet)</strong> is a <strong>gated community</strong> with its own internal roads.
+- <strong>Subnets</strong> are <strong>streets</strong> within it, grouping houses with similar purposes.
+- A <strong>Network Security Group (NSG)</strong> is the <strong>security guard's checklist</strong> at each street entrance: which visitors may enter or leave, on which doors (ports).
+- A <strong>public endpoint</strong> is the house's <strong>front door on the main road</strong>: anyone on the internet can knock (even if the lock is strong).
+- A <strong>private endpoint</strong> is a <strong>private tunnel from inside the community straight into the service's back room</strong>. Traffic never touches the public road.
+- A <strong>firewall</strong> is the <strong>main gate</strong> of the community, inspecting everything entering or leaving.</p>
+</blockquote>
+<p><strong>Key services and concepts for data engineers:</strong></p>
+<ul>
+<li><strong>Public network access + firewall rules:</strong> by default many PaaS services (storage, SQL, Key Vault) have a public endpoint. You can restrict it to specific IP ranges or selected VNets, or disable it entirely.</li>
+<li><strong>Service endpoints:</strong> let traffic from a subnet reach a PaaS service over Azure's backbone, and let the service's firewall allow that subnet. The service still uses its public IP.</li>
+<li><strong>Private endpoints (Private Link):</strong> give the PaaS service a <strong>private IP inside your VNet</strong>. Combined with disabling public access, the service becomes unreachable from the internet. This is the standard for sensitive production data.</li>
+<li><strong>Private DNS zones:</strong> make the service's normal hostname (e.g., <code>mystorage.dfs.core.windows.net</code>) resolve to the private IP inside your network. <strong>Most private endpoint "it can't connect" problems are DNS problems.</strong></li>
+<li><strong>ExpressRoute / VPN gateway:</strong> private connectivity between your on-premises network and Azure.</li>
+</ul>
+<p><strong>For ADF specifically</strong> (detailed in Part 6): the <strong>Managed Virtual Network</strong> with <strong>managed private endpoints</strong> lets the Azure Integration Runtime reach locked-down storage and databases privately, and the <strong>Self-hosted Integration Runtime</strong> reaches on-premises or VNet-only sources.</p>
+<h2 id="26-encryption">2.6 Encryption</h2>
+<blockquote>
+<p><strong>Analogy (from the first guide):</strong> a <strong>safe</strong> for money at rest, an <strong>armoured truck</strong> for money in transit.</p>
+</blockquote>
+<ul>
+<li><strong>At rest:</strong> Azure Storage, Azure SQL (TDE), Cosmos DB and others encrypt data at rest by default with Microsoft-managed keys. Regulated organisations often use <strong>customer-managed keys (CMK)</strong> in Key Vault so they control key rotation and revocation.</li>
+<li><strong>In transit:</strong> TLS 1.2+ everywhere; enforce "secure transfer required" on storage accounts and minimum TLS versions.</li>
+<li><strong>In use / column level:</strong> <strong>Always Encrypted</strong> in Azure SQL keeps sensitive columns encrypted even from DBAs.</li>
+</ul>
+<h2 id="27-governance-azure-policy-and-microsoft-purview">2.7 Governance: Azure Policy and Microsoft Purview</h2>
+<p><strong>Azure Policy — the building code.</strong></p>
+<blockquote>
+<p><strong>Analogy:</strong> a city's building code says every building must have fire exits and no building may exceed 20 storeys. Inspectors refuse non-compliant plans.</p>
+</blockquote>
+<p>Policies can <strong>deny</strong> non-compliant deployments (e.g., storage accounts with public access, resources outside approved regions, resources without required tags), <strong>audit</strong> them, or <strong>auto-remediate</strong>. Assigned at management group or subscription level, they make security the default rather than a checklist.</p>
+<p><strong>Microsoft Purview — the library catalogue and the classification office.</strong>
+Purview provides a <strong>data map and catalogue</strong> (scans ADLS, Azure SQL, Synapse, Power BI, etc.), <strong>automatic classification</strong> of sensitive data (emails, card numbers, national IDs), <strong>lineage</strong> (including ADF copy activity lineage) and <strong>data governance</strong> features. Microsoft Defender for Cloud adds threat detection and security posture recommendations across these services.</p>
+<hr />
+<h1 id="part-3-storage-azure-blob-storage-and-adls-gen2">Part 3: Storage: Blob and ADLS Gen2</h1>
+<h2 id="31-the-storage-account-the-warehouse-building">3.1 The Storage Account: The Warehouse Building</h2>
+<blockquote>
+<p><strong>Analogy.</strong> A <strong>storage account</strong> is a <strong>warehouse building</strong> with its own address. Inside, it can have different sections: a <strong>bulk goods area</strong> (Blob), a <strong>shared filing room</strong> (Files), a <strong>conveyor of messages</strong> (Queues), and a <strong>simple ledger</strong> (Tables). As a data engineer, you'll live almost entirely in the bulk goods area — and specifically in its organised version, <strong>ADLS Gen2</strong>.</p>
+</blockquote>
+<p>A storage account is identified by a globally unique name, which becomes part of its URLs:</p>
+<ul>
+<li>Blob endpoint: <code>https://&lt;account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;path&gt;</code></li>
+<li>ADLS Gen2 (DFS) endpoint: <code>https://&lt;account&gt;.dfs.core.windows.net/&lt;container&gt;/&lt;path&gt;</code></li>
+<li>In Spark/Databricks: <code>abfss://&lt;container&gt;@&lt;account&gt;.dfs.core.windows.net/&lt;path&gt;</code></li>
+</ul>
+<p>Use <strong>StorageV2 (general-purpose v2)</strong> accounts with <strong>Standard</strong> performance for data lakes (Premium is for low-latency, high-transaction workloads).</p>
+<h2 id="32-blob-storage-vs-adls-gen2-the-mailroom-vs-the-filing-cabinet">3.2 Blob Storage vs ADLS Gen2: The Mailroom vs the Filing Cabinet</h2>
+<blockquote>
+<p><strong>Analogy.</strong>
+- <strong>Plain Blob storage</strong> is like a <strong>mailroom with one giant pile of envelopes</strong>, each labelled with a long name like <code>sales/2024/10/13/file1.parquet</code>. The slashes are just characters in the label. To "rename the folder" <code>sales/2024/10/</code>, staff must find every envelope whose label starts with that text and relabel each one — millions of operations.
+- <strong>ADLS Gen2</strong> (a storage account with <strong>hierarchical namespace</strong> enabled) is a <strong>real filing cabinet with real folders</strong>. Renaming or moving a folder is one action, and you can lock individual folders with their own access rules.</p>
+</blockquote>
+<p><strong>ADLS Gen2 = Blob storage + hierarchical namespace (HNS).</strong> HNS gives:</p>
+<ul>
+<li><strong>True directories:</strong> atomic, fast rename and delete of folders — essential for Spark and Delta commit protocols and for "write to temp folder, then rename" patterns.</li>
+<li><strong>POSIX-style ACLs</strong> on folders and files (Section 3.5).</li>
+<li><strong>Better analytics performance</strong> with Spark, Databricks, Synapse and Fabric shortcuts.</li>
+</ul>
+<p><strong>Rule:</strong> for any analytics data lake, <strong>enable hierarchical namespace</strong> when creating the account (it can be enabled later via an upgrade process, but plan it from the start).</p>
+<h2 id="33-access-tiers-fridge-freezer-attic-and-off-site-store">3.3 Access Tiers: Fridge, Freezer, Attic and Off-site Store</h2>
+<blockquote>
+<p><strong>Analogy:</strong> you keep today's milk in the <strong>fridge</strong> (instant, but the most expensive space), meat for next month in the <strong>freezer</strong>, old photo albums in the <strong>attic</strong>, and legal documents you'll probably never need in an <strong>off-site storage unit</strong> where retrieval takes days and a fee.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Use for</th>
+<th>Storage cost</th>
+<th>Access cost</th>
+<th>Minimum retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hot</strong></td>
+<td>Frequently accessed, active data</td>
+<td>Highest</td>
+<td>Lowest</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Cool</strong></td>
+<td>Infrequent access (e.g., monthly)</td>
+<td>Lower</td>
+<td>Higher</td>
+<td>30 days</td>
+</tr>
+<tr>
+<td><strong>Cold</strong></td>
+<td>Rare access, still online</td>
+<td>Lower still</td>
+<td>Higher still</td>
+<td>90 days</td>
+</tr>
+<tr>
+<td><strong>Archive</strong></td>
+<td>Long-term retention, almost never read</td>
+<td>Lowest</td>
+<td>Highest; <strong>offline</strong>, must be <strong>rehydrated</strong> (hours) before reading</td>
+<td>180 days</td>
+</tr>
+</tbody>
+</table></div>
+<p>"Minimum retention" means an early deletion fee if you delete or move the blob earlier.</p>
+<p><strong>Lifecycle management policies</strong> automate the movement — e.g., "move raw files to Cool after 30 days without modification, to Archive after 180 days, delete after 7 years". Make sure no pipeline still reads archived data: an archived blob cannot be read until rehydrated, so a backfill that touches archived raw files fails.</p>
+<h2 id="34-redundancy-how-many-photocopies-and-where">3.4 Redundancy: How Many Photocopies, and Where?</h2>
+<blockquote>
+<p><strong>Analogy:</strong> you keep <strong>three photocopies</strong> of an important document.
+- All three <strong>in the same filing cabinet</strong> (LRS). A cabinet fire destroys all three.
+- <strong>In three different buildings in your city</strong> (ZRS). A single building fire is survivable.
+- Three in your office <strong>plus three more in a sister city</strong> (GRS). A city-wide disaster is survivable.
+- Three in <strong>different buildings</strong> in your city <strong>plus three in a sister city</strong> (GZRS) — the strongest protection.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Copies</th>
+<th>Protects against</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LRS</strong> — Locally redundant</td>
+<td>3 copies in one data centre</td>
+<td>Disk/server failure</td>
+</tr>
+<tr>
+<td><strong>ZRS</strong> — Zone redundant</td>
+<td>3 copies across availability zones</td>
+<td>Data-centre (zone) failure</td>
+</tr>
+<tr>
+<td><strong>GRS</strong> — Geo-redundant</td>
+<td>LRS + async copy to the paired region</td>
+<td>Regional disaster</td>
+</tr>
+<tr>
+<td><strong>GZRS</strong> — Geo-zone redundant</td>
+<td>ZRS + async copy to the paired region</td>
+<td>Zone and regional failure</td>
+</tr>
+<tr>
+<td><strong>RA-GRS / RA-GZRS</strong></td>
+<td>Same, with <strong>read access</strong> to the secondary</td>
+<td>Read availability during a regional outage</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Important:</strong> redundancy protects against <strong>infrastructure</strong> failure, <strong>not</strong> against <strong>you</strong> deleting or overwriting data — the deletion is replicated faithfully. For that, you need <strong>data protection features</strong> (next).</p>
+<h2 id="35-data-protection-undo-buttons-for-the-lake">3.5 Data Protection: Undo Buttons for the Lake</h2>
+<ul>
+<li><strong>Soft delete for blobs and containers</strong> — the <strong>recycle bin</strong>: deleted data is retained for a configurable number of days and can be restored.</li>
+<li><strong>Blob versioning</strong> — <strong>version history</strong> like in a word processor: every overwrite keeps the previous version.</li>
+<li><strong>Point-in-time restore</strong> for block blobs (in supported configurations) — rewind containers to an earlier time.</li>
+<li><strong>Immutable storage (WORM: write once, read many)</strong> — <strong>a sealed evidence bag</strong>: time-based retention or legal holds that prevent modification or deletion, even by administrators. Used for regulatory records and ransomware protection.</li>
+<li><strong>Resource locks</strong> — prevent accidental deletion of the storage account itself.</li>
+</ul>
+<p>Note: some features have constraints or differences when hierarchical namespace is enabled; check current support for your account configuration.</p>
+<h2 id="36-access-control-on-the-lake-rbac-acls-sas-and-keys">3.6 Access Control on the Lake: RBAC, ACLs, SAS and Keys</h2>
+<blockquote>
+<p><strong>Analogy.</strong> A shared office building:
+- <strong>RBAC roles</strong> are <strong>building-wide access cards</strong>: "Storage Blob Data Reader on this container" lets you read everything in it.
+- <strong>ACLs</strong> (Access Control Lists) are <strong>locks on individual rooms and filing drawers</strong>: the Finance folder can be opened only by the finance group, even inside a container others can reach.
+- <strong>SAS tokens</strong> are <strong>valet keys</strong>: a key that works only for specific things (read only, one folder) and only until a set time.
+- <strong>Account keys</strong> are the <strong>master key to the whole building</strong>. Whoever holds it can do anything. You don't hand it out.</p>
+</blockquote>
+<p><strong>How Azure evaluates access:</strong> RBAC is checked first; if an RBAC role grants the permission, access is allowed. If not, ADLS Gen2 <strong>ACLs</strong> are evaluated.</p>
+<p><strong>ACL essentials (POSIX-style):</strong>
+- Permissions: <strong>Read (r)</strong>, <strong>Write (w)</strong>, <strong>Execute (x)</strong>. On folders, <strong>Execute</strong> means "may traverse/enter this folder".
+- To read <code>/raw/sales/2024/file.parquet</code>, an identity needs <strong>Execute on every parent folder</strong> (<code>/</code>, <code>/raw</code>, <code>/raw/sales</code>, <code>/raw/sales/2024</code>) and <strong>Read on the file</strong>. Missing Execute on one parent is the most common ACL failure.
+- <strong>Access ACLs</strong> apply to the item; <strong>default ACLs</strong> on a folder are copied to <strong>new</strong> children created inside it. Changing a default ACL does <strong>not</strong> update existing children — you must apply recursively.
+- Assign ACLs to <strong>groups</strong>, never individuals; there is a limit on ACL entries per item.</p>
+<p><strong>SAS (Shared Access Signatures):</strong>
+- <strong>User delegation SAS</strong> (signed with Entra credentials) is preferred over <strong>account/service SAS</strong> (signed with the account key).
+- Keep expiry short, scope minimal, use HTTPS only.
+- Consider disabling <strong>shared key access</strong> on the account entirely, forcing Entra authentication.</p>
+<h2 id="37-designing-the-lake-zones-folders-and-file-formats">3.7 Designing the Lake: Zones, Folders and File Formats</h2>
+<h3 id="zones-medallion-layers">Zones (Medallion Layers)</h3>
+<blockquote>
+<p><strong>Analogy (from the first guide):</strong> a water treatment plant — raw river water (bronze), purified (silver), bottled and labelled (gold).</p>
+</blockquote>
+<p>A common layout uses separate <strong>containers</strong> (or separate storage accounts for stronger isolation):</p>
+<pre><code>raw / bronze      →  exact copies from sources, immutable, append-only
+enriched / silver →  cleaned, deduplicated, typed, conformed (often Delta)
+curated / gold    →  business-ready models and aggregates
+sandbox           →  analyst / data scientist experimentation
+</code></pre>
+<p>Separate storage accounts per zone (or per environment) give clean security boundaries and independent throughput limits.</p>
+<h3 id="folder-structure">Folder Structure</h3>
+<pre><code>raw/
+  &lt;source_system&gt;/
+    &lt;entity&gt;/
+      ingest_date=2024-10-13/
+        &lt;entity&gt;_20241013T020000Z_&lt;run_id&gt;.parquet
+</code></pre>
+<ul>
+<li>Partition folders by date using <code>key=value</code> naming (Hive-style), so Spark, Synapse serverless and Fabric can <strong>prune</strong> folders automatically.</li>
+<li>Include the <strong>run ID</strong> or timestamp in file names so reruns don't overwrite each other unpredictably (or deliberately overwrite a partition folder for idempotency).</li>
+<li><strong>Don't over-partition:</strong> partitioning by hour, customer and product produces millions of tiny files — the <strong>small-files problem</strong> from the first guide. Aim for files of roughly 100 MB–1 GB for analytics.</li>
+</ul>
+<h3 id="file-formats">File Formats</h3>
+<blockquote>
+<p><strong>Analogy:</strong>
+- <strong>CSV</strong> is a <strong>handwritten note</strong>: anyone can read it, but there's no guarantee about what each column means, commas inside values cause chaos, and everything is text.
+- <strong>JSON</strong> is a <strong>form with labelled fields</strong>, flexible and nested, but verbose.
+- <strong>Parquet</strong> is a <strong>neatly bound, indexed reference book</strong>: columnar, compressed, typed, with statistics that let readers skip irrelevant pages.
+- <strong>Delta / Iceberg</strong> is that reference book <strong>plus a librarian's logbook</strong> recording every edition: ACID transactions, updates, deletes, MERGE, schema enforcement and time travel on top of Parquet files.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSV</td>
+<td>Universal, human-readable</td>
+<td>No types, quoting/encoding issues, slow, large</td>
+<td>Source extracts only when unavoidable</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Nested, self-describing</td>
+<td>Verbose, slow to scan</td>
+<td>API payloads, events in bronze</td>
+</tr>
+<tr>
+<td>Avro</td>
+<td>Row-based, schema evolution</td>
+<td>Not ideal for analytic scans</td>
+<td>Streaming/Event Hubs Capture</td>
+</tr>
+<tr>
+<td>Parquet</td>
+<td>Columnar, compressed, typed, fast</td>
+<td>Immutable files; no transactions alone</td>
+<td>Bronze/silver landing in ADF</td>
+</tr>
+<tr>
+<td>Delta Lake</td>
+<td>Parquet + ACID, MERGE, time travel</td>
+<td>Needs a Delta-aware engine</td>
+<td>Silver/gold in Databricks and Fabric</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>ADF tip:</strong> when copying from databases to the lake, write <strong>Parquet</strong> (with Snappy compression). The Self-hosted Integration Runtime needs a <strong>Java runtime</strong> installed on its machine to write Parquet/ORC.</p>
+<hr />
+<h1 id="part-4-azure-databases">Part 4: Azure databases</h1>
+<h2 id="41-the-azure-sql-family-apartment-house-or-land">4.1 The Azure SQL Family: Apartment, House or Land</h2>
+<blockquote>
+<p><strong>Analogy:</strong> three ways to live in a city.
+- <strong>Azure SQL Database</strong> is a <strong>serviced apartment</strong>: fully furnished and maintained, cleaning included. You can't knock down walls or install your own boiler, but you never worry about maintenance.
+- <strong>Azure SQL Managed Instance</strong> is <strong>renting a whole furnished house</strong>: much more freedom (garden, garage, your own furniture layout) — almost everything you had in your own home — while the landlord still handles the roof and plumbing.
+- <strong>SQL Server on an Azure VM</strong> is <strong>renting a plot of land and building your own house</strong>: total control, total responsibility.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Azure SQL Database</th>
+<th>Azure SQL Managed Instance</th>
+<th>SQL Server on Azure VM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>PaaS, single database (or elastic pool)</td>
+<td>PaaS, whole instance</td>
+<td>IaaS</td>
+</tr>
+<tr>
+<td>SQL Server compatibility</td>
+<td>High, but instance-level features limited</td>
+<td>Near 100% (SQL Agent, cross-database queries, Database Mail, CLR, linked servers, Service Broker)</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Cross-database queries</td>
+<td>Not natively (elastic query is limited)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>SQL Agent jobs</td>
+<td>No (use ADF, elastic jobs, Automation)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Networking</td>
+<td>Public endpoint and/or private endpoint</td>
+<td>Deployed <strong>inside your VNet</strong> (public endpoint optional)</td>
+<td>Inside your VNet</td>
+</tr>
+<tr>
+<td>Patching, backups, HA</td>
+<td>Automatic</td>
+<td>Automatic</td>
+<td><strong>Your job</strong> (with some automation helpers)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>New cloud apps, single-database workloads, modern ELT targets</td>
+<td><strong>Lift-and-shift</strong> of existing SQL Server estates with instance-level dependencies</td>
+<td>Legacy needs: OS access, unsupported features, specific versions</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why this matters to you:</strong> many enterprise data platforms (including warehouse-style databases built on SQL Server patterns) run on <strong>Managed Instance</strong> because they rely on SQL Agent, cross-database queries or SSIS-era designs. Because MI lives inside a VNet, <strong>ADF reaches it through a Self-hosted IR in a peered network, a Managed VNet private endpoint, or its public endpoint (if enabled, on port 3342)</strong> — connectivity is the first thing to plan.</p>
+<h2 id="42-purchasing-models-and-service-tiers">4.2 Purchasing Models and Service Tiers</h2>
+<p><strong>DTU vs vCore — the set menu vs à la carte.</strong></p>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>DTU</strong> (Database Transaction Unit) is a <strong>restaurant set menu</strong>: a bundled amount of CPU, memory and I/O at a fixed price — simple but inflexible. The <strong>vCore</strong> model is <strong>à la carte</strong>: choose CPU cores, memory follows, storage priced separately, and you can apply existing SQL Server licences (<strong>Azure Hybrid Benefit</strong>) to save money.</p>
+</blockquote>
+<p>The <strong>vCore</strong> model is the modern default. Its service tiers:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Analogy</th>
+<th>Architecture</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>General Purpose</strong></td>
+<td>A reliable family car</td>
+<td>Compute separate from remote premium storage</td>
+<td>Most workloads, balanced cost</td>
+</tr>
+<tr>
+<td><strong>Business Critical</strong></td>
+<td>A car with a spare engine that takes over instantly</td>
+<td>Local SSD, Always On replicas built in, a <strong>free readable secondary</strong></td>
+<td>Low-latency OLTP, fast failover, read scale-out</td>
+</tr>
+<tr>
+<td><strong>Hyperscale</strong></td>
+<td>A modular building that adds floors on demand</td>
+<td>Distributed storage tiers, very large databases (up to ~100 TB+), fast backups/restores, named replicas</td>
+<td>Large or fast-growing databases</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Serverless compute</strong> (General Purpose and Hyperscale): <strong>automatically scales</strong> between min and max vCores and (in General Purpose) can <strong>auto-pause</strong> when idle, billing only storage while paused.</p>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>motion-sensor light</strong> — on when someone is in the room, off when empty. Great for dev/test or intermittent workloads; but the first query after a pause waits for "warm-up", which can surprise a scheduled pipeline (add a retry).</p>
+</blockquote>
+<p><strong>Elastic pools — the family mobile data plan.</strong></p>
+<blockquote>
+<p>Five family members share one data allowance. Not everyone uses heavy data at the same time, so a shared pool costs less than five individual large plans.</p>
+</blockquote>
+<p>Many databases with <strong>varying, non-overlapping peaks</strong> share a pool of resources (common for multi-tenant SaaS).</p>
+<h2 id="43-high-availability-backups-and-disaster-recovery-in-azure-sql">4.3 High Availability, Backups and Disaster Recovery in Azure SQL</h2>
+<p><strong>Built-in HA:</strong> every Azure SQL Database and MI has high availability built in (local replicas or remote storage with automatic failover). Enabling <strong>zone redundancy</strong> spreads replicas across availability zones.</p>
+<p><strong>Automated backups and PITR.</strong></p>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>dashcam</strong> that records continuously, so you can rewind to any moment within the last few days.</p>
+</blockquote>
+<p>Azure takes full, differential and log backups automatically. <strong>Point-in-time restore (PITR)</strong> creates a <strong>new</strong> database as of any moment within the retention window (configurable from 1 to 35 days, 7 by default). <strong>Long-term retention (LTR)</strong> keeps weekly/monthly/yearly full backups for up to 10 years. Backup storage redundancy can be LRS, ZRS or GRS. <strong>Geo-restore</strong> restores from geo-replicated backups into another region.</p>
+<p><strong>Key point:</strong> a restore creates a <strong>new database</strong>; you then copy data back or swap names/connections. Practise this before you need it.</p>
+<p><strong>Active geo-replication and failover groups.</strong></p>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>live mirror</strong> of your shop in a sister city, kept in sync continuously; with a <strong>failover group</strong>, customers use a single <strong>shop address</strong> that automatically redirects to whichever shop is open.</p>
+</blockquote>
+<ul>
+<li><strong>Active geo-replication</strong> (SQL Database): readable secondary databases in other regions.</li>
+<li><strong>Failover groups</strong> (SQL Database and MI): group databases together, with <strong>listener endpoints</strong> (read-write and read-only) that stay the same after failover, so applications and ADF linked services don't need changing.</li>
+</ul>
+<h2 id="44-performance-and-monitoring-in-azure-sql">4.4 Performance and Monitoring in Azure SQL</h2>
+<p>Everything from the first guide's Part 5 applies. Azure adds:</p>
+<ul>
+<li><strong>Query Store</strong> (on by default): a <strong>flight recorder</strong> of queries, plans and runtime stats — find regressions, force good plans.</li>
+<li><strong>Automatic tuning:</strong> can automatically force last known good plans and (optionally) create/drop indexes.</li>
+<li><strong>Intelligent Insights / database watcher / Azure Monitor metrics:</strong> CPU, data IO, log IO, workers, deadlocks, storage.</li>
+<li><strong>Resource limits:</strong> each tier caps <strong>log write throughput</strong> and <strong>IOPS</strong>. Bulk loads from ADF are frequently <strong>log-rate-governed</strong> — the classic sign is high <code>LOG_RATE_GOVERNOR</code> waits. Mitigations: scale up temporarily for big loads, batch inserts, load into heaps or columnstore, minimise indexes during load.</li>
+<li><strong>Read scale-out:</strong> route reporting or extract queries to the readable secondary (Business Critical/Hyperscale/geo-replicas) with <code>ApplicationIntent=ReadOnly</code>, protecting the primary.</li>
+</ul>
+<h2 id="45-azure-database-for-postgresql-and-mysql-flexible-server">4.5 Azure Database for PostgreSQL and MySQL (Flexible Server)</h2>
+<p>Managed open-source engines with automated patching, backups (PITR), zone-redundant HA, read replicas and private networking. Everything from the first guide's PostgreSQL sections (VACUUM, <code>pg_stat_statements</code>, MVCC, logical replication for CDC) applies — you still own schema design, indexing, query tuning and parameters like <code>max_connections</code> (use connection pooling, e.g., PgBouncer, which is built into Flexible Server).</p>
+<h2 id="46-authentication-to-azure-sql-from-pipelines">4.6 Authentication to Azure SQL from Pipelines</h2>
+<blockquote>
+<p><strong>Analogy:</strong> having a <strong>building access card</strong> (Azure RBAC on the server) does not give you a <strong>desk</strong> inside a specific office (a database user with permissions). You need both.</p>
+</blockquote>
+<p>To let ADF's managed identity load data into Azure SQL:</p>
+<pre><code class="language-sql">-- Run in the target database, connected as an Entra admin
+CREATE USER [adf-salesdw-prod] FROM EXTERNAL PROVIDER;   -- the factory's name = its managed identity
+ALTER ROLE db_datareader ADD MEMBER [adf-salesdw-prod];
+ALTER ROLE db_datawriter ADD MEMBER [adf-salesdw-prod];
+GRANT EXECUTE ON SCHEMA::etl TO [adf-salesdw-prod];      -- for stored procedures
+-- DDL rights only if the pipeline truly creates/truncates tables:
+-- GRANT ALTER ON SCHEMA::staging TO [adf-salesdw-prod];
+</code></pre>
+<p>Prefer <strong>Entra authentication</strong> (managed identity) over SQL logins; set an <strong>Entra admin group</strong> on the server; consider <strong>Entra-only authentication</strong> to disable SQL logins.</p>
+<h2 id="47-azure-cosmos-db-briefly-the-global-library-network">4.7 Azure Cosmos DB (Briefly): The Global Library Network</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a library chain with branches on every continent. Every branch has a copy of the collection, and you choose how up to date each branch must be before lending a book — "exactly the latest edition everywhere" (slow but perfectly consistent) or "whatever this branch currently has" (fast but possibly slightly behind).</p>
+</blockquote>
+<p>Cosmos DB is a globally distributed <strong>NoSQL</strong> database (document, key-value, graph, column-family, plus PostgreSQL via Cosmos DB for PostgreSQL). Concepts you should know as a data engineer who extracts from it:</p>
+<ul>
+<li><strong>Request Units (RU/s):</strong> the currency of throughput; every read, write and query costs RUs. Bulk extracts can <strong>throttle</strong> (HTTP 429) the application if they consume the provisioned RUs.</li>
+<li><strong>Partition key:</strong> decides data distribution — the most important design decision (like a distribution key in MPP).</li>
+<li><strong>Five consistency levels:</strong> Strong, Bounded Staleness, Session (default), Consistent Prefix, Eventual.</li>
+<li><strong>Change feed:</strong> an ordered log of changes per partition — the CDC mechanism for Cosmos DB.</li>
+<li><strong>Analytical store / Fabric mirroring:</strong> replicate operational data into columnar analytics storage <strong>without consuming transactional RUs</strong> — preferred over large ADF extracts from the transactional store.</li>
+</ul>
+<hr />
+<h1 id="part-5-azure-analytics-services">Part 5: Azure analytics services</h1>
+<h2 id="51-the-map-of-services-who-does-what-in-the-kitchen">5.1 The Map of Services: Who Does What in the Kitchen</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a restaurant kitchen has specialists. The <strong>delivery manager</strong> receives and dispatches ingredients (ADF). The <strong>pantry</strong> stores everything (ADLS Gen2). The <strong>prep chefs</strong> with heavy machinery chop and blend huge quantities (Databricks / Spark). The <strong>plating station</strong> arranges food for serving (SQL warehouse). The <strong>waiters</strong> present it to diners (Power BI). The <strong>head chef's recipe book and ingredient labels</strong> keep everything traceable (Purview). Newer restaurants are moving to an <strong>all-in-one kitchen</strong> where these stations share one counter (Microsoft Fabric).</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Primary Azure services</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orchestration and data movement</td>
+<td><strong>Azure Data Factory</strong>, Synapse pipelines, Fabric Data Factory</td>
+</tr>
+<tr>
+<td>Data lake storage</td>
+<td><strong>ADLS Gen2</strong>, Fabric <strong>OneLake</strong></td>
+</tr>
+<tr>
+<td>Big data processing (Spark)</td>
+<td><strong>Azure Databricks</strong>, Synapse Spark pools, Fabric Spark</td>
+</tr>
+<tr>
+<td>Relational warehousing</td>
+<td>Synapse <strong>dedicated SQL pool</strong>, Fabric <strong>Warehouse</strong>, Azure SQL / MI (smaller scale), Databricks SQL</td>
+</tr>
+<tr>
+<td>Ad-hoc SQL over the lake</td>
+<td>Synapse <strong>serverless SQL pool</strong>, Fabric SQL analytics endpoint, Databricks SQL</td>
+</tr>
+<tr>
+<td>Streaming ingestion</td>
+<td><strong>Event Hubs</strong>, IoT Hub; processing with <strong>Stream Analytics</strong>, Spark Structured Streaming, Fabric Real-Time Intelligence</td>
+</tr>
+<tr>
+<td>Lightweight code / glue</td>
+<td><strong>Azure Functions</strong>, <strong>Logic Apps</strong></td>
+</tr>
+<tr>
+<td>Governance and catalogue</td>
+<td><strong>Microsoft Purview</strong>, Databricks <strong>Unity Catalog</strong></td>
+</tr>
+<tr>
+<td>BI and semantic models</td>
+<td><strong>Power BI</strong> (part of Fabric)</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td><strong>Azure Monitor</strong>, Log Analytics</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="52-azure-synapse-analytics-the-multi-purpose-workshop">5.2 Azure Synapse Analytics: The Multi-Purpose Workshop</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>workshop</strong> with several workbenches under one roof: a heavy industrial press (dedicated SQL pool), a pay-per-use hand tool rental counter (serverless SQL pool), a Spark machine (Spark pools), and a dispatch desk (pipelines — essentially ADF). One front door (Synapse Studio), one workspace.</p>
+</blockquote>
+<p><strong>Status (late 2026):</strong> Synapse is <strong>supported but in maintenance mode</strong>: it works and runs many production estates, but new feature investment has moved to Fabric, and new projects generally start in Fabric or Databricks. You'll often <strong>support, optimise, or migrate</strong> Synapse workloads.</p>
+<h3 id="dedicated-sql-pool-formerly-sql-dw">Dedicated SQL Pool (formerly SQL DW)</h3>
+<p>An <strong>MPP</strong> relational warehouse (see the first guide's Part 10). Data is spread across <strong>60 distributions</strong>; compute nodes process distributions in parallel. Size is measured in <strong>DWUs</strong> (Data Warehouse Units). Compute can be <strong>paused</strong> (you still pay for storage).</p>
+<p><strong>Table design — the three distribution choices</strong> (seating group-project teams in the same room, from the first guide):</p>
+<pre><code class="language-sql">-- Large fact: hash-distribute on a frequently joined, high-cardinality, even key
+CREATE TABLE dbo.fact_sales
+WITH ( DISTRIBUTION = HASH(customer_sk), CLUSTERED COLUMNSTORE INDEX,
+       PARTITION ( date_key RANGE RIGHT FOR VALUES (20240101, 20240201, 20240301) ) )
+AS SELECT * FROM stg.sales;
+
+-- Small dimension: copy to every compute node
+CREATE TABLE dbo.dim_store
+WITH ( DISTRIBUTION = REPLICATE, CLUSTERED INDEX (store_sk) )
+AS SELECT * FROM stg.store;
+
+-- Staging: fastest to load, no key needed
+CREATE TABLE stg.sales_load
+WITH ( DISTRIBUTION = ROUND_ROBIN, HEAP )
+AS SELECT * FROM ext.sales_files;
+</code></pre>
+<p><strong>Must-know practices:</strong>
+- <strong>CTAS (CREATE TABLE AS SELECT)</strong> is the workhorse: fully parallel, minimally logged. Common pattern for big changes: CTAS a new version of the table, then <code>RENAME OBJECT</code> to swap.
+- <strong>Load with <code>COPY INTO</code></strong> (or PolyBase) from ADLS — massively parallel. ADF's copy activity uses these under the hood when you enable them (with <strong>staging</strong>).
+- <strong>Clustered columnstore</strong> needs rows in large compressed <strong>row groups</strong> (ideally ~1 million rows each); trickle-loading small batches leaves open delta-store row groups. Rebuild indexes periodically.
+- <strong>Don't over-partition:</strong> rows are already split across 60 distributions, so each partition × 60 distributions should still hold ~1 million rows per row group. Monthly partitions on a few-billion-row fact may be fine; daily partitions usually aren't.
+- <strong>Statistics</strong> must be created/updated (auto-create helps; update after loads).
+- <strong>Workload management:</strong> workload groups and classifiers allocate resources and concurrency between ETL and reporting.
+- <strong>Watch data movement</strong> (<code>ShuffleMove</code>, <code>BroadcastMove</code> in plans) and <strong>skew</strong> (<code>DBCC PDW_SHOWSPACEUSED</code>).</p>
+<h3 id="serverless-sql-pool-the-taxi-meter-for-data-read">Serverless SQL Pool — the taxi meter for data read</h3>
+<blockquote>
+<p><strong>Analogy:</strong> no car to own; a <strong>taxi</strong> charged by the <strong>distance travelled</strong> — here, the <strong>amount of data scanned</strong> (per TB).</p>
+</blockquote>
+<p>Query files in the lake directly with T-SQL:</p>
+<pre><code class="language-sql">SELECT ingest_date, COUNT(*) AS rows_loaded
+FROM OPENROWSET(
+    BULK 'https://stsalesdw.dfs.core.windows.net/raw/pos/sales/ingest_date=*/*.parquet',
+    FORMAT = 'PARQUET'
+) AS r
+GROUP BY r.filepath(1)  -- the folder wildcard value
+ORDER BY 1;
+</code></pre>
+<p>Great for exploring raw data, building a <strong>logical data warehouse</strong> of views over Parquet/Delta, and cheap ad-hoc analysis. Cost control = <strong>scan less</strong>: Parquet over CSV, partition folders, select only needed columns.</p>
+<h3 id="spark-pools">Spark Pools</h3>
+<p>Managed Apache Spark clusters with auto-scale and auto-pause. Microsoft has recommended planning moves to Fabric as older Synapse Spark runtimes reach end of support, so check runtime support dates for any Synapse Spark workloads you own.</p>
+<h3 id="synapse-pipelines">Synapse Pipelines</h3>
+<p>Built on the same engine as ADF, with minor differences (e.g., no SSIS IR inside Synapse, some feature-parity gaps). Everything in Part 6 applies.</p>
+<h2 id="53-azure-databricks-the-industrial-kitchen">5.3 Azure Databricks: The Industrial Kitchen</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>professional industrial kitchen</strong> you rent by the hour, staffed by the world's best equipment for processing huge volumes (Spark), with a strict <strong>head chef's inventory system</strong> (Unity Catalog) that tracks every ingredient, who may use it, and which dishes it went into.</p>
+</blockquote>
+<p>Azure Databricks is a first-party Azure service built on Apache Spark and <strong>Delta Lake</strong>, and is one of the most common transformation engines in Azure data platforms.</p>
+<p><strong>Key concepts:</strong>
+- <strong>Workspace:</strong> the environment (notebooks, jobs, SQL editor). Connects to your ADLS Gen2.
+- <strong>Compute:</strong>
+  - <strong>All-purpose clusters</strong> — interactive development (<em>a kitchen kept open all day</em>; expensive if left running — set auto-termination).
+  - <strong>Job clusters</strong> — created for one job and destroyed after (<em>a kitchen booked just for one event</em>; cheaper for production).
+  - <strong>Serverless compute</strong> and <strong>SQL warehouses</strong> — Databricks manages the infrastructure; fast start.
+  - <strong>Pools</strong> — pre-warmed VMs to reduce cluster start time.
+- <strong>Unity Catalog:</strong> centralised governance with a three-level namespace <code>catalog.schema.table</code>; fine-grained permissions (including row filters and column masks), lineage, audit, and <strong>external locations / storage credentials</strong> (often backed by an Azure managed identity via an <em>Access Connector</em>) for governed access to ADLS.
+- <strong>Delta Lake operations:</strong> <code>MERGE</code>, <code>OPTIMIZE</code>, <code>Z-ORDER</code> / <strong>liquid clustering</strong>, <code>VACUUM</code>, time travel (<code>VERSION AS OF</code>), <strong>Change Data Feed</strong>.
+- <strong>Declarative pipelines</strong> (formerly Delta Live Tables, now part of Lakeflow) for managed, quality-checked pipelines, and <strong>Auto Loader</strong> for incremental file ingestion.
+- <strong>Orchestration:</strong> Databricks Jobs/Workflows, or ADF calling notebooks/jobs (Section 6.6).</p>
+<pre><code class="language-python"># Typical silver-layer upsert with Delta MERGE (PySpark)
+from delta.tables import DeltaTable
+
+updates = (spark.read.format(&quot;parquet&quot;)
+           .load(&quot;abfss://raw@stsalesdw.dfs.core.windows.net/pos/customer/ingest_date=2024-10-13/&quot;))
+
+target = DeltaTable.forName(spark, &quot;silver.customer&quot;)
+(target.alias(&quot;t&quot;)
+   .merge(updates.alias(&quot;s&quot;), &quot;t.customer_id = s.customer_id&quot;)
+   .whenMatchedUpdateAll(condition=&quot;t.row_hash &lt;&gt; s.row_hash&quot;)
+   .whenNotMatchedInsertAll()
+   .execute())
+</code></pre>
+<p><strong>ADF + Databricks — a very common pairing:</strong> ADF handles <strong>connectivity and orchestration</strong> (on-prem via Self-hosted IR, 100+ connectors, schedules, dependencies); Databricks handles <strong>heavy transformation</strong>. Use <strong>job clusters</strong> (or existing job definitions) from ADF to control cost, and authenticate ADF to Databricks with its <strong>managed identity</strong>.</p>
+<h2 id="54-microsoft-fabric-the-all-in-one-food-hall">5.4 Microsoft Fabric: The All-in-One Food Hall</h2>
+<blockquote>
+<p><strong>Analogy:</strong> instead of separate restaurants each with their own pantry (separate storage accounts, separate copies of data), a <strong>food hall</strong> has <strong>one shared pantry</strong> (OneLake) and many stalls (data engineering, warehouse, real-time, BI) that all cook from it. You pay one <strong>monthly rent for the hall's capacity</strong> rather than separate bills per stall.</p>
+</blockquote>
+<p>Fabric is Microsoft's <strong>SaaS</strong> analytics platform, unifying Data Factory, Spark, warehousing, real-time analytics and Power BI.</p>
+<p><strong>Core concepts:</strong>
+- <strong>OneLake</strong> — "the OneDrive for data": one logical lake per tenant, storing tables in <strong>Delta Parquet</strong> format. Every Fabric item stores its data here.
+- <strong>Shortcuts</strong> — <em>a shortcut on your desktop that points to a file stored elsewhere</em>. Reference data in ADLS Gen2, Amazon S3 or other OneLake locations <strong>without copying</strong> it.
+- <strong>Mirroring</strong> — continuously replicates operational databases (Azure SQL Database, Azure SQL MI, Cosmos DB, Snowflake, and others) into OneLake as Delta tables, near real-time, <strong>without building pipelines</strong>.
+- <strong>Capacities (F SKUs)</strong> — a pool of <strong>Capacity Units (CUs)</strong> shared by all workloads in assigned workspaces. Pay-as-you-go (pausable) or reserved. Heavy jobs can be <strong>smoothed</strong> over time; exceeding capacity leads to <strong>throttling</strong>.
+- <strong>Workspaces</strong> — containers for items, with roles (Admin, Member, Contributor, Viewer), linked to Git for CI/CD and deployment pipelines.
+- <strong>Items</strong> you'll use: <strong>Lakehouse</strong> (files + Delta tables, Spark-first, with an automatic <strong>SQL analytics endpoint</strong> for read-only T-SQL), <strong>Warehouse</strong> (full T-SQL DML/DDL, multi-table transactions), <strong>Data pipelines</strong> (the Fabric version of ADF pipelines), <strong>Dataflow Gen2</strong> (Power Query-based low-code transformation), <strong>Notebooks</strong>, <strong>Eventstream/Eventhouse</strong> (real-time), <strong>semantic models</strong> with <strong>Direct Lake</strong> mode (Power BI reads Delta tables in OneLake directly without importing).</p>
+<p><strong>Lakehouse vs Warehouse in Fabric:</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Lakehouse</th>
+<th>Warehouse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary engine</td>
+<td>Spark (Python, Scala, SQL)</td>
+<td>T-SQL</td>
+</tr>
+<tr>
+<td>Write via SQL</td>
+<td>No (SQL endpoint is read-only)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Data engineers, semi-structured data, medallion bronze/silver</td>
+<td>SQL-centric teams, gold dimensional models</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Delta in OneLake</td>
+<td>Delta in OneLake</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="55-streaming-and-glue-services">5.5 Streaming and Glue Services</h2>
+<p><strong>Azure Event Hubs — the motorway toll plaza.</strong></p>
+<blockquote>
+<p><strong>Analogy:</strong> millions of cars (events) pass through a toll plaza with many <strong>lanes (partitions)</strong>. Each car is recorded in order <em>within its lane</em>. Different groups (<strong>consumer groups</strong>) can each review the full lane recordings independently, at their own pace, for a retention period.</p>
+</blockquote>
+<p>A high-throughput event ingestion service (also Kafka-protocol compatible). Key ideas: <strong>partitions</strong> (parallelism; ordering is guaranteed only within a partition — choose the partition key carefully), <strong>consumer groups</strong>, <strong>retention</strong>, <strong>checkpointing</strong> (consumers record how far they've read), and <strong>Event Hubs Capture</strong> (automatically writes events to ADLS as Avro/Parquet files — a simple path to bronze).</p>
+<p><strong>Azure Stream Analytics</strong> — SQL-like real-time queries with windowing (tumbling, hopping, sliding, session windows).</p>
+<p><strong>Azure Functions — the handyman on call.</strong> Small pieces of code triggered by events, timers or HTTP; useful for custom API calls, light parsing, or glue logic called from ADF (Azure Function activity). Keep them short (consumption-plan time limits) and idempotent.</p>
+<p><strong>Logic Apps — the "if this, then that" assistant.</strong> Low-code workflows with hundreds of connectors: sending rich Teams/email alerts from ADF failures, reacting to SharePoint uploads, approvals.</p>
+<h2 id="56-choosing-a-platform-a-practical-decision-guide">5.6 Choosing a Platform: A Practical Decision Guide</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Typical choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Existing Synapse dedicated pool estate, stable</td>
+<td>Keep it running and optimised; plan a phased migration path (often to Fabric Warehouse)</td>
+</tr>
+<tr>
+<td>New analytics platform, Microsoft-centric organisation, Power BI heavy</td>
+<td><strong>Fabric</strong> (Data Factory + Lakehouse/Warehouse + Direct Lake)</td>
+</tr>
+<tr>
+<td>Heavy data engineering / data science, multi-cloud, advanced Spark</td>
+<td><strong>Azure Databricks</strong> (often with ADF or Databricks Workflows for orchestration)</td>
+</tr>
+<tr>
+<td>SQL Server-heavy team, modest data volume (hundreds of GB)</td>
+<td><strong>Azure SQL Database / Managed Instance</strong> as the warehouse, ADF for loading</td>
+</tr>
+<tr>
+<td>Many on-prem and SaaS sources to integrate</td>
+<td><strong>ADF</strong> (or Fabric Data Factory) with Self-hosted IR</td>
+</tr>
+<tr>
+<td>Real-time telemetry</td>
+<td><strong>Event Hubs</strong> + Stream Analytics / Spark Streaming / Fabric Real-Time Intelligence</td>
+</tr>
+</tbody>
+</table></div>
+<p>Decisions also depend on skills, licensing, existing contracts, governance requirements and data residency — the "best" platform is the one your team can run well.</p>
+<hr />
+<h1 id="part-6-azure-data-factory-in-depth">Part 6: Azure Data Factory in depth</h1>
+<h2 id="61-what-adf-is-and-isnt-the-logistics-company">6.1 What ADF Is (and Isn't): The Logistics Company</h2>
+<blockquote>
+<p><strong>Analogy.</strong> ADF is a <strong>logistics company</strong>. It doesn't own the factories (source systems) or the warehouses (lake, SQL, Synapse), and it doesn't manufacture products itself. It <strong>plans routes, dispatches trucks, picks up goods, delivers them, tells the factory to start a production run, and tracks every delivery</strong>. When a truck breaks down, it records exactly where and why, and can resend it.</p>
+</blockquote>
+<p>Azure Data Factory is a <strong>serverless, cloud-based data integration and orchestration service</strong>:</p>
+<ul>
+<li><strong>It moves data</strong> (Copy activity) between 90+ connectors: databases, files, SaaS apps, cloud stores, on-premises systems.</li>
+<li><strong>It orchestrates</strong> work in other services: stored procedures in SQL, notebooks in Databricks, Azure Functions, web APIs, other pipelines.</li>
+<li><strong>It can transform</strong> data visually with <strong>Mapping Data Flows</strong> (Spark under the hood) — though heavy transformation is usually better done in SQL or Spark engines.</li>
+<li><strong>It does not store your data</strong> (apart from transient staging) — it's the trucks and the dispatch office, not the warehouse.</li>
+</ul>
+<h2 id="62-the-building-blocks">6.2 The Building Blocks</h2>
+<div class="diagram"><pre class="mermaid">flowchart LR
+    TR[Trigger&lt;br/&gt;the alarm clock] --&gt; P[Pipeline&lt;br/&gt;the delivery plan]
+    P --&gt; A1[Activity: Lookup]
+    P --&gt; A2[Activity: ForEach]
+    A2 --&gt; A3[Activity: Copy]
+    A3 --&gt; DS1[Source dataset&lt;br/&gt;shipping label]
+    A3 --&gt; DS2[Sink dataset&lt;br/&gt;shipping label]
+    DS1 --&gt; LS1[Linked service&lt;br/&gt;supplier contract + address]
+    DS2 --&gt; LS2[Linked service]
+    LS1 -.runs on.-&gt; IR[Integration runtime&lt;br/&gt;the trucks and drivers]
+    LS2 -.runs on.-&gt; IR
+</pre></div>
+<h3 id="linked-service-the-supplier-contract-with-the-address-and-keys">Linked Service — the supplier contract with the address and keys</h3>
+<blockquote>
+<p><strong>Analogy:</strong> your logistics company keeps a <strong>contract card</strong> for each supplier: their address, gate code, and which entrance to use. Without it, trucks don't know where to go or how to get in.</p>
+</blockquote>
+<p>A linked service is a <strong>connection definition</strong>: server/account URL, database name, authentication method (managed identity, service principal, SQL auth, key from Key Vault) and which <strong>integration runtime</strong> to use.</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;ls_adls_lake&quot;,
+  &quot;properties&quot;: {
+    &quot;type&quot;: &quot;AzureBlobFS&quot;,
+    &quot;typeProperties&quot;: { &quot;url&quot;: &quot;https://stsalesdwprod.dfs.core.windows.net&quot; },
+    &quot;connectVia&quot;: { &quot;referenceName&quot;: &quot;AutoResolveIntegrationRuntime&quot;, &quot;type&quot;: &quot;IntegrationRuntimeReference&quot; }
+  }
+}
+</code></pre>
+<p>(With no credential specified, this ADLS linked service uses the factory's <strong>system-assigned managed identity</strong>.)</p>
+<h3 id="dataset-the-shipping-label">Dataset — the shipping label</h3>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>shipping label</strong> describes a package: which warehouse (linked service), which shelf (folder/table), and what's inside (format, schema). It's not the package itself.</p>
+</blockquote>
+<p>A dataset points to data <strong>within</strong> a linked service: a table, a file path, a folder, with format settings (Parquet, delimited text, JSON). <strong>Parameterise datasets</strong> (container, folder, file name, schema, table) so one generic dataset serves hundreds of tables, instead of creating hundreds of datasets.</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;ds_adls_parquet_generic&quot;,
+  &quot;properties&quot;: {
+    &quot;linkedServiceName&quot;: { &quot;referenceName&quot;: &quot;ls_adls_lake&quot;, &quot;type&quot;: &quot;LinkedServiceReference&quot; },
+    &quot;parameters&quot;: { &quot;container&quot;: {&quot;type&quot;:&quot;string&quot;}, &quot;folder&quot;: {&quot;type&quot;:&quot;string&quot;}, &quot;file&quot;: {&quot;type&quot;:&quot;string&quot;} },
+    &quot;type&quot;: &quot;Parquet&quot;,
+    &quot;typeProperties&quot;: {
+      &quot;location&quot;: {
+        &quot;type&quot;: &quot;AzureBlobFSLocation&quot;,
+        &quot;fileSystem&quot;: { &quot;value&quot;: &quot;@dataset().container&quot;, &quot;type&quot;: &quot;Expression&quot; },
+        &quot;folderPath&quot;: { &quot;value&quot;: &quot;@dataset().folder&quot;, &quot;type&quot;: &quot;Expression&quot; },
+        &quot;fileName&quot;:   { &quot;value&quot;: &quot;@dataset().file&quot;, &quot;type&quot;: &quot;Expression&quot; }
+      },
+      &quot;compressionCodec&quot;: &quot;snappy&quot;
+    }
+  }
+}
+</code></pre>
+<h3 id="pipeline-the-delivery-plan">Pipeline — the delivery plan</h3>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>delivery plan</strong> for the day: "pick up from these five factories, deliver to the central warehouse, then tell the packing team to start, and if any pickup fails, call the manager."</p>
+</blockquote>
+<p>A pipeline is a logical grouping of <strong>activities</strong> with dependencies, <strong>parameters</strong> (inputs), <strong>variables</strong> (working memory), and settings like concurrency. Pipelines can call other pipelines (<strong>Execute Pipeline</strong>), which is how you build modular frameworks.</p>
+<h3 id="activity-a-single-step">Activity — a single step</h3>
+<p>Three families:
+- <strong>Data movement:</strong> Copy.
+- <strong>Data transformation:</strong> Data Flow, Stored Procedure, Script, Databricks Notebook/Jar/Python, HDInsight, Azure Function, Synapse notebook/Spark job.
+- <strong>Control flow:</strong> Lookup, Get Metadata, ForEach, If Condition, Switch, Until, Wait, Set Variable, Append Variable, Execute Pipeline, Filter, Validation, Web, Webhook, Fail, Delete.</p>
+<h3 id="integration-runtime-ir-the-trucks-and-drivers">Integration Runtime (IR) — the trucks and drivers</h3>
+<blockquote>
+<p><strong>Analogy:</strong>
+- <strong>Azure IR</strong> is the <strong>company's own fleet in the cloud</strong>: managed by Microsoft, scales automatically, can drive to anything reachable on the public road (and, with a <strong>managed VNet</strong>, through private tunnels).
+- <strong>Self-hosted IR (SHIR)</strong> is a <strong>van parked inside the customer's gated premises</strong>, with a driver who has a pass. It can reach things the cloud fleet cannot: on-premises databases, file shares, and resources in private networks. The van only ever makes <strong>outbound</strong> calls to head office; head office never needs to break into the premises.
+- <strong>Azure-SSIS IR</strong> is <strong>renting a specialist crew</strong> who already know how to run your old SSIS packages.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>IR type</th>
+<th>Runs where</th>
+<th>Use for</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Azure IR</strong> (AutoResolve or region-specific)</td>
+<td>Microsoft-managed in Azure</td>
+<td>Cloud-to-cloud copies, data flows, dispatching external activities</td>
+<td>Set a <strong>specific region</strong> for data residency rather than AutoResolve</td>
+</tr>
+<tr>
+<td><strong>Azure IR with Managed VNet</strong></td>
+<td>Microsoft-managed, isolated VNet</td>
+<td>Reaching locked-down PaaS services via <strong>managed private endpoints</strong></td>
+<td>Slightly longer start-up (cluster warm-up); configure TTL</td>
+</tr>
+<tr>
+<td><strong>Self-hosted IR</strong></td>
+<td>Your Windows machine/VM (on-prem or in a VNet)</td>
+<td>On-prem sources, VNet-only resources (e.g., MI without public endpoint), file shares</td>
+<td>Outbound HTTPS (443) only; install <strong>Java</strong> for Parquet/ORC; up to 4 nodes for HA/scale; can be <strong>shared</strong> across factories</td>
+</tr>
+<tr>
+<td><strong>Azure-SSIS IR</strong></td>
+<td>Microsoft-managed cluster of VMs</td>
+<td>Lift-and-shift of SSIS packages</td>
+<td>Billed while running — start/stop on schedule</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>SHIR operations checklist:</strong> run at least <strong>two nodes</strong> in production (high availability), keep it <strong>auto-updated</strong>, monitor CPU/memory and concurrent jobs, place it <strong>close to the source</strong> network-wise, size the VM for the parallelism you need, and protect the machine (it holds credentials in memory and sits on a privileged network path).</p>
+<h3 id="triggers-the-alarm-clocks">Triggers — the alarm clocks</h3>
+<blockquote>
+<p><strong>Analogy:</strong>
+- A <strong>schedule trigger</strong> is an <strong>alarm clock</strong>: rings at set times.
+- A <strong>tumbling window trigger</strong> is a <strong>conveyor belt of fixed time slots</strong>: every hour gets its own box; each box is processed exactly once, boxes can be reprocessed individually, and the belt remembers which boxes are done — even boxes from last month (backfill).
+- A <strong>storage event trigger</strong> is a <strong>doorbell</strong>: rings when a file arrives in (or is deleted from) a folder.
+- A <strong>custom event trigger</strong> is a <strong>pager</strong>: rings when a custom Event Grid event is published.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Fires</th>
+<th>Key features</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schedule</strong></td>
+<td>On a wall-clock schedule</td>
+<td>Many-to-many with pipelines; no state; no backfill</td>
+<td>Simple daily/hourly jobs</td>
+</tr>
+<tr>
+<td><strong>Tumbling window</strong></td>
+<td>Fixed-size, contiguous, non-overlapping windows</td>
+<td><strong>1:1</strong> with a pipeline; passes <code>windowStartTime</code>/<code>windowEndTime</code>; <strong>backfill</strong> from a past start date; retry policy; <strong>max concurrency</strong>; <strong>dependencies on other tumbling windows</strong> (including self-dependency for strict ordering)</td>
+<td>Incremental loads by time window, backfills</td>
+</tr>
+<tr>
+<td><strong>Storage event</strong></td>
+<td>Blob created/deleted (via Event Grid)</td>
+<td>Filter by path prefix/suffix; passes folder and file name</td>
+<td>File-drop ingestion</td>
+</tr>
+<tr>
+<td><strong>Custom event</strong></td>
+<td>Custom Event Grid topic events</td>
+<td>Event payload available to the pipeline</td>
+<td>Cross-system, event-driven orchestration</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pipelines can also be run <strong>manually</strong> ("Trigger now", REST API, PowerShell, SDK) — useful for reruns and external schedulers.</p>
+<p><strong>Tumbling window parameters example:</strong></p>
+<pre><code>@trigger().outputs.windowStartTime   →  pipeline parameter p_window_start
+@trigger().outputs.windowEndTime     →  pipeline parameter p_window_end
+</code></pre>
+<p>Then the copy query uses <code>WHERE modified_at &gt;= '@{pipeline().parameters.p_window_start}' AND modified_at &lt; '@{pipeline().parameters.p_window_end}'</code> — an <strong>idempotent, window-bounded</strong> extract that can be re-run for any window.</p>
+<h2 id="63-parameters-variables-and-expressions-the-pipelines-language">6.3 Parameters, Variables and Expressions: The Pipeline's Language</h2>
+<blockquote>
+<p><strong>Analogy:</strong>
+- <strong>Parameters</strong> are the <strong>order form</strong> filled in when the job starts ("deliver to: Mumbai, date: 13 Oct"). Read-only during the run.
+- <strong>Variables</strong> are the <strong>driver's notepad</strong> during the trip — values you set and change as you go.
+- <strong>Global parameters</strong> are <strong>company-wide constants</strong> printed on every form (environment name, default container).
+- <strong>Expressions</strong> are the <strong>instructions written in a shorthand language</strong> ("take the date, format it as yyyy/MM/dd, and add it to the folder path").</p>
+</blockquote>
+<p><strong>Expression syntax essentials:</strong>
+- An entire value as an expression: <code>@pipeline().parameters.p_table_name</code>
+- String interpolation inside text: <code>raw/@{pipeline().parameters.p_source}/@{formatDateTime(utcNow(),'yyyy/MM/dd')}</code>
+- Escape a literal <code>@</code> at the start with <code>@@</code>.</p>
+<p><strong>System variables you'll use constantly:</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@pipeline().DataFactory</code></td>
+<td>Factory name</td>
+</tr>
+<tr>
+<td><code>@pipeline().Pipeline</code></td>
+<td>Pipeline name</td>
+</tr>
+<tr>
+<td><code>@pipeline().RunId</code></td>
+<td>Unique run ID — put it in logs and file names</td>
+</tr>
+<tr>
+<td><code>@pipeline().TriggerTime</code></td>
+<td>When the trigger fired</td>
+</tr>
+<tr>
+<td><code>@pipeline().TriggerName</code> / <code>TriggerType</code></td>
+<td>Which trigger started it</td>
+</tr>
+<tr>
+<td><code>@pipeline().parameters.&lt;name&gt;</code></td>
+<td>A pipeline parameter</td>
+</tr>
+<tr>
+<td><code>@variables('&lt;name&gt;')</code></td>
+<td>A variable's value</td>
+</tr>
+<tr>
+<td><code>@pipeline().globalParameters.&lt;name&gt;</code></td>
+<td>A global parameter</td>
+</tr>
+<tr>
+<td><code>@trigger().outputs.windowStartTime</code></td>
+<td>Tumbling window start</td>
+</tr>
+<tr>
+<td><code>@triggerBody().fileName</code> / <code>.folderPath</code></td>
+<td>Storage event trigger file details</td>
+</tr>
+<tr>
+<td><code>@item()</code></td>
+<td>The current element inside a ForEach</td>
+</tr>
+<tr>
+<td><code>@activity('Lookup Config').output.value</code></td>
+<td>Lookup result array (first row only = false)</td>
+</tr>
+<tr>
+<td><code>@activity('Lookup Watermark').output.firstRow.last_value</code></td>
+<td>Lookup single row</td>
+</tr>
+<tr>
+<td><code>@activity('Copy Sales').output.rowsCopied</code> / <code>.rowsRead</code> / <code>.copyDuration</code></td>
+<td>Copy metrics</td>
+</tr>
+<tr>
+<td><code>@activity('Get Files').output.childItems</code></td>
+<td>Get Metadata folder contents</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Common functions:</strong></p>
+<pre><code>@concat('sales_', pipeline().parameters.p_date, '.parquet')
+@formatDateTime(utcNow(), 'yyyy-MM-dd')
+@formatDateTime(addDays(utcNow(), -1), 'yyyyMMdd')
+@convertFromUtc(utcNow(), 'India Standard Time')
+@if(equals(pipeline().parameters.p_full_load, true), 'FULL', 'INCREMENTAL')
+@coalesce(pipeline().parameters.p_date, formatDateTime(utcNow(),'yyyy-MM-dd'))
+@json(activity('Get Config').output.firstRow.column_mapping)
+@string(activity('Copy Sales').output.rowsCopied)
+@greater(activity('Copy Sales').output.rowsCopied, 0)
+@length(activity('Get Files').output.childItems)
+@split(item().name, '_')[1]
+@replace(pipeline().parameters.p_path, '\\', '/')
+@contains(activity('Get Files').output.childItems[0].name, '.csv')
+</code></pre>
+<p><strong>Data types matter:</strong> parameters are typed (String, Int, Float, Bool, Array, Object, SecureString). Comparing a string <code>"0"</code> with an int <code>0</code> fails silently in logic. Use <code>int()</code>, <code>string()</code>, <code>bool()</code> conversions explicitly.</p>
+<p><strong>Variable gotchas:</strong>
+- A <strong>Set Variable</strong> activity <strong>cannot reference the same variable</strong> in its expression (<code>@add(variables('counter'),1)</code> into <code>counter</code> is not allowed). Use a second temporary variable.
+- <strong>Variables are pipeline-scoped</strong>, not ForEach-iteration scoped. In a <strong>parallel ForEach</strong>, all iterations share the same variable → race conditions. Either run the ForEach <strong>sequentially</strong>, use <strong>Append Variable</strong> (to an array), or move the iteration's logic into a <strong>child pipeline</strong> that receives values as <strong>parameters</strong> (each child run has its own scope). The child-pipeline pattern is the robust one.
+- A <strong>pipeline return value</strong> (via Set Variable's "pipeline return value" option) lets a child pipeline pass results back to the parent.</p>
+<h2 id="64-control-flow-activities-traffic-lights-and-assembly-lines">6.4 Control Flow Activities: Traffic Lights and Assembly Lines</h2>
+<h3 id="dependency-conditions-traffic-lights-between-activities">Dependency Conditions — traffic lights between activities</h3>
+<blockquote>
+<p><strong>Analogy:</strong> each arrow between activities has a <strong>traffic light colour</strong>: <strong>green</strong> (on success), <strong>red</strong> (on failure), <strong>blue</strong> (on completion — either way), <strong>grey</strong> (on skip — the previous activity didn't run).</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Next activity runs when previous…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Succeeded</strong></td>
+<td>succeeded</td>
+</tr>
+<tr>
+<td><strong>Failed</strong></td>
+<td>failed</td>
+</tr>
+<tr>
+<td><strong>Completed</strong></td>
+<td>finished, success or failure</td>
+</tr>
+<tr>
+<td><strong>Skipped</strong></td>
+<td>did not run (because its own dependencies weren't met)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Multiple incoming arrows = AND.</strong> If an activity has two incoming dependencies, <strong>both</strong> must be satisfied. A "send failure email" activity connected with <em>On Failure</em> arrows from three different activities will <strong>never run</strong> if only one of them fails (the other two succeeded or were skipped).</p>
+<p><strong>Patterns:</strong>
+- <strong>Try–catch:</strong> Activity A → (On Failure) → Log Error → <strong>Fail activity</strong> (to keep the pipeline marked failed).
+- <strong>Generic error handling for a chain:</strong> put the steps in a <strong>child pipeline</strong>; in the parent, Execute Pipeline → On Failure → handler. One handler covers everything inside.
+- <strong>"Do this whether or not it failed"</strong> (e.g., write a log row): use <strong>On Completion</strong>.</p>
+<h3 id="pipeline-status-logic-why-failed-activity-successful-pipeline-happens">Pipeline Status Logic — why "failed activity, successful pipeline" happens</h3>
+<blockquote>
+<p><strong>Analogy:</strong> a delivery driver's truck breaks down, he phones the depot (the failure handler), and the depot successfully logs it. The <strong>depot's report</strong> says "handled successfully", so the day's plan is marked <strong>complete</strong> — even though the package never arrived.</p>
+</blockquote>
+<p>ADF determines pipeline status from the <strong>leaf activities</strong> (activities at the end of each path). If a failed activity has an <em>On Failure</em> handler that <strong>succeeds</strong>, and that handler is the leaf, the <strong>pipeline run can report Succeeded</strong>. This silently hides failures from monitoring and from parent pipelines.</p>
+<p><strong>Fix:</strong> end every error-handling path with a <strong>Fail activity</strong> (custom message and error code), or design so the failure propagates. Then alerts and parent pipelines see the failure correctly.</p>
+<h3 id="lookup-reading-the-register">Lookup — reading the register</h3>
+<p>Reads a dataset or query result: either the <strong>first row</strong> or <strong>all rows</strong> (as an array). Limits (at time of writing): about <strong>5,000 rows</strong> and <strong>4 MB</strong> of output. It's for <strong>control data</strong> (config, watermarks), not for moving data. For more rows, page through, or use a stored procedure/query that returns only what you need.</p>
+<h3 id="get-metadata-checking-the-inbox">Get Metadata — checking the inbox</h3>
+<p>Returns properties of a file or folder: <code>exists</code>, <code>childItems</code> (folder contents), <code>lastModified</code>, <code>size</code>, <code>itemName</code>, <code>structure</code>, <code>columnCount</code>. Use it to check whether a file arrived before processing, or to list files for a ForEach.</p>
+<h3 id="foreach-the-assembly-line">ForEach — the assembly line</h3>
+<blockquote>
+<p><strong>Analogy:</strong> an <strong>assembly line</strong> that processes each item in a list. With <strong>sequential</strong> mode, one worker handles items one by one. With <strong>parallel</strong> mode, up to N workers (the <strong>batch count</strong>) work at once.</p>
+</blockquote>
+<ul>
+<li><code>items</code>: an array expression, e.g., <code>@activity('Lookup Config').output.value</code>.</li>
+<li><strong>Batch count:</strong> default 20, maximum 50 concurrent iterations.</li>
+<li><strong>Nesting limits:</strong> you cannot put a ForEach directly inside another ForEach (or inside If/Switch inside ForEach in some combinations). Use <strong>Execute Pipeline</strong> to a child that contains the inner loop.</li>
+<li>Respect source limits: 50 parallel copies against a small on-prem SQL Server can overwhelm it. Tune batch count per source.</li>
+</ul>
+<h3 id="if-condition-switch-until-wait-filter">If Condition, Switch, Until, Wait, Filter</h3>
+<ul>
+<li><strong>If Condition:</strong> two branches based on a boolean expression (<code>@greater(activity('Copy').output.rowsCopied, 0)</code>).</li>
+<li><strong>Switch:</strong> multiple branches on a value (<code>@item().load_type</code> → <code>FULL</code>, <code>INCREMENTAL</code>, <code>CDC</code>).</li>
+<li><strong>Until:</strong> loop until a condition is true, with a timeout — polling an external job's status via Web activity, for example.</li>
+<li><strong>Wait:</strong> pause for N seconds.</li>
+<li><strong>Filter:</strong> filter an array (e.g., keep only <code>.csv</code> files from <code>childItems</code>).</li>
+</ul>
+<h3 id="execute-pipeline-calling-a-sub-recipe">Execute Pipeline — calling a sub-recipe</h3>
+<p>Calls a child pipeline with parameters. <strong>Wait on completion</strong> = true makes the parent wait and inherit success/failure. This is how you build <strong>modular, reusable</strong> frameworks (a generic "copy one table" child called from many parents).</p>
+<h3 id="web-webhook-azure-function">Web / Webhook / Azure Function</h3>
+<ul>
+<li><strong>Web activity:</strong> call a REST endpoint (start a Databricks job, call a Logic App, refresh a Power BI dataset, call an internal API). Authenticate with <strong>managed identity</strong> where supported.</li>
+<li><strong>Webhook activity:</strong> call an endpoint and <strong>wait</strong> for it to call back (long-running external processes).</li>
+<li><strong>Azure Function activity:</strong> call a function for custom logic.</li>
+</ul>
+<h3 id="validation-delete-fail">Validation, Delete, Fail</h3>
+<ul>
+<li><strong>Validation:</strong> wait until a file/folder exists (with minimum size, timeout, sleep interval) — a simpler alternative to Until + Get Metadata.</li>
+<li><strong>Delete:</strong> remove files (e.g., clean landing folders after successful load); can log deleted files.</li>
+<li><strong>Fail:</strong> deliberately fail with a custom message and code.</li>
+</ul>
+<h2 id="65-the-copy-activity-in-depth-the-forklift">6.5 The Copy Activity in Depth: The Forklift</h2>
+<blockquote>
+<p><strong>Analogy:</strong> the Copy activity is a <strong>forklift team</strong> moving pallets from one warehouse to another. You decide how many forklifts (DIUs), how many parallel lanes (parallel copies), whether to use a staging bay (staged copy), how to repack goods (mapping, format conversion), and what to do with damaged pallets (fault tolerance).</p>
+</blockquote>
+<h3 id="source-options">Source Options</h3>
+<ul>
+<li><strong>Table, query or stored procedure</strong> (for databases). <strong>Always prefer a query</strong> that selects only needed columns and rows (incremental filters), rather than whole tables.</li>
+<li><strong>Partition options</strong> for parallel reads from relational sources:</li>
+<li><strong>None</strong> — single-threaded read.</li>
+<li><strong>Physical partitions of table</strong> — reads each existing table partition in parallel.</li>
+<li><strong>Dynamic range</strong> — ADF splits a numeric/date column range into chunks and reads them in parallel (<code>?AdfDynamicRangePartitionCondition</code> placeholder in custom queries). Choose an <strong>indexed, evenly distributed</strong> column.</li>
+<li>For files: wildcard paths, <code>modifiedDatetimeStart/End</code> filters (incremental by file modified time), recursive folders, "file list path".</li>
+</ul>
+<h3 id="sink-options">Sink Options</h3>
+<ul>
+<li><strong>Write behaviour</strong> for SQL sinks: insert, <strong>upsert</strong> (key columns), or stored procedure. Upsert on large volumes is slower than bulk insert into staging + set-based MERGE.</li>
+<li><strong>Pre-copy script:</strong> e.g., <code>TRUNCATE TABLE staging.sales</code> or <code>DELETE FROM staging.sales WHERE load_date = '@{...}'</code> — key for idempotency.</li>
+<li><strong>Table option:</strong> auto-create table (handy for staging; risky for curated tables because inferred types may be poor).</li>
+<li><strong>Batch size / write batch timeout.</strong></li>
+<li>For Synapse/Fabric warehouse sinks: <strong>COPY command</strong> or <strong>PolyBase</strong> with <strong>staging</strong> — dramatically faster than row-by-row bulk insert.</li>
+</ul>
+<h3 id="mapping-repacking-the-goods">Mapping — repacking the goods</h3>
+<ul>
+<li><strong>Auto mapping</strong> by name (convenient, but brittle when sources change).</li>
+<li><strong>Explicit mapping</strong>, which can also be <strong>parameterised as JSON</strong> from a config table:</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;TabularTranslator&quot;,
+  &quot;mappings&quot;: [
+    { &quot;source&quot;: { &quot;name&quot;: &quot;CUST_ID&quot; },   &quot;sink&quot;: { &quot;name&quot;: &quot;customer_id&quot; } },
+    { &quot;source&quot;: { &quot;name&quot;: &quot;CUST_NAME&quot; }, &quot;sink&quot;: { &quot;name&quot;: &quot;customer_name&quot; } }
+  ]
+}
+</code></pre>
+<p>Supply it with <code>@json(item().column_mapping)</code>.</p>
+<ul>
+<li><strong>Type conversion</strong> settings control how strings, dates and decimals convert (culture, formats, truncation).</li>
+</ul>
+<h3 id="performance-settings">Performance Settings</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Analogy</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Integration Units (DIUs)</strong> (Azure IR)</td>
+<td>Number of forklifts</td>
+<td>Compute power for one copy (auto, or 2–256). More DIUs help large file copies; little help when the <strong>source</strong> is the bottleneck.</td>
+</tr>
+<tr>
+<td><strong>Parallel copies</strong></td>
+<td>Number of loading bays used at once</td>
+<td>Parallel threads reading/writing partitions or files</td>
+</tr>
+<tr>
+<td><strong>Staged copy</strong></td>
+<td>Temporary loading bay</td>
+<td>Land data in Blob/ADLS first, then bulk-load (needed for COPY/PolyBase into Synapse; also helps compress over slow links)</td>
+</tr>
+<tr>
+<td><strong>SHIR concurrency and node count</strong></td>
+<td>Number of vans and drivers on-prem</td>
+<td>Throughput for on-premises copies</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Performance tuning order:</strong> (1) Is the <strong>source</strong> the bottleneck (slow query, no index on the filter column, throttling)? (2) Is the <strong>network</strong> the bottleneck (SHIR bandwidth, cross-region)? (3) Is the <strong>sink</strong> the bottleneck (Azure SQL log rate, indexes, small DTU tier)? (4) Only then adjust DIUs/parallelism. The <strong>copy activity monitoring details</strong> show time spent in each stage (queue, pre-copy script, transfer — reading from source, writing to sink) — read them before guessing.</p>
+<h3 id="fault-tolerance-and-data-consistency">Fault Tolerance and Data Consistency</h3>
+<ul>
+<li><strong>Skip incompatible rows</strong> (type conversion failures, key violations) and <strong>log</strong> them to a storage path, instead of failing the whole copy. Use deliberately: skipped rows must be monitored and reconciled, or they become silent data loss.</li>
+<li><strong>Data consistency verification:</strong> checks row counts (and for files, checksums) between source and destination.</li>
+<li><strong>Retry</strong> at activity level (Section 6.8).</li>
+</ul>
+<h3 id="copy-activity-output-your-audit-data">Copy Activity Output — your audit data</h3>
+<pre><code>@activity('Copy Sales').output.rowsRead
+@activity('Copy Sales').output.rowsCopied
+@activity('Copy Sales').output.rowsSkipped
+@activity('Copy Sales').output.dataRead          (bytes)
+@activity('Copy Sales').output.copyDuration      (seconds)
+@activity('Copy Sales').output.errors
+</code></pre>
+<p>Write these into an audit table after every copy (Section 6.9).</p>
+<h2 id="66-transformations-data-flows-vs-pushing-work-down">6.6 Transformations: Data Flows vs Pushing Work Down</h2>
+<h3 id="mapping-data-flows-a-factory-floor-you-design-on-a-whiteboard">Mapping Data Flows — a factory floor you design on a whiteboard</h3>
+<blockquote>
+<p><strong>Analogy:</strong> you draw the production line on a whiteboard — "filter out damaged goods, join with the price list, group by store, add a column" — and ADF builds and runs a temporary <strong>Spark factory</strong> to execute it. You never touch the Spark machinery directly.</p>
+</blockquote>
+<p>Mapping Data Flows provide visual, code-free transformations executed on managed Spark clusters: <strong>Source, Sink, Filter, Select, Derived Column, Join, Lookup, Exists, Union, Conditional Split, Aggregate, Pivot/Unpivot, Window, Rank, Surrogate Key, Alter Row (insert/update/upsert/delete policies), Flatten (JSON arrays), Parse, Stringify, Assert (data quality rules)</strong>. They support <strong>schema drift</strong> (pass through unknown columns), <strong>parameters</strong>, and <strong>debug mode</strong> with data preview.</p>
+<p><strong>Cost and timing realities:</strong>
+- Each data flow run needs a Spark cluster; <strong>cold start</strong> takes minutes. The <strong>Time To Live (TTL)</strong> setting on the Azure IR keeps the cluster warm between sequential data flows (you pay while it's warm).
+- Billed per <strong>vCore-hour</strong> of cluster time — debugging sessions included.
+- Excellent for moderate, visual transformations and teams without Spark skills. For heavy, complex or highly optimised transformations, <strong>Databricks/Spark notebooks</strong> or <strong>set-based SQL</strong> in the warehouse are usually faster, cheaper, more testable and easier to version.</p>
+<h3 id="push-down-transformation-elt-the-common-professional-pattern">Push-down transformation (ELT) — the common professional pattern</h3>
+<p>Use ADF to <strong>land</strong> data (Copy) and <strong>orchestrate</strong> transformation where it runs best:
+- <strong>Stored Procedure / Script activity</strong> → set-based SQL MERGE in Azure SQL, Synapse or Fabric Warehouse.
+- <strong>Databricks Notebook / Job</strong> → PySpark/SQL on Delta.
+- <strong>dbt</strong> runs (via Databricks jobs, Azure Container Instances, or Web activity calling dbt Cloud).</p>
+<pre><code>Pipeline: pl_sales_daily
+  ├── Copy POS sales (incremental) → ADLS raw (Parquet)
+  ├── Databricks notebook: raw → silver (dedupe, MERGE into Delta)
+  ├── Stored procedure: usp_load_dim_customer_scd2
+  ├── Stored procedure: usp_load_fact_sales  (delete-insert by date window)
+  ├── Stored procedure: usp_run_dq_checks    (fails pipeline on hard DQ errors)
+  └── Web: refresh Power BI semantic model
+</code></pre>
+<h2 id="67-metadata-driven-pipelines-the-shipping-manifest">6.7 Metadata-Driven Pipelines: The Shipping Manifest</h2>
+<blockquote>
+<p><strong>Analogy.</strong> A small courier writes a <strong>separate delivery plan for every customer</strong>. A large logistics company has <strong>one standard delivery process</strong> and a <strong>shipping manifest</strong> (a spreadsheet) listing every pickup: address, package type, time window, priority. Adding a new customer means adding <strong>one row to the manifest</strong>, not writing a new plan.</p>
+</blockquote>
+<p>Instead of building one pipeline per table (hundreds of near-identical pipelines), you build <strong>one generic framework</strong> driven by a <strong>control table</strong>.</p>
+<h3 id="the-control-table">The Control Table</h3>
+<pre><code class="language-sql">CREATE TABLE etl.source_config (
+    config_id          INT IDENTITY PRIMARY KEY,
+    source_system      VARCHAR(50)   NOT NULL,   -- 'POS', 'CRM'
+    source_schema      VARCHAR(128)  NOT NULL,
+    source_table       VARCHAR(128)  NOT NULL,
+    load_type          VARCHAR(20)   NOT NULL,   -- 'FULL', 'INCREMENTAL'
+    watermark_column   VARCHAR(128)  NULL,       -- e.g. 'ModifiedDate'
+    key_columns        VARCHAR(500)  NULL,       -- for MERGE downstream
+    select_columns     VARCHAR(MAX)  NULL,       -- explicit column list, or NULL for all
+    target_container   VARCHAR(100)  NOT NULL,   -- 'raw'
+    target_folder      VARCHAR(400)  NOT NULL,   -- 'pos/sales'
+    partition_column   VARCHAR(128)  NULL,       -- for dynamic-range parallel copy
+    load_group         INT           NOT NULL DEFAULT 1,  -- run order / batch grouping
+    is_active          BIT           NOT NULL DEFAULT 1
+);
+
+CREATE TABLE etl.watermark (
+    config_id          INT PRIMARY KEY REFERENCES etl.source_config(config_id),
+    last_value         DATETIME2(3)  NOT NULL,
+    updated_at         DATETIME2(3)  NOT NULL DEFAULT SYSUTCDATETIME(),
+    last_run_id        VARCHAR(64)   NULL
+);
+</code></pre>
+<h3 id="the-framework-shape">The Framework Shape</h3>
+<div class="diagram"><pre class="mermaid">flowchart TB
+    P[pl_master_ingest&lt;br/&gt;param: source_system] --&gt; L[Lookup: active configs&lt;br/&gt;for this source]
+    L --&gt; F[ForEach config&lt;br/&gt;batch count tuned per source]
+    F --&gt; C[Execute Pipeline: pl_ingest_one_table&lt;br/&gt;params from item]
+    C --&gt; S{Switch: load_type}
+    S --&gt;|FULL| CF[Copy full table → raw]
+    S --&gt;|INCREMENTAL| W1[Lookup old watermark]
+    W1 --&gt; W2[Lookup new watermark&lt;br/&gt;MAX of watermark column]
+    W2 --&gt; CI[Copy rows between&lt;br/&gt;old and new watermark → raw]
+    CI --&gt; W3[Stored procedure:&lt;br/&gt;update watermark]
+    CF --&gt; A[Stored procedure: write audit row]
+    W3 --&gt; A
+</pre></div>
+<h3 id="the-incremental-watermark-pattern-step-by-step">The Incremental (Watermark) Pattern, Step by Step</h3>
+<blockquote>
+<p><strong>Analogy (from the first guide):</strong> a <strong>bookmark</strong>. Each run reads from the bookmark up to a fixed page, then moves the bookmark — but only after the chapter is safely copied.</p>
+</blockquote>
+<ol>
+<li><strong>Lookup old watermark</strong> (first row only):
+   <code>sql
+   SELECT last_value FROM etl.watermark WHERE config_id = @{item().config_id}</code></li>
+<li><strong>Lookup new watermark</strong> from the source — fix the upper bound <strong>before</strong> copying so rows changing mid-copy are caught next run:
+   <code>sql
+   SELECT MAX(@{item().watermark_column}) AS new_value
+   FROM @{item().source_schema}.@{item().source_table}</code></li>
+<li><strong>Copy</strong> with a bounded query:
+   <code>sql
+   SELECT @{coalesce(item().select_columns, '*')}
+   FROM @{item().source_schema}.@{item().source_table}
+   WHERE @{item().watermark_column} &gt;  '@{activity('Lookup Old WM').output.firstRow.last_value}'
+     AND @{item().watermark_column} &lt;= '@{activity('Lookup New WM').output.firstRow.new_value}'</code>
+   Sink path: <code>@{item().target_folder}/ingest_date=@{formatDateTime(utcNow(),'yyyy-MM-dd')}/@{item().source_table}_@{pipeline().RunId}.parquet</code></li>
+<li><strong>Update watermark</strong> via stored procedure, <strong>only on success</strong>:
+   <code>sql
+   CREATE OR ALTER PROCEDURE etl.usp_update_watermark
+       @config_id INT, @new_value DATETIME2(3), @run_id VARCHAR(64)
+   AS
+   BEGIN
+       SET NOCOUNT ON;
+       UPDATE etl.watermark
+       SET last_value = @new_value, updated_at = SYSUTCDATETIME(), last_run_id = @run_id
+       WHERE config_id = @config_id;
+   END</code></li>
+<li><strong>Audit</strong> row counts and status (Section 6.9).</li>
+</ol>
+<p><strong>Robustness details (these separate a 3-year engineer from a beginner):</strong>
+- If the copy returns <strong>zero rows</strong>, <code>new_value</code> from step 2 still advances correctly; if the source table is empty, <code>MAX()</code> returns NULL — guard with <code>coalesce()</code> so the watermark never becomes NULL.
+- Watermark columns must be <strong>indexed</strong> in the source; otherwise every incremental run scans the full table.
+- Add an <strong>overlap</strong> (e.g., re-read the last hour: <code>&gt; DATEADD(hour,-1, old_value)</code>) when the source's <code>ModifiedDate</code> can be committed late, and <strong>deduplicate downstream</strong> (by key and latest modified time).
+- <strong>Hard deletes</strong> are invisible to this pattern — combine with periodic full key comparison, soft-delete flags, or CDC.
+- Time zones: be explicit (UTC vs local) about watermark values and when formatting dates into SQL strings; use ISO formats (<code>yyyy-MM-ddTHH:mm:ss.fff</code>).
+- <strong>SQL injection hygiene:</strong> config values are concatenated into SQL. Restrict who can edit the control table, validate names (e.g., <code>QUOTENAME</code> in a stored procedure that builds the query), and never take these values from untrusted input.</p>
+<h3 id="other-incremental-options-in-adf">Other Incremental Options in ADF</h3>
+<ul>
+<li><strong>Tumbling window</strong> time ranges instead of stored watermarks (Section 6.2) — great when the source has a reliable modified timestamp and you want built-in backfill.</li>
+<li><strong>File-based incremental:</strong> copy files where <code>lastModified</code> falls within the window (<code>modifiedDatetimeStart/End</code>), or event-driven via storage event triggers.</li>
+<li><strong>SQL Server / Azure SQL CDC or Change Tracking:</strong> query <code>cdc.fn_cdc_get_net_changes_...</code> or <code>CHANGETABLE(CHANGES ...)</code> in the copy source, storing the last LSN/version as the watermark. Captures deletes.</li>
+<li><strong>ADF's change data capture resource and data flow CDC options</strong>, or Fabric <strong>mirroring</strong>, for lower-code CDC from supported sources.</li>
+</ul>
+<h2 id="68-error-handling-retries-and-timeouts">6.8 Error Handling, Retries and Timeouts</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a good courier company plans for problems: if a road is temporarily blocked, the driver <strong>waits and tries again</strong> (retry). If the address doesn't exist, retrying is pointless — <strong>report it</strong> (fail fast). And no driver should wait at a closed gate <strong>forever</strong> (timeout).</p>
+</blockquote>
+<p><strong>Activity policy settings:</strong>
+- <strong>Retry</strong> and <strong>retry interval</strong> — for <strong>transient</strong> problems: network blips, throttling (HTTP 429), deadlock victims, serverless database resuming, SHIR momentary disconnect. Typical: 2–3 retries, 30–120 seconds apart.
+- <strong>Timeout</strong> — set explicit, realistic timeouts on every activity. Defaults are long (hours or days depending on activity), so a hung query or stuck external job can silently hold the pipeline (and the next scheduled runs) for a very long time.
+- <strong>Secure input / secure output</strong> — hides activity inputs/outputs (which may contain secrets or PII) from monitoring logs.</p>
+<p><strong>Don't retry logic errors</strong> (bad SQL, missing table, permission denied, data type failures) — they fail the same way every time and just delay the alert.</p>
+<p><strong>Design patterns:</strong>
+- <strong>Fail fast with clear messages:</strong> use the <strong>Fail</strong> activity with a meaningful message (<code>"No file received for POS sales for @{pipeline().parameters.p_date}"</code>) and error code.
+- <strong>Centralised error logging:</strong> an on-failure/on-completion path that writes <code>pipeline name, run ID, activity, error message</code> (<code>@activity('Copy Sales').error.message</code>) to an audit table.
+- <strong>Restartability:</strong> the Monitor hub supports <strong>Rerun</strong> and <strong>Rerun from failed activity</strong>. Rerunning safely depends on <strong>idempotent</strong> design (pre-copy delete/overwrite of the partition, MERGE, watermark only updated on success).
+- <strong>Concurrency control:</strong> set the pipeline's <strong>concurrency</strong> property (e.g., 1) to prevent overlapping runs of the same pipeline processing the same data (a common cause of duplicates when a slow run overlaps the next schedule). Tumbling windows also offer <strong>max concurrency</strong> and self-dependency.</p>
+<h2 id="69-logging-monitoring-and-alerting">6.9 Logging, Monitoring and Alerting</h2>
+<h3 id="the-monitor-hub-the-dispatch-board">The Monitor Hub — the dispatch board</h3>
+<blockquote>
+<p><strong>Analogy:</strong> a <strong>dispatch board</strong> showing every truck: where it is, whether it delivered, how long it took, and why it stopped.</p>
+</blockquote>
+<p>The ADF Studio <strong>Monitor</strong> hub shows pipeline runs, activity runs (with inputs, outputs, errors and copy details), trigger runs, and integration runtime health. Run history is retained for <strong>45 days</strong>.</p>
+<h3 id="long-term-monitoring-with-log-analytics">Long-Term Monitoring with Log Analytics</h3>
+<p>Configure <strong>Diagnostic settings</strong> on the factory to send <code>PipelineRuns</code>, <code>ActivityRuns</code>, <code>TriggerRuns</code> (and SSIS logs if relevant) to a <strong>Log Analytics workspace</strong> (use resource-specific tables). Then query with <strong>KQL</strong>:</p>
+<pre><code class="language-kusto">// Failed pipeline runs in the last 24 hours with error messages
+ADFActivityRun
+| where TimeGenerated &gt; ago(24h)
+| where Status == &quot;Failed&quot;
+| project TimeGenerated, PipelineName, ActivityName, ActivityType, ErrorMessage, PipelineRunId
+| order by TimeGenerated desc
+</code></pre>
+<pre><code class="language-kusto">// Pipeline duration trend — spot slowly degrading pipelines
+ADFPipelineRun
+| where TimeGenerated &gt; ago(30d) and Status == &quot;Succeeded&quot;
+| extend DurationMin = datetime_diff('minute', End, Start)
+| summarize avg(DurationMin), max(DurationMin) by PipelineName, bin(TimeGenerated, 1d)
+| render timechart
+</code></pre>
+<h3 id="alerts">Alerts</h3>
+<ul>
+<li><strong>Azure Monitor alerts</strong> on ADF metrics (e.g., <em>Failed pipeline runs metrics</em> &gt; 0, filtered by pipeline name) or on <strong>log queries</strong> (KQL) — sent to <strong>Action Groups</strong> (email, SMS, Teams via webhook/Logic App, ITSM tools).</li>
+<li><strong>Freshness/SLA alerts:</strong> a failure alert doesn't fire if a pipeline <strong>never started</strong> (trigger disabled, upstream file never arrived). Add checks like "no successful run of <code>pl_sales_daily</code> since 07:00" or data-level freshness tests.</li>
+<li>Avoid alert noise: alert on what needs action; route by severity.</li>
+</ul>
+<h3 id="your-own-audit-tables-the-delivery-log-book">Your Own Audit Tables — the delivery log book</h3>
+<p>The Monitor hub tells you <strong>ADF</strong> succeeded; your audit table tells you <strong>the data</strong> is right.</p>
+<pre><code class="language-sql">CREATE TABLE etl.load_audit (
+    audit_id        BIGINT IDENTITY PRIMARY KEY,
+    pipeline_name   VARCHAR(200),
+    run_id          VARCHAR(64),
+    config_id       INT,
+    source_object   VARCHAR(300),
+    target_path     VARCHAR(500),
+    rows_read       BIGINT,
+    rows_copied     BIGINT,
+    rows_skipped    BIGINT,
+    watermark_from  DATETIME2(3),
+    watermark_to    DATETIME2(3),
+    status          VARCHAR(20),
+    error_message   NVARCHAR(4000),
+    started_at      DATETIME2(3),
+    ended_at        DATETIME2(3)
+);
+</code></pre>
+<p>Populate it from copy outputs (<code>rowsRead</code>, <code>rowsCopied</code>, <code>rowsSkipped</code>) and use it for reconciliation, volume anomaly detection and answering "what happened to last Tuesday's load?" in seconds.</p>
+<h2 id="610-cicd-for-adf-drafts-the-printed-edition-and-moving-between-offices">6.10 CI/CD for ADF: Drafts, the Printed Edition, and Moving Between Offices</h2>
+<blockquote>
+<p><strong>Analogy.</strong> A newspaper's journalists write <strong>drafts</strong> in a shared editing system (Git branches). The editor reviews and merges them into the <strong>final edition</strong> (the collaboration branch). The <strong>printed edition</strong> (ARM templates) is generated from the final edition and delivered to every city (dev → test → prod), with <strong>city-specific details</strong> (local addresses, phone numbers) swapped in at printing time (parameters per environment).</p>
+</blockquote>
+<h3 id="git-integration">Git Integration</h3>
+<ul>
+<li>Connect the <strong>dev</strong> factory to <strong>Azure DevOps Git or GitHub</strong>. Each developer works in a <strong>feature branch</strong>; changes are saved to Git as JSON (pipelines, datasets, linked services, triggers, data flows).</li>
+<li>Merge into the <strong>collaboration branch</strong> (e.g., <code>main</code>) via pull request with review.</li>
+<li><strong>Only the dev factory</strong> is Git-connected. Test and prod factories are deployed <strong>only</strong> through CI/CD — never edited by hand.</li>
+</ul>
+<h3 id="from-json-to-deployable-arm-templates">From JSON to Deployable ARM Templates</h3>
+<p>Two approaches:
+1. <strong>Manual "Publish"</strong> button in ADF Studio: generates ARM templates into the <strong>publish branch</strong> (<code>adf_publish</code> by default). Older approach.
+2. <strong>Automated publish (recommended):</strong> a build pipeline uses the <strong><code>@microsoft/azure-data-factory-utilities</code> npm package</strong> to <strong>validate</strong> all resources and <strong>export ARM templates</strong> from the collaboration branch — no manual click, fully repeatable.</p>
+<h3 id="release-deployment">Release / Deployment</h3>
+<div class="diagram"><pre class="mermaid">flowchart LR
+    A[Feature branch] --&gt;|PR + review| B[main]
+    B --&gt;|Build: validate + export ARM| C[Artifact: ARM template + parameters]
+    C --&gt;|Deploy| D[Test factory&lt;br/&gt;test parameters]
+    D --&gt;|Approval gate| E[Prod factory&lt;br/&gt;prod parameters]
+</pre></div>
+<p>Deployment steps (Azure DevOps or GitHub Actions):
+1. <strong>Stop triggers</strong> in the target factory (pre-deployment script — Microsoft provides a <code>PrePostDeploymentScript</code> PowerShell sample).
+2. <strong>Deploy the ARM template</strong> with environment-specific <strong>parameter overrides</strong> (linked service URLs, Key Vault names, IR names, global parameters).
+3. <strong>Clean up</strong> resources deleted in dev and <strong>restart triggers</strong> (post-deployment script).</p>
+<h3 id="parameterising-for-environments">Parameterising for Environments</h3>
+<ul>
+<li>Keep <strong>environment-specific values out of pipelines</strong>: put them in <strong>linked services</strong>, <strong>global parameters</strong> or Key Vault.</li>
+<li>Use a <strong>custom parameterisation template</strong> (<code>arm-template-parameters-definition.json</code>) to control which properties appear as ARM parameters (e.g., expose a linked service's <code>url</code> or a dataset's container).</li>
+<li>Each environment uses its <strong>own Key Vault</strong> with the <strong>same secret names</strong> — the pipeline references <code>sql-sales-connection</code> everywhere; only the vault differs.</li>
+<li>Self-hosted IRs in each environment can share the same <strong>name</strong> but be different machines/registrations.</li>
+</ul>
+<p><strong>Gotchas:</strong>
+- Triggers are deployed in <strong>stopped</strong> state unless you start them; forgetting post-deployment trigger start is a classic "why didn't prod run last night?" incident.
+- Editing prod directly (in "live mode") causes <strong>drift</strong> — the next deployment silently overwrites the change.
+- Large factories can exceed ARM template size limits; the export produces <strong>linked templates</strong> to handle this.</p>
+<h2 id="611-security-in-adf">6.11 Security in ADF</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a logistics company is trusted with <strong>keys to every customer's warehouse</strong>. That makes it the most attractive target for burglars. Protect the key cabinet obsessively.</p>
+</blockquote>
+<ul>
+<li><strong>Managed identity everywhere possible</strong> (ADLS, Azure SQL, Synapse, Key Vault, Databricks, Fabric). Least-privilege roles at the narrowest scope.</li>
+<li><strong>Secrets only in Key Vault</strong>; never inline in linked services or pipeline parameters. Use <strong>SecureString</strong> parameters and <strong>secure input/output</strong> to keep secrets and PII out of run logs.</li>
+<li><strong>Network isolation:</strong> <strong>Managed Virtual Network</strong> + <strong>managed private endpoints</strong> (approved on the target resource) so the Azure IR reaches storage/SQL without public exposure; <strong>Self-hosted IR</strong> for on-prem/VNet sources; disable public network access to the factory where appropriate (private endpoint for the ADF portal/authoring and data plane).</li>
+<li><strong>Customer-managed key</strong> encryption for factory metadata if required by policy.</li>
+<li><strong>RBAC on the factory:</strong> <em>Data Factory Contributor</em> for developers in <strong>dev</strong> only; in prod, deploy via a <strong>service connection/managed identity</strong> used by CI/CD, with humans as <strong>Reader</strong> (+ operator rights to rerun if needed).</li>
+<li><strong>Control the control table:</strong> in metadata-driven frameworks, whoever can edit config rows can make the factory read or write arbitrary objects with its powerful identity. Restrict and audit edits.</li>
+<li><strong>Purview integration</strong> for lineage of copy activities, data flows and SSIS.</li>
+</ul>
+<h2 id="612-cost-management-in-adf-the-couriers-bill">6.12 Cost Management in ADF: The Courier's Bill</h2>
+<blockquote>
+<p><strong>Analogy:</strong> the courier charges <strong>per dispatch</strong> (each activity run), <strong>per kilometre-hour of truck usage</strong> (data movement), and <strong>per hour for specialist crews</strong> (data flow clusters, SSIS IR). A thousand tiny parcels cost much more than one well-packed pallet.</p>
+</blockquote>
+<p><strong>ADF billing components (check the current Azure pricing page for rates):</strong>
+- <strong>Orchestration:</strong> per 1,000 activity runs (including trigger and debug runs).
+- <strong>Data movement:</strong> per <strong>DIU-hour</strong> on Azure IR (cheaper per-hour rates on Self-hosted IR, where you also pay for the VM).
+- <strong>Pipeline/external activity execution time:</strong> per hour (e.g., Lookup, Stored Procedure, Databricks activity dispatch).
+- <strong>Data flows:</strong> per <strong>vCore-hour</strong> of cluster time (including debug sessions and TTL warm time).
+- <strong>Azure-SSIS IR:</strong> per node-hour while running.
+- <strong>Inactive pipelines</strong> carry a small monthly charge.</p>
+<p><strong>Cost habits:</strong>
+- <strong>Batch work:</strong> one copy of 1 GB is cheaper than 10,000 copies of 100 KB. Avoid per-row or per-file ForEach loops over thousands of tiny items where a single folder-level copy works.
+- Every copy run bills a <strong>minimum duration</strong> — many tiny copies inflate cost.
+- <strong>Don't over-provision DIUs</strong>; let auto decide, then tune with evidence.
+- <strong>Turn off debug clusters</strong>; set reasonable <strong>TTL</strong> for data flows (long TTLs bill idle time).
+- <strong>Stop the Azure-SSIS IR</strong> outside job windows.
+- <strong>Avoid aggressive polling</strong> (Until loops every 10 seconds for hours) — prefer events/webhooks.
+- Use <strong>tags</strong> and separate factories per domain/environment to attribute costs; review <strong>Cost Management</strong> monthly.</p>
+<h2 id="613-adf-vs-synapse-pipelines-vs-fabric-data-factory">6.13 ADF vs Synapse Pipelines vs Fabric Data Factory</h2>
+<blockquote>
+<p><strong>Analogy:</strong> three branches of the <strong>same courier company</strong> using the same trucks and drivers' handbook, but in different buildings with slightly different services, and the head office is gradually moving its newest services to the <strong>newest building</strong> (Fabric).</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Azure Data Factory</th>
+<th>Synapse pipelines</th>
+<th>Fabric Data Factory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>Azure PaaS resource</td>
+<td>Inside a Synapse workspace</td>
+<td>SaaS, inside Fabric workspaces</td>
+</tr>
+<tr>
+<td>Engine and concepts</td>
+<td>Pipelines, activities, linked services, IRs</td>
+<td>Same engine; minor feature gaps (e.g., no SSIS IR)</td>
+<td>Pipelines with very similar activities; <strong>connections</strong> replace linked services; <strong>on-premises data gateway</strong> replaces SHIR; <strong>Dataflow Gen2</strong> (Power Query) for low-code transforms; Copy job for simple copies</td>
+</tr>
+<tr>
+<td>Billing</td>
+<td>Pay per activity/DIU/vCore</td>
+<td>Per Synapse pricing</td>
+<td>Consumes <strong>Fabric capacity units</strong></td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>ARM templates via Git</td>
+<td>Synapse workspace deployment</td>
+<td>Fabric Git integration and deployment pipelines</td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>Supported; few new features</td>
+<td>Supported; maintenance mode</td>
+<td>Where new investment is landing</td>
+</tr>
+</tbody>
+</table></div>
+<p>Microsoft provides <strong>assessment and migration tooling</strong> for ADF and Synapse pipelines into Fabric, and an option to <strong>mount an existing ADF inside a Fabric workspace</strong>. Linked services must be recreated as connections and credentials re-entered; dedicated SQL pool dependencies typically make migrations phased. Your ADF knowledge — expressions, control flow, metadata-driven design, idempotency — carries over directly.</p>
+<h2 id="614-troubleshooting-field-notes">6.14 Troubleshooting Field Notes</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>What to check / do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Self-hosted IR is offline / unavailable"</td>
+<td>Machine down, service stopped, outbound 443 blocked, expired key, outdated version</td>
+<td>IR node status in Monitor, Windows service, firewall/proxy, auto-update, add a 2nd node</td>
+</tr>
+<tr>
+<td>Copy from on-prem is very slow</td>
+<td>Source query slow, SHIR undersized, network bandwidth</td>
+<td>Copy activity stage durations; source query plan; SHIR CPU/memory; dynamic range partitioning</td>
+</tr>
+<tr>
+<td>Copy into Azure SQL is slow</td>
+<td>Log rate governance, indexes/triggers on target, small tier</td>
+<td><code>LOG_RATE_GOVERNOR</code> waits; load to heap staging; scale up during loads; batch size</td>
+</tr>
+<tr>
+<td>Copy into Synapse is slow</td>
+<td>Not using COPY/PolyBase with staging; loading CSV; small files</td>
+<td>Enable staging + COPY; write Parquet; consolidate files</td>
+</tr>
+<tr>
+<td>"This request is not authorized to perform this operation" on ADLS</td>
+<td>Missing <strong>data-plane</strong> role or ACL (often missing Execute on a parent folder), or storage firewall</td>
+<td>RBAC data role, ACL chain, network rules / private endpoint DNS</td>
+</tr>
+<tr>
+<td>Login failed for token-identified principal</td>
+<td>Managed identity has no database user</td>
+<td><code>CREATE USER [factory-name] FROM EXTERNAL PROVIDER</code> + roles</td>
+</tr>
+<tr>
+<td>Lookup fails or truncates</td>
+<td>Over row/size limit (~5,000 rows / 4 MB)</td>
+<td>Return less data; page; use a child pipeline per batch</td>
+</tr>
+<tr>
+<td>ForEach parallel run gives wrong variable values</td>
+<td>Shared pipeline variable across iterations</td>
+<td>Move logic to child pipeline with parameters, or run sequentially</td>
+</tr>
+<tr>
+<td>Pipeline shows Succeeded but data missing</td>
+<td>Failure handled by an on-failure path that succeeded; or zero rows copied silently</td>
+<td>End handlers with <strong>Fail</strong> activity; add row-count checks</td>
+</tr>
+<tr>
+<td>Duplicates after rerun</td>
+<td>Non-idempotent sink (append)</td>
+<td>Pre-copy delete / partition overwrite / MERGE; watermark updated only on success</td>
+</tr>
+<tr>
+<td>Data flow slow to start</td>
+<td>Cluster cold start</td>
+<td>TTL on Azure IR (cost trade-off); batch data flows; consider Spark/SQL instead</td>
+</tr>
+<tr>
+<td>HTTP 429 / throttling (APIs, Cosmos DB)</td>
+<td>Too much parallelism</td>
+<td>Lower batch count/parallel copies; retries with interval; schedule off-peak</td>
+</tr>
+<tr>
+<td>Trigger didn't run in prod after deployment</td>
+<td>Triggers stopped by pre-deployment script and not restarted</td>
+<td>Post-deployment trigger start; check trigger runs</td>
+</tr>
+<tr>
+<td>Date filters wrong around midnight</td>
+<td>UTC vs local time confusion</td>
+<td>Standardise on UTC; convert explicitly with <code>convertFromUtc</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1 id="part-7-reference-architectures">Part 7: Reference architectures</h1>
+<h2 id="71-batch-lakehouse-on-azure-adf-adls-databricks-sqlfabric-power-bi">7.1 Batch Lakehouse on Azure (ADF + ADLS + Databricks + SQL/Fabric + Power BI)</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a food supply chain — farms (sources), trucks (ADF), a cold-storage warehouse (ADLS bronze), a processing plant (Databricks), a packaging line (gold models in a warehouse), and supermarket shelves (Power BI).</p>
+</blockquote>
+<div class="diagram"><pre class="mermaid">flowchart LR
+    subgraph Sources
+      S1[(On-prem SQL Server)]
+      S2[(Azure SQL MI)]
+      S3[SaaS APIs]
+      S4[SFTP / file drops]
+    end
+    SHIR[Self-hosted IR] --&gt; ADF
+    S1 --&gt; SHIR
+    S2 --&gt; ADF
+    S3 --&gt; ADF
+    S4 --&gt; ADF
+    ADF[Azure Data Factory&lt;br/&gt;orchestration + copy] --&gt; B[ADLS Gen2 bronze&lt;br/&gt;Parquet]
+    B --&gt; DBX[Azure Databricks&lt;br/&gt;Delta: silver]
+    DBX --&gt; G[Gold: dimensional model&lt;br/&gt;Databricks SQL / Fabric Warehouse / Synapse / Azure SQL]
+    G --&gt; PBI[Power BI]
+    KV[Key Vault] -.secrets.-&gt; ADF
+    PV[Purview / Unity Catalog] -.catalogue, lineage.-&gt; G
+    MON[Azure Monitor + Log Analytics] -.alerts.-&gt; ADF
+</pre></div>
+<p><strong>Flow:</strong> triggers start a master pipeline per source → metadata-driven copy to bronze (Parquet, partitioned by ingest date) → Databricks job builds silver (dedupe, type, MERGE into Delta) → gold models built (Databricks SQL or stored procedures in the warehouse) → data quality checks → semantic model refresh → audit + alerts.</p>
+<p><strong>Security:</strong> managed identities end to end; private endpoints for storage, SQL and Key Vault; ADF managed VNet; SHIR for on-prem; Unity Catalog/Purview for governance; RBAC by group.</p>
+<h2 id="72-on-premises-sql-server-to-azure-sql-managed-instance-warehouse">7.2 On-Premises SQL Server to Azure SQL Managed Instance Warehouse</h2>
+<p>Common in enterprises modernising SQL Server-based warehouses:</p>
+<ol>
+<li><strong>SHIR</strong> in the on-prem network (two nodes) reads sources with incremental queries or Change Tracking.</li>
+<li>ADF lands data in <strong>ADLS</strong> (raw, for replay/audit) and/or directly into <strong>staging schemas</strong> in <strong>SQL MI</strong>.</li>
+<li><strong>Stored procedures</strong> in MI perform set-based SCD2 dimension loads and fact delete-insert by date window, wrapped in transactions.</li>
+<li>ADF orchestrates ordering (dimensions before facts), retries, audit logging and DQ checks; SQL Agent jobs in MI may still run maintenance (index/statistics, <code>DBCC CHECKDB</code>).</li>
+<li>Power BI connects via the MI endpoint (through gateway or private networking).</li>
+</ol>
+<h2 id="73-event-driven-file-ingestion">7.3 Event-Driven File Ingestion</h2>
+<div class="diagram"><pre class="mermaid">flowchart LR
+    U[Partner uploads file&lt;br/&gt;to landing container] --&gt;|Blob created event| EG[Event Grid]
+    EG --&gt; T[ADF storage event trigger]
+    T --&gt; P[Pipeline: validate schema,&lt;br/&gt;copy to bronze, archive original]
+    P --&gt;|valid| D[Downstream processing]
+    P --&gt;|invalid| Q[Quarantine folder + alert]
+</pre></div>
+<p><strong>Details:</strong> filter the trigger by folder prefix and file suffix (<code>.csv</code>) so temp files don't fire it; use <code>@triggerBody().fileName</code>; validate column count/headers with Get Metadata (<code>structure</code>, <code>columnCount</code>) or a data flow Assert; move processed files to an <strong>archive</strong> folder and failed files to <strong>quarantine</strong>; make it idempotent (the same file arriving twice must not double-load — record processed file names and hashes in an audit table).</p>
+<h2 id="74-streaming">7.4 Streaming</h2>
+<p>Event Hubs (partitioned by device or customer ID) → Stream Analytics or Spark Structured Streaming (windowed aggregations, late-arrival handling with watermarks) → Delta tables (silver/gold) and/or real-time dashboards; Event Hubs Capture writes raw events to ADLS for replay. In Fabric: Eventstream → Eventhouse (KQL) / Lakehouse.</p>
+<hr />
+<h1 id="part-8-operating-the-platform-on-azure">Part 8: Operating the platform</h1>
+<h2 id="81-monitoring-stack-the-buildings-control-room">8.1 Monitoring Stack: The Building's Control Room</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a building's <strong>control room</strong> has screens for CCTV, fire alarms, lifts and power. Each system reports into one place, and the night guard has a <strong>runbook</strong> for each alarm.</p>
+</blockquote>
+<ul>
+<li><strong>Azure Monitor metrics</strong> — near-real-time numbers (CPU, DTU, failed runs, storage transactions).</li>
+<li><strong>Log Analytics workspace</strong> — central store for diagnostic logs from ADF, SQL, storage, Databricks, Key Vault; queried with KQL. Use <strong>one workspace per environment</strong> (or per platform) and set retention per table.</li>
+<li><strong>Diagnostic settings</strong> — must be <strong>enabled on each resource</strong> to send logs; enforce with Azure Policy so new resources don't slip through.</li>
+<li><strong>Alerts and Action Groups</strong> — who gets notified, how (email, SMS, Teams, ITSM), with severity levels.</li>
+<li><strong>Workbooks / dashboards</strong> — shared operational views (pipeline success rate, durations, data volumes, costs).</li>
+<li><strong>Azure Service Health</strong> — notifications about Azure incidents and planned maintenance affecting your regions — check this before debugging for hours.</li>
+</ul>
+<h2 id="82-business-continuity-and-disaster-recovery">8.2 Business Continuity and Disaster Recovery</h2>
+<blockquote>
+<p><strong>Analogy (from the first guide):</strong> HA is the <strong>spare tyre</strong>; DR is the <strong>second house in another city</strong> — and you must actually know the way there before the flood.</p>
+</blockquote>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>HA</th>
+<th>DR approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ADLS Gen2</strong></td>
+<td>ZRS within region</td>
+<td>GRS/GZRS (async copy to paired region); plan account failover; for logical mistakes rely on soft delete/versioning/snapshots</td>
+</tr>
+<tr>
+<td><strong>Azure SQL DB / MI</strong></td>
+<td>Built-in, zone redundancy</td>
+<td>Failover groups / geo-replication, geo-restore, LTR backups</td>
+</tr>
+<tr>
+<td><strong>Synapse dedicated pool</strong></td>
+<td>Built-in</td>
+<td>Geo-backups / restore points to another region</td>
+</tr>
+<tr>
+<td><strong>Databricks</strong></td>
+<td>Cluster resilience</td>
+<td>Workspace config, notebooks and jobs in Git/IaC; data in geo-redundant storage; secondary workspace</td>
+</tr>
+<tr>
+<td><strong>ADF</strong></td>
+<td>Microsoft-managed service</td>
+<td><strong>Everything in Git + CI/CD</strong> so you can deploy the factory to a secondary region; SHIR nodes in DR site; linked services parameterised for the DR endpoints</td>
+</tr>
+<tr>
+<td><strong>Key Vault</strong></td>
+<td>Built-in redundancy (paired-region replication for many regions)</td>
+<td>Document recovery; IaC for access configuration</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>DR runbook essentials:</strong> who declares a disaster; order of failover (storage → databases → factories → triggers); switching connection endpoints (failover group listeners help); validating data completeness after failover (what was in flight?); and <strong>failing back</strong>. <strong>Rehearse it</strong> at least annually.</p>
+<h2 id="83-cost-management-the-household-budget">8.3 Cost Management: The Household Budget</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a household budget only works if every expense is categorised, someone looks at it monthly, and there's an alarm when spending runs ahead of plan.</p>
+</blockquote>
+<ul>
+<li><strong>Azure Cost Management + Billing:</strong> cost analysis by subscription, resource group, service and <strong>tag</strong>; <strong>budgets</strong> with alert thresholds (e.g., 50/80/100%); anomaly alerts.</li>
+<li><strong>Azure Advisor:</strong> recommendations (idle resources, right-sizing, reservations).</li>
+<li><strong>Commitments:</strong> <strong>reservations</strong> and <strong>savings plans</strong> for steady workloads (SQL vCores, Databricks DBCU pre-purchase, Fabric capacity reservations); <strong>Azure Hybrid Benefit</strong> for existing SQL Server licences.</li>
+<li><strong>Usual suspects for runaway costs:</strong> all-purpose Databricks clusters left running, Synapse dedicated pools never paused, Azure-SSIS IR running 24/7, data flow debug sessions, oversized SQL tiers, high-frequency polling pipelines, cross-region data egress, uncontrolled Log Analytics ingestion, and storage that never moves to cooler tiers.</li>
+<li><strong>FinOps habit:</strong> a monthly review of top 10 cost drivers with owners, plus "cost per pipeline run" or "cost per TB processed" as tracked metrics.</li>
+</ul>
+<hr />
+<h1 id="part-9-infrastructure-as-code">Part 9: Infrastructure as code</h1>
+<h2 id="91-why-iac-the-architects-blueprint">9.1 Why IaC: The Architect's Blueprint</h2>
+<blockquote>
+<p><strong>Analogy:</strong> a builder who constructs a house from memory will never build two identical houses. With an <strong>architect's blueprint</strong>, you can build the same house in any city, review changes before construction, and know exactly what's inside every wall.</p>
+</blockquote>
+<p>IaC gives <strong>repeatability</strong> (dev, test, prod and DR environments are identical by construction), <strong>reviewability</strong> (pull requests for infrastructure changes), <strong>auditability</strong> (Git history) and <strong>speed</strong> (new environment in minutes).</p>
+<p><strong>Tools:</strong> <strong>Bicep</strong> (Azure-native, compiles to ARM), <strong>Terraform</strong> (multi-cloud, <code>azurerm</code> provider), ARM JSON (verbose; mostly generated). ADF's own content (pipelines etc.) is deployed through its ARM-template CI/CD (Part 6.10), while the <strong>factory resource, IRs, managed private endpoints, role assignments and diagnostic settings</strong> belong in your IaC.</p>
+<h2 id="92-example-bicep-for-a-lake-a-factory-and-a-role-assignment">9.2 Example: Bicep for a Lake, a Factory, and a Role Assignment</h2>
+<pre><code class="language-bicep">param location string = resourceGroup().location
+param env string = 'dev'
+
+resource lake 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+  name: 'stsalesdw${env}01'
+  location: location
+  sku: { name: 'Standard_ZRS' }
+  kind: 'StorageV2'
+  properties: {
+    isHnsEnabled: true                 // ADLS Gen2
+    minimumTlsVersion: 'TLS1_2'
+    allowBlobPublicAccess: false
+    allowSharedKeyAccess: false        // force Entra ID auth
+    publicNetworkAccess: 'Disabled'    // private endpoints only
+  }
+}
+
+resource adf 'Microsoft.DataFactory/factories@2018-06-01' = {
+  name: 'adf-salesdw-${env}'
+  location: location
+  identity: { type: 'SystemAssigned' }
+  properties: {
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+// Storage Blob Data Contributor for the factory's managed identity, scoped to the lake
+var blobDataContributor = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+resource adfLakeRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(lake.id, adf.id, blobDataContributor)
+  scope: lake
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', blobDataContributor)
+    principalId: adf.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+</code></pre>
+<p>(The GUID is the built-in Storage Blob Data Contributor role ID. API versions shown are illustrative; use current ones from the documentation.)</p>
+<p><strong>IaC practices:</strong> separate parameter files per environment; run <code>what-if</code> (Bicep) or <code>plan</code> (Terraform) in pull requests; store Terraform state securely (remote backend in a locked-down storage account); never put secrets in IaC files — reference Key Vault; deploy with a pipeline identity, not personal accounts.</p>
+<hr />
+<h1 id="part-10-checklists-interview-preparation-and-learning-path">Part 10: Checklists, interviews and learning path</h1>
+<h2 id="101-new-azure-data-platform-checklist">10.1 New Azure Data Platform Checklist</h2>
+<ul>
+<li>☐ Subscriptions separated by environment; resource groups per workload; naming convention and mandatory tags enforced by Azure Policy</li>
+<li>☐ Entra groups for every access level; no individual role assignments; PIM for admin roles</li>
+<li>☐ Managed identities for all service-to-service authentication; remaining secrets in per-environment Key Vaults</li>
+<li>☐ ADLS Gen2 with HNS, ZRS/GZRS as required, soft delete + versioning, lifecycle policies, shared key access disabled where possible</li>
+<li>☐ Private endpoints + private DNS for storage, SQL, Key Vault; ADF managed VNet and/or SHIR (2+ nodes)</li>
+<li>☐ Diagnostic settings to Log Analytics on every resource; alerts with action groups</li>
+<li>☐ Budgets and cost alerts per subscription/resource group</li>
+<li>☐ All infrastructure in IaC; ADF Git-integrated in dev with automated CI/CD to test/prod</li>
+<li>☐ Backup/restore and DR documented and rehearsed</li>
+<li>☐ Purview/Unity Catalog scanning, classification and lineage</li>
+</ul>
+<h2 id="102-adf-pipeline-review-checklist">10.2 ADF Pipeline Review Checklist</h2>
+<ul>
+<li>☐ Parameterised datasets and linked services; no hard-coded environment values</li>
+<li>☐ Metadata-driven where there are many similar objects</li>
+<li>☐ Incremental logic with fixed upper bound, NULL-safe watermark, updated only on success</li>
+<li>☐ Idempotent sinks (pre-copy delete/partition overwrite/MERGE)</li>
+<li>☐ Explicit timeouts and sensible retries on every activity; no retries on logic errors</li>
+<li>☐ Error paths end in a <strong>Fail</strong> activity; centralised error logging</li>
+<li>☐ Pipeline concurrency set to prevent overlapping runs</li>
+<li>☐ ForEach batch count tuned to source capacity; no shared variables in parallel loops</li>
+<li>☐ Secure input/output on activities handling secrets or PII</li>
+<li>☐ Audit row counts written for every load; reconciliation and freshness checks</li>
+<li>☐ Alerts on failure <strong>and</strong> on missed SLA</li>
+<li>☐ Cost-aware: no tiny-file loops, no long data flow TTLs, no idle SSIS IR</li>
+</ul>
+<h2 id="103-interview-questions-with-model-answers">10.3 Interview Questions with Model Answers</h2>
+<p><strong>1. Explain linked services, datasets, pipelines, activities, triggers and integration runtimes.</strong>
+Linked service = connection info (where and how to authenticate). Dataset = a named reference to data within that connection (table, file, folder) with format. Activity = one step (copy, lookup, stored procedure). Pipeline = a group of activities with dependencies, parameters and variables. Trigger = what starts a pipeline (schedule, tumbling window, storage/custom event). Integration runtime = the compute that executes activities and moves data (Azure, Self-hosted, Azure-SSIS).</p>
+<p><strong>2. Azure IR vs Self-hosted IR — when do you need SHIR?</strong>
+Azure IR is Microsoft-managed and reaches publicly accessible or managed-private-endpoint resources. SHIR is installed on your own machine to reach on-premises or private-network resources; it communicates outbound over HTTPS only. Use 2+ nodes for HA; install Java for Parquet.</p>
+<p><strong>3. Schedule vs tumbling window trigger?</strong>
+Schedule fires at clock times, is stateless, can start many pipelines, no backfill. Tumbling window has fixed contiguous windows, 1:1 with a pipeline, passes window start/end, supports backfill, retry, max concurrency and dependencies between windows.</p>
+<p><strong>4. How do you build an incremental load in ADF?</strong>
+Control table + watermark table; Lookup old watermark; Lookup new max value (fixed upper bound); Copy with bounded query; update watermark via stored procedure only on success; audit counts. Handle NULLs, late commits (overlap + downstream dedupe), deletes (CDC/soft delete/full key compare), and indexes on the watermark column.</p>
+<p><strong>5. What is a metadata-driven pipeline and why use it?</strong>
+One generic set of pipelines driven by config rows (source, target, load type, keys). Adding a table means adding a row, not building a pipeline: consistent, maintainable, testable. Uses Lookup → ForEach → Execute child pipeline with parameters.</p>
+<p><strong>6. How do you handle errors so failures aren't hidden?</strong>
+On-failure paths for logging, ending in a Fail activity; or wrap steps in a child pipeline and handle at parent level. Remember pipeline status is based on leaf activities, so a successful handler can mark the pipeline succeeded. Add retries for transient errors, explicit timeouts, alerts via Azure Monitor.</p>
+<p><strong>7. How does CI/CD work for ADF?</strong>
+Dev factory connected to Git; feature branches merged via PR to collaboration branch; build validates and exports ARM templates (npm utilities package); release deploys to test/prod with parameter overrides, stopping triggers before and starting after; test/prod never edited manually.</p>
+<p><strong>8. How do you secure credentials in ADF?</strong>
+Managed identity wherever possible; otherwise secrets in Key Vault referenced from linked services; SecureString parameters and secure input/output; private networking; least-privilege RBAC.</p>
+<p><strong>9. Copy activity is slow. How do you troubleshoot?</strong>
+Read the copy monitoring details: which stage takes time (queue, source read, sink write). Check source query/indexes and partitioning options, SHIR capacity and network, sink throttling (Azure SQL log rate, indexes), file format and size; then tune parallel copies/DIUs; use staging + COPY for Synapse/Fabric.</p>
+<p><strong>10. Mapping Data Flows vs Databricks — when to use which?</strong>
+Data flows: visual, managed Spark, good for moderate transformations and teams without Spark skills; cluster start-up and vCore-hour cost. Databricks: code-first, more powerful and optimisable, better for complex/heavy logic, testing and version control. Many teams use ADF for orchestration and ingestion, Databricks or SQL for transformation.</p>
+<p><strong>11. What's the difference between ADLS Gen2 and Blob storage?</strong>
+ADLS Gen2 is Blob storage with hierarchical namespace: real directories (atomic rename/delete), POSIX ACLs, and better analytics performance.</p>
+<p><strong>12. RBAC vs ACLs on ADLS?</strong>
+RBAC grants broad data-plane rights at container/account scope and is evaluated first; ACLs give folder/file-level rights (r/w/x), need Execute on every parent folder, and default ACLs only apply to new children.</p>
+<p><strong>13. Azure SQL Database vs Managed Instance?</strong>
+SQL Database is a single-database PaaS with limited instance features. Managed Instance offers near-full SQL Server compatibility (SQL Agent, cross-database queries, CLR, linked servers) inside your VNet — ideal for lift-and-shift.</p>
+<p><strong>14. Synapse dedicated pool distribution types?</strong>
+HASH (large facts on an even, frequently joined key), ROUND_ROBIN (staging, even spread, no key), REPLICATE (small dimensions copied to each compute node). Avoid skew; use clustered columnstore and CTAS; maintain statistics.</p>
+<p><strong>15. What is Microsoft Fabric and how does it relate to ADF and Synapse?</strong>
+A SaaS analytics platform with OneLake (Delta storage), Lakehouse, Warehouse, Data Factory pipelines, Dataflow Gen2, real-time analytics and Power BI on shared capacity. It's where Microsoft's new analytics investment is focused; ADF and Synapse remain supported, with migration tooling to Fabric.</p>
+<p><strong>16. How do you prevent duplicate data when a pipeline is rerun?</strong>
+Idempotent design: process by window/logical date, pre-copy delete or partition overwrite, MERGE on keys, watermark updated only on success, recording processed files, and pipeline concurrency limits.</p>
+<p><strong>17. A parallel ForEach produces wrong results. Why?</strong>
+Pipeline variables are shared across iterations; parallel Set Variable calls race. Use a child pipeline with parameters, Append Variable, or sequential mode.</p>
+<p><strong>18. How do you monitor ADF beyond 45 days?</strong>
+Diagnostic settings to Log Analytics (ADFPipelineRun, ADFActivityRun, ADFTriggerRun), KQL queries, workbooks and log alerts; plus your own audit tables.</p>
+<h2 id="104-learning-path">10.4 Learning Path</h2>
+<ol>
+<li><strong>Foundations (week 1–2):</strong> Azure hierarchy, Entra ID, RBAC, managed identities, Key Vault, networking basics. Build: a resource group with ADLS Gen2, Key Vault and ADF, wired with managed identity.</li>
+<li><strong>ADF core (week 3–4):</strong> linked services, parameterised datasets, Copy, Lookup, ForEach, triggers, expressions. Build: copy a sample SQL database to Parquet in the lake.</li>
+<li><strong>ADF patterns (week 5–6):</strong> metadata-driven framework with watermarks, audit table, error handling with Fail activities, tumbling window backfill.</li>
+<li><strong>Transformation (week 7–8):</strong> Databricks (Delta MERGE, SCD2) or stored-procedure ELT into Azure SQL; orchestrate from ADF.</li>
+<li><strong>Operations (week 9):</strong> Log Analytics diagnostics, KQL queries, alerts, budgets.</li>
+<li><strong>DevOps (week 10):</strong> Git integration, automated ARM export, deployment to a second "prod" factory with parameter overrides; Bicep for the infrastructure.</li>
+<li><strong>Fabric (ongoing):</strong> Lakehouse, Warehouse, Fabric pipelines, shortcuts, mirroring; try migrating one ADF pipeline.</li>
+</ol>
+<p><strong>Certifications commonly pursued:</strong> AZ-900 (Azure fundamentals), DP-900 (data fundamentals), <strong>DP-700 (Fabric Data Engineer Associate)</strong>, which replaced the retired DP-203 as Microsoft's main data engineering certification, and Databricks Data Engineer Associate/Professional if your platform uses Databricks. Always confirm current exam availability on Microsoft Learn.</p>
+<hr />
+<p><em>End of guide.</em></p>
+</main>
+</div>
+<script>
+(function(){
+  var nav=document.getElementById('toc'); var btn=nav.querySelector('.toggle-toc');
+  btn.addEventListener('click',function(){var o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.textContent=o?'Hide contents':'Show contents';});
+  nav.querySelectorAll('ol a').forEach(function(a){a.addEventListener('click',function(){ if(window.innerWidth<=900){nav.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.textContent='Show contents';} });});
+})();
+</script>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+</body>
+</html>
